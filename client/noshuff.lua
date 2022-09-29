@@ -1,22 +1,26 @@
 local disableShuffle = true
+local vehicle = nil
 
-CreateThread(function()
-    local sleep
-    while true do
+RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+    vehicle = veh
+    local ped = PlayerPedId()
+    while vehicle do
         sleep = 100
-        local ped = PlayerPedId()
-        local veh = GetVehiclePedIsIn(ped, false)
-        if IsPedInAnyVehicle(ped, false) and disableShuffle then
-            if GetPedInVehicleSeat(veh, 0) == ped then
+        if disableShuffle then
+            if GetPedInVehicleSeat(vehicle, 0) == ped then
                 if GetIsTaskActive(ped, 165) then
                     sleep = 0
-                    SetPedIntoVehicle(ped, veh, 0)
+                    SetPedIntoVehicle(ped, vehicle, 0)
                     SetPedConfigFlag(ped, 184, true)
                 end
             end
         end
         Wait(sleep)
     end
+end)
+
+RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+    vehicle = nil
 end)
 
 RegisterNetEvent('SeatShuffle', function()

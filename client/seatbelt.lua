@@ -62,21 +62,26 @@ exports("HasHarness", HasHarness)
 
 -- Main Thread
 
-CreateThread(function()
-    while true do
-        sleep = 1000
-        if IsPedInAnyVehicle(PlayerPedId(), false) then
-            sleep = 0
-            if seatbeltOn or harnessOn then
-                DisableControlAction(0, 75, true)
-                DisableControlAction(27, 75, true)
-            end
+RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+    vehicle = veh
+    local sleep = 1000
+    -- print('enteredVehicle', veh, CurrentSeat, displayname, netID)
+    while vehicle do
+        if seatbeltOn or harnessOn then
+            sleep = 10
+            DisableControlAction(0, 75, true)
+            DisableControlAction(27, 75, true)
         else
-            seatbeltOn = false
-            harnessOn = false
+            sleep = 1000
         end
         Wait(sleep)
     end
+end)
+
+RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+    vehicle = nil
+    seatbeltOn = false
+    harnessOn = false
 end)
 
 -- Ejection Logic
