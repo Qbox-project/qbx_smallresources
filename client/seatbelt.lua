@@ -65,7 +65,6 @@ exports("HasHarness", HasHarness)
 RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
     vehicle = veh
     local sleep = 1000
-    -- print('enteredVehicle', veh, CurrentSeat, displayname, netID)
     while vehicle do
         if seatbeltOn or harnessOn then
             sleep = 10
