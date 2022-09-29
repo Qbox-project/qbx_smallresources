@@ -75,13 +75,11 @@ end)
 
 RegisterNetEvent('baseevents:enteringVehicle', function(...)
     local src = source
-    print('fuck me', src, ...)
     TriggerClientEvent('baseevents:enteringVehicle', src, ...)
 end)
 
 RegisterNetEvent('baseevents:enteredVehicle', function(...)
     local src = source
-    print('fuck me2', src, ...)
     TriggerClientEvent('baseevents:enteredVehicle', src, ...)
 end)
 
