@@ -153,12 +153,14 @@ end)
 
 ----------- / Lockpicking
 
-QBCore.Functions.CreateUseableItem("lockpick", function(source)
-    TriggerClientEvent("lockpicks:UseLockpick", source, false)
+QBCore.Functions.CreateUseableItem('lockpick', function(source)
+    TriggerClientEvent('lockpicks:UseLockpick', source, false)
+    TriggerEvent('lockpicks:UseLockpick', source, false)
 end)
 
-QBCore.Functions.CreateUseableItem("advancedlockpick", function(source)
-    TriggerClientEvent("lockpicks:UseLockpick", source, true)
+QBCore.Functions.CreateUseableItem('advancedlockpick', function(source)
+    TriggerClientEvent('lockpicks:UseLockpick', source, true)
+    TriggerEvent('lockpicks:UseLockpick', source, true)
 end)
 
 ----------- / Unused
