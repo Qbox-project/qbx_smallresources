@@ -86,10 +86,3 @@ CreateThread(function()
 		Wait(sleep)
 	end
 end)
-
-CreateThread(function()
-	local pedPool = GetGamePool('CPed')
-	for _, v in pairs(pedPool) do
-		SetPedDropsWeaponsWhenDead(v, false)
-	end
-end)
