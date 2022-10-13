@@ -40,6 +40,7 @@ local Webhooks = {
     ['house'] = '',
 }
 
+---@enum Colors
 local Colors = { -- https://www.spycolor.com/
     ['default'] = 14423100,
     ['blue'] = 255,
@@ -53,27 +54,45 @@ local Colors = { -- https://www.spycolor.com/
     ["lightgreen"] = 65309,
 }
 
+--- Logs using ox_lib logger regardless of Config.OxLoggingEnable value
+---@see https://overextended.github.io/docs/ox_lib/Logger/Server
+RegisterNetEvent('qb-log:server:CreateOxLog', function(source, event, message, ...)
+    lib.logger(source, event, message, ...)
+end)
+
+---Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
+---@param name string source of the log. Usually a playerId or name of a script.
+---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@param color Colors used for discord logging only, what color the message should be
+---@param message string the message attached to the log
+---@param tagEveryone boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
 RegisterNetEvent('qb-log:server:CreateLog', function(name, title, color, message, tagEveryone)
-    local tag = tagEveryone or false
-    local webHook = Webhooks[name] or Webhooks['default']
-    local embedData = {
-        {
-            ['title'] = title,
-            ['color'] = Colors[color] or Colors['default'],
-            ['footer'] = {
-                ['text'] = os.date('%c'),
-            },
-            ['description'] = message,
-            ['author'] = {
-                ['name'] = 'QBCore Logs',
-                ['icon_url'] = 'https://media.discordapp.net/attachments/870094209783308299/870104331142189126/Logo_-_Display_Picture_-_Stylized_-_Red.png?width=670&height=670',
-            },
+    if Config.OxLoggingEnable then
+        lib.logger(name, title, message)
+    end
+
+    if Config.DiscordLoggingEnable then
+        local tag = tagEveryone or false
+        local webHook = Webhooks[name] or Webhooks['default']
+        local embedData = {
+            {
+                ['title'] = title,
+                ['color'] = Colors[color] or Colors['default'],
+                ['footer'] = {
+                    ['text'] = os.date('%c'),
+                },
+                ['description'] = message,
+                ['author'] = {
+                    ['name'] = 'QBCore Logs',
+                    ['icon_url'] = 'https://media.discordapp.net/attachments/870094209783308299/870104331142189126/Logo_-_Display_Picture_-_Stylized_-_Red.png?width=670&height=670',
+                },
+            }
         }
-    }
-    PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', embeds = embedData}), { ['Content-Type'] = 'application/json' })
-    Citizen.Wait(100)
-    if tag then
-        PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = '@everyone'}), { ['Content-Type'] = 'application/json' })
+        PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', embeds = embedData}), { ['Content-Type'] = 'application/json' })
+        Citizen.Wait(100)
+        if tag then
+            PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = '@everyone'}), { ['Content-Type'] = 'application/json' })
+        end
     end
 end)
 
