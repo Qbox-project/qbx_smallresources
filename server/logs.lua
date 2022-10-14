@@ -54,21 +54,24 @@ local Colors = { -- https://www.spycolor.com/
     ["lightgreen"] = 65309,
 }
 
---- Logs using ox_lib logger regardless of Config.OxLoggingEnable value
+---Logs using ox_lib logger regardless of Config.OxLoggingEnable value
 ---@see https://overextended.github.io/docs/ox_lib/Logger/Server
-RegisterNetEvent('qb-log:server:CreateOxLog', function(source, event, message, ...)
+local function OxLog(source, event, message, ...)
     lib.logger(source, event, message, ...)
-end)
+end
+
+exports("OxLog", OxLog)
 
 ---Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
 ---@param name string source of the log. Usually a playerId or name of a script.
 ---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
 ---@param color Colors used for discord logging only, what color the message should be
 ---@param message string the message attached to the log
----@param tagEveryone boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
-RegisterNetEvent('qb-log:server:CreateLog', function(name, title, color, message, tagEveryone)
+---@param tagEveryone? boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
+local function CreateLog(name, title, color, message, tagEveryone)
+    print("create log: " .. name .. title ..color .. message)
     if Config.OxLoggingEnable then
-        lib.logger(name, title, message)
+        OxLog(name, title, message)
     end
 
     if Config.DiscordLoggingEnable then
@@ -94,8 +97,13 @@ RegisterNetEvent('qb-log:server:CreateLog', function(name, title, color, message
             PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = '@everyone'}), { ['Content-Type'] = 'application/json' })
         end
     end
-end)
+end
+
+exports("CreateLog", CreateLog)
+
+---@deprecated use CreateLog instead for discord logging, or OxLog for other logging.
+RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
 
 QBCore.Commands.Add('testwebhook', 'Test Your Discord Webhook For Logs (God Only)', {}, false, function()
-    TriggerEvent('qb-log:server:CreateLog', 'testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
+    CreateLog('testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
 end, 'god')
