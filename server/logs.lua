@@ -69,7 +69,6 @@ exports("OxLog", OxLog)
 ---@param message string the message attached to the log
 ---@param tagEveryone? boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
 local function CreateLog(name, title, color, message, tagEveryone)
-    print("create log: " .. name .. title ..color .. message)
     if Config.OxLoggingEnable then
         OxLog(name, title, message)
     end
