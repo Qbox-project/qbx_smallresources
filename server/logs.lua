@@ -90,17 +90,13 @@ local function CreateLog(name, title, color, message, tagEveryone)
                 },
             }
         }
-        PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', embeds = embedData}), { ['Content-Type'] = 'application/json' })
-        Citizen.Wait(100)
-        if tag then
-            PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = '@everyone'}), { ['Content-Type'] = 'application/json' })
-        end
+        PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = tag and '@everyone' or nil, embeds = embedData }), { ['Content-Type'] = 'application/json' })
     end
 end
 
 exports("CreateLog", CreateLog)
 
----@deprecated use CreateLog instead for discord logging, or OxLog for other logging.
+---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
 RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
 
 QBCore.Commands.Add('testwebhook', 'Test Your Discord Webhook For Logs (God Only)', {}, false, function()
