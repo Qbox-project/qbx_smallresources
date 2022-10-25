@@ -68,7 +68,7 @@ exports("OxLog", OxLog)
 ---@param message string the message attached to the log
 ---@param color? Colors what color the message should be
 ---@param tagEveryone? boolean Whether an @everyone tag should be applied to this log.
-local function CreateDiscordLog(name, title, message, color, tagEveryone)
+local function DiscordLog(name, title, message, color, tagEveryone)
     local tag = tagEveryone or false
     local webHook = Webhooks[name] or Webhooks['default']
     local embedData = {
@@ -102,7 +102,7 @@ local function CreateLog(name, title, color, message, tagEveryone)
     end
 
     if Config.EnableDiscordLogging then
-        CreateDiscordLog(name, title, message, color, tagEveryone)
+        DiscordLog(name, title, message, color, tagEveryone)
     end
 end
 
