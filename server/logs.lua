@@ -40,6 +40,7 @@ local Webhooks = {
     ['house'] = '',
 }
 
+---@enum Colors
 local Colors = { -- https://www.spycolor.com/
     ['default'] = 14423100,
     ['blue'] = 255,
@@ -53,7 +54,21 @@ local Colors = { -- https://www.spycolor.com/
     ["lightgreen"] = 65309,
 }
 
-RegisterNetEvent('qb-log:server:CreateLog', function(name, title, color, message, tagEveryone)
+---Logs using ox_lib logger regardless of Config.EnableOxLogging value
+---@see https://overextended.github.io/docs/ox_lib/Logger/Server
+local function OxLog(source, event, message, ...)
+    lib.logger(source, event, message, ...)
+end
+
+exports("OxLog", OxLog)
+
+---Logs to discord regardless of Config.EnableDiscordLogging value
+---@param name string source of the log. Usually a playerId or name of a script.
+---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@param message string the message attached to the log
+---@param color? Colors what color the message should be
+---@param tagEveryone? boolean Whether an @everyone tag should be applied to this log.
+local function DiscordLog(name, title, message, color, tagEveryone)
     local tag = tagEveryone or false
     local webHook = Webhooks[name] or Webhooks['default']
     local embedData = {
@@ -70,13 +85,32 @@ RegisterNetEvent('qb-log:server:CreateLog', function(name, title, color, message
             },
         }
     }
-    PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', embeds = embedData}), { ['Content-Type'] = 'application/json' })
-    Citizen.Wait(100)
-    if tag then
-        PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = '@everyone'}), { ['Content-Type'] = 'application/json' })
+    PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = tag and '@everyone' or nil, embeds = embedData }), { ['Content-Type'] = 'application/json' })
+end
+
+exports("DiscordLog", DiscordLog)
+
+---Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
+---@param name string source of the log. Usually a playerId or name of a script.
+---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@param color? Colors used for discord logging only, what color the message should be
+---@param message string the message attached to the log
+---@param tagEveryone? boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
+local function CreateLog(name, title, color, message, tagEveryone)
+    if Config.EnableOxLogging then
+        OxLog(name, title, message)
     end
-end)
+
+    if Config.EnableDiscordLogging then
+        DiscordLog(name, title, message, color, tagEveryone)
+    end
+end
+
+exports("CreateLog", CreateLog)
+
+---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
+RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
 
 QBCore.Commands.Add('testwebhook', 'Test Your Discord Webhook For Logs (God Only)', {}, false, function()
-    TriggerEvent('qb-log:server:CreateLog', 'testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
+    CreateLog('testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
 end, 'god')
