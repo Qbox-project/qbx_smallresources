@@ -1,16 +1,18 @@
 local objects = {
-    {x = 266.09, y = -349.35, z = 44.74, model = "prop_sec_barier_02b"},
-    {x = 285.28, y = -355.78, z = 45.13, model = "prop_sec_barier_02a"},
+    { coords = vector3(266.09, -349.35, 44.74), hash = `prop_sec_barier_02b` },
+    { coords = vector3(285.28, -355.78, 45.13), hash = `prop_sec_barier_02a` },
 }
 
 CreateThread(function()
     while true do
         for k in pairs(objects) do
-            local ent = GetClosestObjectOfType(objects[k].x, objects[k].y, objects[k].z, 2.0, joaat(objects[k].model), false, false, false)
-
-            SetEntityAsMissionEntity(ent, true, true)
-            DeleteObject(ent)
-            SetEntityAsNoLongerNeeded(ent)
+            local ent = GetClosestObjectOfType(objects[k].coords.x, objects[k].coords.y, objects[k].coords.z, 2.0, objects[k].hash, false, false, false)
+            if DoesEntityExist(ent) then
+                SetEntityAsMissionEntity(ent, true, true)
+                DeleteObject(ent)
+                SetEntityAsNoLongerNeeded(ent)
+                SetModelAsNoLongerNeeded(objects[k].hash)
+            end
         end
 
         Wait(5000)
