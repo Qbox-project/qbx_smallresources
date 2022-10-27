@@ -127,7 +127,6 @@ CreateThread(function()
 		local ped = PlayerPedId()
 		if IsPedShooting(ped) and not IsPedDoingDriveby(ped) then
 			local _, wep = GetCurrentPedWeapon(ped)
-			_, cAmmo = GetAmmoInClip(ped, wep)
 			if recoils[wep] and recoils[wep] ~= 0 then
 				-- luacheck: ignore
 				local tv = 0
