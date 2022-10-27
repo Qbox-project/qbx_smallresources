@@ -1,7 +1,7 @@
 local disableShuffle = true
 local vehicle = nil
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
     local ped = PlayerPedId()
     while vehicle do
@@ -19,7 +19,7 @@ RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displa
     end
 end)
 
-RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+RegisterNetEvent('baseevents:leftVehicle', function ()
     vehicle = nil
 end)
 

@@ -61,7 +61,7 @@ exports("HasHarness", HasHarness)
 
 -- Main Thread
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
     local sleep = 1000
     while vehicle do
@@ -76,7 +76,7 @@ RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displa
     end
 end)
 
-RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+RegisterNetEvent('baseevents:leftVehicle', function ()
     vehicle = nil
     seatbeltOn = false
     harnessOn = false
