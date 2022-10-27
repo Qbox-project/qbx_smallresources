@@ -15,6 +15,7 @@ local damagedone = false
 local modifierDensity = true
 local lastVehicle = nil
 local veloc
+local vehicle = nil
 
 -- Functions
 

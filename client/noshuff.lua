@@ -5,7 +5,7 @@ RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
     local ped = PlayerPedId()
     while vehicle do
-        sleep = 100
+        local sleep = 100
         if disableShuffle then
             if GetPedInVehicleSeat(vehicle, 0) == ped then
                 if GetIsTaskActive(ped, 165) then
