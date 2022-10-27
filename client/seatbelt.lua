@@ -64,7 +64,7 @@ exports("HasHarness", HasHarness)
 
 RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
-    local sleep = 1000
+    local sleep
     while vehicle do
         if seatbeltOn or harnessOn then
             sleep = 10
