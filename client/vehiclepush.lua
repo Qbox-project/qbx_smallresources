@@ -41,7 +41,7 @@ CreateThread(function()
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
             local vehpos = GetEntityCoords(vehicle)
-            local dimension = GetModelDimensions(GetEntityModel(vehicle), First, Second)
+            local dimension = GetModelDimensions(GetEntityModel(vehicle))
 
             if #(pos - vehpos) < 3.0 and not IsPedInAnyVehicle(ped, false) then
                 Vehicle.Coords = vehpos

@@ -24,7 +24,7 @@ local function EjectFromVehicle()
     local coords = GetOffsetFromEntityInWorldCoords(veh, 1.0, 0.0, 1.0)
     SetEntityCoords(ped, coords.x, coords.y, coords.z)
     Wait(1)
-    SetPedToRagdoll(ped, 5511, 5511, 0, 0, 0, 0)
+    SetPedToRagdoll(ped, 5511, 5511, 0, false, false, false)
     SetEntityVelocity(ped, veloc.x*4,veloc.y*4,veloc.z*4)
     local ejectspeed = math.ceil(GetEntitySpeed(ped) * 8)
     if GetEntityHealth(ped) - ejectspeed > 0 then
