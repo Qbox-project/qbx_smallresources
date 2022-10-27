@@ -3,7 +3,6 @@ local seatbeltOn = false
 local harnessOn = false
 local harnessHp = 20
 local handbrake = 0
-local sleep = 0
 local harnessData = {}
 local newvehicleBodyHealth = 0
 local currentvehicleBodyHealth = 0
