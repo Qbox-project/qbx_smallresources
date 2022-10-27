@@ -66,7 +66,7 @@ exports("OxLog", OxLog)
 ---@param name string source of the log. Usually a playerId or name of a script.
 ---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
 ---@param message string the message attached to the log
----@param color? Colors what color the message should be
+---@param color? string what color the message should be
 ---@param tagEveryone? boolean Whether an @everyone tag should be applied to this log.
 local function DiscordLog(name, title, message, color, tagEveryone)
     local tag = tagEveryone or false
@@ -93,7 +93,7 @@ exports("DiscordLog", DiscordLog)
 ---Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
 ---@param name string source of the log. Usually a playerId or name of a script.
 ---@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
----@param color? Colors used for discord logging only, what color the message should be
+---@param color? string used for discord logging only, what color the message should be
 ---@param message string the message attached to the log
 ---@param tagEveryone? boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
 local function CreateLog(name, title, color, message, tagEveryone)
