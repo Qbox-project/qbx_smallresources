@@ -25,7 +25,7 @@ CreateThread(function()
                 local dist = #(pos - vector3(v.coords.x, v.coords.y, v.coords.z))
                 if dist < 2 then
                     sleep = 0
-                    DrawMarker(2, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                    DrawMarker(2, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 255, false, false, 0, true, nil, nil, false)
 
                     if dist < 1 then
                         DrawText3Ds(v.coords.x, v.coords.y, v.coords.z, v.drawText)

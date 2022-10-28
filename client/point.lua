@@ -6,8 +6,8 @@ local function startPointing()
     while not HasAnimDictLoaded("anim@mp_point") do
         Wait(10)
     end
-    SetPedCurrentWeaponVisible(ped, 0, true, true, true)
-    SetPedConfigFlag(ped, 36, 1)
+    SetPedCurrentWeaponVisible(ped, false, true, true, true)
+    SetPedConfigFlag(ped, 36, true)
 	TaskMoveNetworkByName(ped, 'task_mp_pointing', 0.5, false, 'anim@mp_point', 24)
     RemoveAnimDict("anim@mp_point")
 end
@@ -18,8 +18,8 @@ local function stopPointing()
     if not IsPedInjured(ped) then
         ClearPedSecondaryTask(ped)
     end
-    if not IsPedInAnyVehicle(ped, 1) then
-        SetPedCurrentWeaponVisible(ped, 1, true, true, true)
+    if not IsPedInAnyVehicle(ped, true) then
+        SetPedCurrentWeaponVisible(ped, true, true, true, true)
     end
     SetPedConfigFlag(ped, 36, false)
     ClearPedSecondaryTask(PlayerPedId())

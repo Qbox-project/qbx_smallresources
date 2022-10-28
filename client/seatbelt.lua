@@ -15,6 +15,7 @@ local damagedone = false
 local modifierDensity = true
 local lastVehicle = nil
 local veloc
+local vehicle = nil
 
 -- Functions
 
@@ -24,7 +25,7 @@ local function EjectFromVehicle()
     local coords = GetOffsetFromEntityInWorldCoords(veh, 1.0, 0.0, 1.0)
     SetEntityCoords(ped, coords.x, coords.y, coords.z)
     Wait(1)
-    SetPedToRagdoll(ped, 5511, 5511, 0, 0, 0, 0)
+    SetPedToRagdoll(ped, 5511, 5511, 0, false, false, false)
     SetEntityVelocity(ped, veloc.x*4,veloc.y*4,veloc.z*4)
     local ejectspeed = math.ceil(GetEntitySpeed(ped) * 8)
     if GetEntityHealth(ped) - ejectspeed > 0 then
@@ -61,9 +62,9 @@ exports("HasHarness", HasHarness)
 
 -- Main Thread
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
-    local sleep = 1000
+    local sleep
     while vehicle do
         if seatbeltOn or harnessOn then
             sleep = 10
@@ -76,7 +77,7 @@ RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displa
     end
 end)
 
-RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+RegisterNetEvent('baseevents:leftVehicle', function ()
     vehicle = nil
     seatbeltOn = false
     harnessOn = false

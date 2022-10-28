@@ -1,11 +1,11 @@
 local disableShuffle = true
 local vehicle = nil
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displayname, netID)
+RegisterNetEvent('baseevents:enteredVehicle', function (veh)
     vehicle = veh
     local ped = PlayerPedId()
     while vehicle do
-        sleep = 100
+        local sleep = 100
         if disableShuffle then
             if GetPedInVehicleSeat(vehicle, 0) == ped then
                 if GetIsTaskActive(ped, 165) then
@@ -19,7 +19,7 @@ RegisterNetEvent('baseevents:enteredVehicle', function (veh, CurrentSeat, displa
     end
 end)
 
-RegisterNetEvent('baseevents:leftVehicle', function (veh, CurrentSeat)
+RegisterNetEvent('baseevents:leftVehicle', function ()
     vehicle = nil
 end)
 

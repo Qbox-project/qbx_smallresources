@@ -1,8 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local First = vector3(0.0, 0.0, 0.0)
-local Second = vector3(5.0, 5.0, 5.0)
-
 local Vehicle = {
     Coords = nil,
     Vehicle = nil,
@@ -41,7 +38,7 @@ CreateThread(function()
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
             local vehpos = GetEntityCoords(vehicle)
-            local dimension = GetModelDimensions(GetEntityModel(vehicle), First, Second)
+            local dimension = GetModelDimensions(GetEntityModel(vehicle))
 
             if #(pos - vehpos) < 3.0 and not IsPedInAnyVehicle(ped, false) then
                 Vehicle.Coords = vehpos
