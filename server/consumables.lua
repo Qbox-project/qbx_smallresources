@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 ----------- / alcohol
-for cAl, _ in pairs(ConsumablesDrink) do
+for cAl in pairs(ConsumablesDrink) do
     QBCore.Functions.CreateUseableItem(cAl, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
@@ -12,7 +12,7 @@ for cAl, _ in pairs(ConsumablesDrink) do
 end
 
 ----------- / Non-Alcoholic Drinks
-for cDr, _ in pairs(ConsumablesDrink) do
+for cDr in pairs(ConsumablesDrink) do
     QBCore.Functions.CreateUseableItem(cDr, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
@@ -23,7 +23,7 @@ for cDr, _ in pairs(ConsumablesDrink) do
 end
 
 ----------- / Food
-for cEa, _ in pairs(ConsumablesEat) do
+for cEa in pairs(ConsumablesEat) do
     QBCore.Functions.CreateUseableItem(cEa, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
