@@ -1,64 +1,37 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 ----------- / alcohol
+for cAl, _ in pairs(ConsumablesDrink) do
+    QBCore.Functions.CreateUseableItem(cAl, function(source, item)
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player.Functions.RemoveItem(item.name, 1, item.slot) then
+            TriggerClientEvent("consumables:client:DrinkAlcohol", src, item.name)
+        end
+    end)
+end
 
-QBCore.Functions.CreateUseableItem("vodka", function(source, item)
-    TriggerClientEvent("consumables:client:DrinkAlcohol", source, item.name)
-end)
+----------- / Non-Alcoholic Drinks
+for cDr, _ in pairs(ConsumablesDrink) do
+    QBCore.Functions.CreateUseableItem(cDr, function(source, item)
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player.Functions.RemoveItem(item.name, 1, item.slot) then
+            TriggerClientEvent("consumables:client:Drink", src, item.name)
+        end
+    end)
+end
 
-QBCore.Functions.CreateUseableItem("beer", function(source, item)
-    TriggerClientEvent("consumables:client:DrinkAlcohol", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("whiskey", function(source, item)
-    TriggerClientEvent("consumables:client:DrinkAlcohol", source, item.name)
-end)
-
------------ / Eat
-
-QBCore.Functions.CreateUseableItem("sandwich", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Eat", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("twerks_candy", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Eat", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("snikkel_candy", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Eat", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("tosti", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Eat", source, item.name)
-end)
-
------------ / Drink
-
-QBCore.Functions.CreateUseableItem("water_bottle", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Drink", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("coffee", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Drink", source, item.name)
-end)
-
-QBCore.Functions.CreateUseableItem("kurkakola", function(source, item)
-    local Player = QBCore.Functions.GetPlayer(source)
-	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:Drink", source, item.name)
-end)
+----------- / Food
+for cEa, _ in pairs(ConsumablesEat) do
+    QBCore.Functions.CreateUseableItem(cEa, function(source, item)
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        if Player.Functions.RemoveItem(item.name, 1, item.slot) then
+            TriggerClientEvent("consumables:client:Eat", src, item.name)
+        end
+    end)
+end
 
 ----------- / Drug
 
