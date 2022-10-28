@@ -1,7 +1,7 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 ----------- / alcohol
-for cAl in pairs(ConsumablesDrink) do
+for cAl in pairs(ConsumablesAlcohol) do
     QBCore.Functions.CreateUseableItem(cAl, function(source, item)
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
