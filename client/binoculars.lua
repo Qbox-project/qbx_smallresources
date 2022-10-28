@@ -122,7 +122,7 @@ CreateThread(function()
             ClearTimecycleModifier()
             fov = (fov_max+fov_min)*0.5
             RenderScriptCams(false, false, 0, true, false)
-            SetScaleformMovieAsNoLongerNeeded(scaleform)
+            SetScaleformMovieAsNoLongerNeeded()
             DestroyCam(cam, false)
             SetNightvision(false)
             SetSeethrough(false)
