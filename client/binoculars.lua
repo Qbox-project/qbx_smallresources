@@ -53,10 +53,10 @@ end
 --EVENTS--
 
 -- Activate binoculars
+local cam = nil
+local scaleform = nil
 RegisterNetEvent('binoculars:Toggle', function()
     local ped = PlayerPedId()
-    local cam
-    local scaleform
     if IsPedInAnyVehicle(ped, true) then return end
     binoculars = not binoculars
 
@@ -69,7 +69,7 @@ RegisterNetEvent('binoculars:Toggle', function()
     else
         ClearPedTasks(ped)
         RenderScriptCams(false, true, 1000, false, false)
-        SetScaleformMovieAsNoLongerNeeded(scaleform)
+        SetScaleformMovieAsNoLongerNeeded()
         DestroyCam(cam, false)
         cam = nil
     end
@@ -89,7 +89,7 @@ RegisterNetEvent('binoculars:Toggle', function()
             binoculars = false
             ClearPedTasks(ped)
             RenderScriptCams(false, true, 1000, false, false)
-            SetScaleformMovieAsNoLongerNeeded(scaleform)
+            SetScaleformMovieAsNoLongerNeeded()
             DestroyCam(cam, false)
             cam = nil
         end
