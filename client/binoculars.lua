@@ -5,32 +5,13 @@ local speed_lr = 8.0 -- speed by which the camera pans left-right
 local speed_ud = 8.0 -- speed by which the camera pans up-down
 local binoculars = false
 local fov = (fov_max+fov_min)*0.5
-local storeBinoclarKey = 177
+local storeBinoclarKey = 177 -- Backspace
 
 --FUNCTIONS--
 
-local function HideHUDThisFrame()
-    HideHelpTextThisFrame()
-    HideHudAndRadarThisFrame()
-    HideHudComponentThisFrame(1) -- Wanted Stars
-    HideHudComponentThisFrame(2) -- Weapon icon
-    HideHudComponentThisFrame(3) -- Cash
-    HideHudComponentThisFrame(4) -- MP CASH
-    HideHudComponentThisFrame(6)
-    HideHudComponentThisFrame(7)
-    HideHudComponentThisFrame(8)
-    HideHudComponentThisFrame(9)
-    HideHudComponentThisFrame(13) -- Cash Change
-    HideHudComponentThisFrame(11) -- Floating Help Text
-    HideHudComponentThisFrame(12) -- more floating help text
-    HideHudComponentThisFrame(15) -- Subtitle Text
-    HideHudComponentThisFrame(18) -- Game Stream
-    HideHudComponentThisFrame(19) -- weapon wheel
-end
-
 local function CheckInputRotation(cam, zoomvalue)
-    local rightAxisX = GetDisabledControlNormal(0, 220)
-    local rightAxisY = GetDisabledControlNormal(0, 221)
+    local rightAxisX = GetControlNormal(0, 220)
+    local rightAxisY = GetControlNormal(0, 221)
     local rotation = GetCamRot(cam, 2)
     if rightAxisX ~= 0.0 or rightAxisY ~= 0.0 then
         local new_z = rotation.z + rightAxisX*-1.0*(speed_ud)*(zoomvalue+0.1)
@@ -69,74 +50,54 @@ local function HandleZoom(cam)
     end
 end
 
---THREADS--
-
-CreateThread(function()
-    while true do
-
-        Wait(1500)
-
-        local lPed = PlayerPedId()
-        local vehicle = GetVehiclePedIsIn(lPed, false)
-
-        if binoculars then
-            binoculars = true
-            if not IsPedSittingInAnyVehicle(lPed) then
-                TaskStartScenarioInPlace(lPed, "WORLD_HUMAN_BINOCULARS", 0, true)
-                PlayPedAmbientSpeechNative(lPed, "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
-            end
-
-            Wait(2000)
-
-            SetTimecycleModifier("default")
-            SetTimecycleModifierStrength(0.3)
-            local scaleform = RequestScaleformMovie("BINOCULARS")
-            while not HasScaleformMovieLoaded(scaleform) do
-                Wait(10)
-            end
-
-            local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
-            AttachCamToEntity(cam, lPed, 0.0,0.0,1.0, true)
-            SetCamRot(cam, 0.0,0.0,GetEntityHeading(lPed), 2)
-            SetCamFov(cam, fov)
-            RenderScriptCams(true, false, 0, true, false)
-            PushScaleformMovieFunction(scaleform, "SET_CAM_LOGO")
-            PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
-            PopScaleformMovieFunctionVoid()
-
-            while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed, false) == vehicle) and IsPedUsingScenario(lPed, "WORLD_HUMAN_BINOCULARS") do
-                if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
-                    PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-                    ClearPedTasks(lPed)
-                    binoculars = false
-                end
-
-                local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
-                CheckInputRotation(cam, zoomvalue)
-                HandleZoom(cam)
-                HideHUDThisFrame()
-                DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
-                Wait(0)
-            end
-            binoculars = false
-            ClearTimecycleModifier()
-            fov = (fov_max+fov_min)*0.5
-            RenderScriptCams(false, false, 0, true, false)
-            SetScaleformMovieAsNoLongerNeeded()
-            DestroyCam(cam, false)
-            SetNightvision(false)
-            SetSeethrough(false)
-        end
-    end
-end)
-
 --EVENTS--
 
 -- Activate binoculars
+local cam = nil
+local scaleform = nil
 RegisterNetEvent('binoculars:Toggle', function()
+    local ped = PlayerPedId()
+    if IsPedInAnyVehicle(ped, true) then return end
     binoculars = not binoculars
 
-    if binoculars then return end
+    if binoculars then
+        TaskStartScenarioInPlace(ped, "WORLD_HUMAN_BINOCULARS", 0, true)
+        cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+        AttachCamToEntity(cam, ped, 0.0,0.0,1.0, true)
+        SetCamRot(cam, 0.0,0.0, GetEntityHeading(ped), 2)
+        RenderScriptCams(true, false, 5000, true, false)
+    else
+        ClearPedTasks(ped)
+        RenderScriptCams(false, true, 1000, false, false)
+        SetScaleformMovieAsNoLongerNeeded()
+        DestroyCam(cam, false)
+        cam = nil
+    end
 
-    ClearPedTasks(PlayerPedId())
+    while binoculars do
+
+        scaleform = RequestScaleformMovie("BINOCULARS")
+        while not HasScaleformMovieLoaded(scaleform) do
+            Wait(10)
+        end
+
+        PushScaleformMovieFunction(scaleform, "SET_CAM_LOGO")
+        PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
+        PopScaleformMovieFunctionVoid()
+
+        if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
+            binoculars = false
+            ClearPedTasks(ped)
+            RenderScriptCams(false, true, 1000, false, false)
+            SetScaleformMovieAsNoLongerNeeded()
+            DestroyCam(cam, false)
+            cam = nil
+        end
+
+        local zoomvalue = (1.0/(fov_max-fov_min))*(fov-fov_min)
+        CheckInputRotation(cam, zoomvalue)
+        HandleZoom(cam)
+        DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
+        Wait(0)
+    end
 end)
