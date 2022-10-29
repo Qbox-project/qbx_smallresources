@@ -56,6 +56,7 @@ end
 RegisterNetEvent('binoculars:Toggle', function()
     local ped = PlayerPedId()
     local cam
+    local scaleform
     if IsPedInAnyVehicle(ped, true) then return end
     binoculars = not binoculars
 
@@ -75,7 +76,7 @@ RegisterNetEvent('binoculars:Toggle', function()
 
     while binoculars do
 
-        local scaleform = RequestScaleformMovie("BINOCULARS")
+        scaleform = RequestScaleformMovie("BINOCULARS")
         while not HasScaleformMovieLoaded(scaleform) do
             Wait(10)
         end
