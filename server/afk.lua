@@ -44,6 +44,9 @@ end)
 CreateThread(function()
     for _, v in pairs(GetPlayers()) do
         loggedInPlayers[v] = Player(v).state.isLoggedIn
+        if loggedInPlayers[v] then
+            updateCheckPlayer(v)
+        end
     end
     while true do
         Wait(1000)
