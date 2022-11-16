@@ -43,6 +43,7 @@ end)
 
 CreateThread(function()
     for _, v in pairs(GetPlayers()) do
+        v = tonumber(v)
         loggedInPlayers[v] = Player(v).state.isLoggedIn
         if loggedInPlayers[v] then
             updateCheckPlayer(v)
