@@ -46,7 +46,7 @@ CreateThread(function()
         v = tonumber(v)
         loggedInPlayers[v] = Player(v).state.isLoggedIn
         if loggedInPlayers[v] then
-            updateCheckPlayer(v)
+            updateCheckUser(v)
         end
     end
     while true do
