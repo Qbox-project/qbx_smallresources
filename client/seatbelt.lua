@@ -216,7 +216,7 @@ end)
 -- Events
 
 RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
-    local class = GetVehicleClass(GetVehiclePedIsUsing(cache.ped))
+    local class = GetVehicleClass(cache.vehicle)
     if cache.vehicle and class ~= 8 and class ~= 13 and class ~= 14 then
         if not harnessOn then
             LocalPlayer.state:set('inv_busy', true, true)

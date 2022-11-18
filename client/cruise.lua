@@ -79,7 +79,6 @@ RegisterCommand('togglecruise', function()
     local vehClass = GetVehicleClass(cache.vehicle)
     if IsDriver() then
         if vehicleClasses[vehClass] then
-            PlayerPed = cache.ped
             TriggerCruiseControl()
         else
             QBCore.Functions.Notify('Cruise control unavailable', 'error')
@@ -88,3 +87,7 @@ RegisterCommand('togglecruise', function()
 end, false)
 
 RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', 'Y')
+
+lib.onCache('ped', function(ped)
+    PlayerPed = ped
+end)
