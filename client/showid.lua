@@ -3,9 +3,7 @@ function DrawPlayerName(x, y, z, name)
     local px, py, pz = table.unpack(GetFinalRenderedCamCoord())
     local dist = #(vector3(px, py, pz) - vector3(x, y, z))
 
-    local scale = (1/dist)*2
-    local fov = (1/GetGameplayCamFov())*100
-    local scale = scale*fov
+    local scale = ((1/dist)*2)*((1/GetGameplayCamFov())*100)
 
     if onScreen then
         SetTextScale(0.0*scale, 0.5*scale)
@@ -28,21 +26,21 @@ local showNames = false
 
 CreateThread(function()
     while true do
-        local letSleep = 500
+        local sleep = 500
         if showNames then
-            letSleep = 0
+            sleep = 0
             for _, id in ipairs(GetActivePlayers()) do
                 if NetworkIsPlayerActive(id) then
                     local myPos = GetEntityCoords(PlayerPedId())
                     local otherPos = GetEntityCoords(GetPlayerPed(id))
                     local distance = #(myPos - otherPos)
                     if distance < 15.0 then
-    					DrawPlayerName(otherPos.x, otherPos.y, otherPos.z + 1.0, GetPlayerServerId(id))
+                        DrawPlayerName(otherPos.x, otherPos.y, otherPos.z + 1.0, GetPlayerServerId(id))
                     end
                 end
             end
         end
-        Wait(letSleep)
+        Wait(sleep)
     end
 end)
 
