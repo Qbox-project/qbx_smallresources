@@ -1,6 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 RegisterCommand('tackle', function()
-    if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
+    if not QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] and (IsPedSprinting(cache.ped) or IsPedRunning(cache.ped)) then
         local closestPlayer, closestDistance = QBCore.Functions.GetClosestPlayer()
         if closestDistance ~= -1 and closestDistance < 1.6 then
             if not cache.vehicle and not IsPedInAnyVehicle(GetPlayerPed(closestPlayer)) then
