@@ -1,24 +1,38 @@
-RegisterCommand("record", function()
+-- We do this check as we don't want players using these commands due to crashing with escrowed maps.
+local shouldAllow, mapNames = true, {
+    'cfx-gabz-mapdata'
+}
+
+for i = 1, #mapNames do
+    local state = GetResourceState(mapNames[i])
+    if state ~= 'missing' and state ~= 'unknown' then
+        shouldAllow = false
+    end
+end
+
+if not shouldAllow then return end
+
+RegisterCommand('record', function()
     StartRecording(1)
-    TriggerEvent('QBCore:Notify', "Started Recording!", "success")
+    TriggerEvent('QBCore:Notify', 'Started Recording!', 'success')
 end, false)
 
-RegisterCommand("clip", function()
+RegisterCommand('clip', function()
     StartRecording(0)
 end, false)
 
-RegisterCommand("saveclip", function()
+RegisterCommand('saveclip', function()
     StopRecordingAndSaveClip()
-    TriggerEvent('QBCore:Notify', "Saved Recording!", "success")
+    TriggerEvent('QBCore:Notify', 'Saved Recording!', 'success')
 end, false)
 
-RegisterCommand("delclip", function()
+RegisterCommand('delclip', function()
     StopRecordingAndDiscardClip()
-    TriggerEvent('QBCore:Notify', "Deleted Recording!", "error")
+    TriggerEvent('QBCore:Notify', 'Deleted Recording!', 'error')
 end, false)
 
-RegisterCommand("editor", function()
+RegisterCommand('editor', function()
     NetworkSessionLeaveSinglePlayer()
     ActivateRockstarEditor()
-    TriggerEvent('QBCore:Notify', "Later aligator!", "error")
+    TriggerEvent('QBCore:Notify', 'Later aligator!', 'error')
 end, false)

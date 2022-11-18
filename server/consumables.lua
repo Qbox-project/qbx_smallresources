@@ -6,7 +6,7 @@ for cAl in pairs(ConsumablesAlcohol) do
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
         if Player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent("consumables:client:DrinkAlcohol", src, item.name)
+            TriggerClientEvent('consumables:client:DrinkAlcohol', src, item.name)
         end
     end)
 end
@@ -17,7 +17,7 @@ for cDr in pairs(ConsumablesDrink) do
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
         if Player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent("consumables:client:Drink", src, item.name)
+            TriggerClientEvent('consumables:client:Drink', src, item.name)
         end
     end)
 end
@@ -28,70 +28,70 @@ for cEa in pairs(ConsumablesEat) do
         local src = source
         local Player = QBCore.Functions.GetPlayer(src)
         if Player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent("consumables:client:Eat", src, item.name)
+            TriggerClientEvent('consumables:client:Eat', src, item.name)
         end
     end)
 end
 
 ----------- / Drug
 
-QBCore.Functions.CreateUseableItem("joint", function(source, item)
+QBCore.Functions.CreateUseableItem('joint', function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
 	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:UseJoint", source)
+    TriggerClientEvent('consumables:client:UseJoint', source)
 end)
 
-QBCore.Functions.CreateUseableItem("cokebaggy", function(source)
-    TriggerClientEvent("consumables:client:Cokebaggy", source)
+QBCore.Functions.CreateUseableItem('cokebaggy', function(source)
+    TriggerClientEvent('consumables:client:Cokebaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem("crack_baggy", function(source)
-    TriggerClientEvent("consumables:client:Crackbaggy", source)
+QBCore.Functions.CreateUseableItem('crack_baggy', function(source)
+    TriggerClientEvent('consumables:client:Crackbaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem("xtcbaggy", function(source, _)
-    TriggerClientEvent("consumables:client:EcstasyBaggy", source)
+QBCore.Functions.CreateUseableItem('xtcbaggy', function(source, _)
+    TriggerClientEvent('consumables:client:EcstasyBaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem("oxy", function(source)
-    TriggerClientEvent("consumables:client:oxy", source)
+QBCore.Functions.CreateUseableItem('oxy', function(source)
+    TriggerClientEvent('consumables:client:oxy', source)
 end)
 
-QBCore.Functions.CreateUseableItem("meth", function(source)
-    TriggerClientEvent("consumables:client:meth", source)
+QBCore.Functions.CreateUseableItem('meth', function(source)
+    TriggerClientEvent('consumables:client:meth', source)
 end)
 
 ----------- / Tools
 
-QBCore.Functions.CreateUseableItem("armor", function(source)
-    TriggerClientEvent("consumables:client:UseArmor", source)
+QBCore.Functions.CreateUseableItem('armor', function(source)
+    TriggerClientEvent('consumables:client:UseArmor', source)
 end)
 
-QBCore.Functions.CreateUseableItem("heavyarmor", function(source)
-    TriggerClientEvent("consumables:client:UseHeavyArmor", source)
+QBCore.Functions.CreateUseableItem('heavyarmor', function(source)
+    TriggerClientEvent('consumables:client:UseHeavyArmor', source)
 end)
 
-QBCore.Commands.Add("resetarmor", "Resets Vest (Police Only)", {}, false, function(source)
+QBCore.Commands.Add('resetarmor', 'Resets Vest (Police Only)', {}, false, function(source)
     local Player = QBCore.Functions.GetPlayer(source)
-    if Player.PlayerData.job.name == "police" then
-        TriggerClientEvent("consumables:client:ResetArmor", source)
+    if Player.PlayerData.job.name == 'police' then
+        TriggerClientEvent('consumables:client:ResetArmor', source)
     else
-        TriggerClientEvent('QBCore:Notify', source,  "For Police Officer Only", "error")
+        TriggerClientEvent('QBCore:Notify', source,  'For Police Officer Only', 'error')
     end
 end)
 
-QBCore.Functions.CreateUseableItem("binoculars", function(source)
-    TriggerClientEvent("binoculars:Toggle", source)
+QBCore.Functions.CreateUseableItem('binoculars', function(source)
+    TriggerClientEvent('binoculars:Toggle', source)
 end)
 
-QBCore.Functions.CreateUseableItem("parachute", function(source, item)
+QBCore.Functions.CreateUseableItem('parachute', function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
 	if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent("consumables:client:UseParachute", source)
+    TriggerClientEvent('consumables:client:UseParachute', source)
 end)
 
-QBCore.Commands.Add("resetparachute", "Resets Parachute", {}, false, function(source)
-	TriggerClientEvent("consumables:client:ResetParachute", source)
+QBCore.Commands.Add('resetparachute', 'Resets Parachute', {}, false, function(source)
+	TriggerClientEvent('consumables:client:ResetParachute', source)
 end)
 
 RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
@@ -99,29 +99,29 @@ RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
 
     if not Player then return end
 
-    Player.Functions.AddItem("parachute", 1)
+    Player.Functions.AddItem('parachute', 1)
 end)
 
 ----------- / Firework
 
-QBCore.Functions.CreateUseableItem("firework1", function(source, item)
+QBCore.Functions.CreateUseableItem('firework1', function(source, item)
     local src = source
-    TriggerClientEvent("fireworks:client:UseFirework", src, item.name, "proj_indep_firework")
+    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework')
 end)
 
-QBCore.Functions.CreateUseableItem("firework2", function(source, item)
+QBCore.Functions.CreateUseableItem('firework2', function(source, item)
     local src = source
-    TriggerClientEvent("fireworks:client:UseFirework", src, item.name, "proj_indep_firework_v2")
+    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework_v2')
 end)
 
-QBCore.Functions.CreateUseableItem("firework3", function(source, item)
+QBCore.Functions.CreateUseableItem('firework3', function(source, item)
     local src = source
-    TriggerClientEvent("fireworks:client:UseFirework", src, item.name, "proj_xmas_firework")
+    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_xmas_firework')
 end)
 
-QBCore.Functions.CreateUseableItem("firework4", function(source, item)
+QBCore.Functions.CreateUseableItem('firework4', function(source, item)
     local src = source
-    TriggerClientEvent("fireworks:client:UseFirework", src, item.name, "scr_indep_fireworks")
+    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'scr_indep_fireworks')
 end)
 
 ----------- / Lockpicking
@@ -138,10 +138,10 @@ end)
 
 ----------- / Unused
 
--- QBCore.Functions.CreateUseableItem("smoketrailred", function(source, item)
+-- QBCore.Functions.CreateUseableItem('smoketrailred', function(source, item)
 --     local Player = QBCore.Functions.GetPlayer(source)
 -- 	   if not Player.Functions.RemoveItem(item.name, 1, item.slot) then return end
---     TriggerClientEvent("consumables:client:UseRedSmoke", source)
+--     TriggerClientEvent('consumables:client:UseRedSmoke', source)
 -- end)
 
 -- Events for adding and removing specific items to fix some exploits

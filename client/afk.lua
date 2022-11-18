@@ -47,10 +47,9 @@ end)
 CreateThread(function()
     while true do
         Wait(1000)
-        local playerPed = PlayerPedId()
         if isLoggedIn then
             if checkUser then
-                local currentPos = GetEntityCoords(playerPed, true)
+                local currentPos = GetEntityCoords(cache.ped, true)
                 if prevPos then
                     if currentPos == prevPos then
                         if time then

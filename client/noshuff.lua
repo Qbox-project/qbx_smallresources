@@ -1,33 +1,27 @@
 local disableShuffle = true
-local vehicle = nil
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh)
-    vehicle = veh
-    local ped = PlayerPedId()
-    while vehicle do
+AddEventHandler('ox_lib:cache:vehicle', function(_)
+    CreateThread(function()
         local sleep = 100
-        if disableShuffle then
-            if GetPedInVehicleSeat(vehicle, 0) == ped then
-                if GetIsTaskActive(ped, 165) then
-                    sleep = 0
-                    SetPedIntoVehicle(ped, vehicle, 0)
-                    SetPedConfigFlag(ped, 184, true)
+        while cache.vehicle do
+            if disableShuffle then
+                if GetPedInVehicleSeat(cache.vehicle, 0) == cache.ped then
+                    if GetIsTaskActive(cache.ped, 165) then
+                        sleep = 0
+                        SetPedIntoVehicle(cache.ped, cache.vehicle, 0)
+                        SetPedConfigFlag(cache.ped, 184, true)
+                    end
                 end
             end
+            Wait(sleep)
         end
-        Wait(sleep)
-    end
-end)
-
-RegisterNetEvent('baseevents:leftVehicle', function ()
-    vehicle = nil
+    end)
 end)
 
 RegisterNetEvent('SeatShuffle', function()
-    local ped = PlayerPedId()
-	if IsPedInAnyVehicle(ped, false) then
+	if cache.vehicle then
 		disableShuffle = false
-        SetPedConfigFlag(ped, 184, false)
+        SetPedConfigFlag(cache.ped, 184, false)
         Wait(3000)
         disableShuffle = true
 	else
@@ -35,6 +29,6 @@ RegisterNetEvent('SeatShuffle', function()
 	end
 end)
 
-RegisterCommand("shuff", function()
-    TriggerEvent("SeatShuffle")
+RegisterCommand('shuff', function()
+    TriggerEvent('SeatShuffle')
 end, false)

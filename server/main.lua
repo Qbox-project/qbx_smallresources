@@ -2,18 +2,18 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local VehicleNitrous = {}
 
 RegisterNetEvent('tackle:server:TacklePlayer', function(playerId)
-    TriggerClientEvent("tackle:client:GetTackled", playerId)
+    TriggerClientEvent('tackle:client:GetTackled', playerId)
 end)
 
 QBCore.Functions.CreateCallback('nos:GetNosLoadedVehs', function(_, cb)
     cb(VehicleNitrous)
 end)
 
-QBCore.Commands.Add("id", "Check Your ID #", {}, false, function(source)
-    TriggerClientEvent('QBCore:Notify', source,  "ID: "..source)
+QBCore.Commands.Add('id', 'Check Your ID #', {}, false, function(source)
+    TriggerClientEvent('QBCore:Notify', source,  'ID: '..source)
 end)
 
-QBCore.Functions.CreateUseableItem("harness", function(source, item)
+QBCore.Functions.CreateUseableItem('harness', function(source, item)
     TriggerClientEvent('seatbelt:client:UseHarness', source, item)
 end)
 
@@ -27,7 +27,7 @@ RegisterNetEvent('equip:harness', function(item)
         Player.PlayerData.items[item.slot].info.uses = 19
         Player.Functions.SetInventory(Player.PlayerData.items)
     elseif Player.PlayerData.items[item.slot].info.uses == 1 then
-        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['harness'], "remove")
+        TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items['harness'], 'remove')
         Player.Functions.RemoveItem('harness', 1)
     else
         Player.PlayerData.items[item.slot].info.uses -= 1
@@ -55,9 +55,9 @@ RegisterNetEvent('qb-carwash:server:washCar', function()
 
     if not Player then return end
 
-    if Player.Functions.RemoveMoney('cash', Config.DefaultPrice, "car-washed") then
+    if Player.Functions.RemoveMoney('cash', Config.DefaultPrice, 'car-washed') then
         TriggerClientEvent('qb-carwash:client:washCar', src)
-    elseif Player.Functions.RemoveMoney('bank', Config.DefaultPrice, "car-washed") then
+    elseif Player.Functions.RemoveMoney('bank', Config.DefaultPrice, 'car-washed') then
         TriggerClientEvent('qb-carwash:client:washCar', src)
     else
         TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error')
@@ -71,24 +71,4 @@ QBCore.Functions.CreateCallback('smallresources:server:GetCurrentPlayers', funct
         TotalPlayers += 1
     end
     cb(TotalPlayers)
-end)
-
-RegisterNetEvent('baseevents:enteringVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:enteringVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:enteredVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:enteredVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:leftVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:leftVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:enteringAborted', function()
-    local src = source
-    TriggerClientEvent('baseevents:enteringAborted', src)
 end)

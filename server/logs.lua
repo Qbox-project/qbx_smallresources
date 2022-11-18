@@ -51,7 +51,7 @@ local Colors = { -- https://www.spycolor.com/
     ['orange'] = 16744192,
     ['yellow'] = 16776960,
     ['pink'] = 16761035,
-    ["lightgreen"] = 65309,
+    ['lightgreen'] = 65309,
 }
 
 ---Logs using ox_lib logger regardless of Config.EnableOxLogging value
@@ -60,7 +60,7 @@ local function OxLog(source, event, message, ...)
     lib.logger(source, event, message, ...)
 end
 
-exports("OxLog", OxLog)
+exports('OxLog', OxLog)
 
 ---Logs to discord regardless of Config.EnableDiscordLogging value
 ---@param name string source of the log. Usually a playerId or name of a script.
@@ -88,7 +88,7 @@ local function DiscordLog(name, title, message, color, tagEveryone)
     PerformHttpRequest(webHook, function() end, 'POST', json.encode({ username = 'QB Logs', content = tag and '@everyone' or nil, embeds = embedData }), { ['Content-Type'] = 'application/json' })
 end
 
-exports("DiscordLog", DiscordLog)
+exports('DiscordLog', DiscordLog)
 
 ---Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
 ---@param name string source of the log. Usually a playerId or name of a script.
@@ -106,7 +106,7 @@ local function CreateLog(name, title, color, message, tagEveryone)
     end
 end
 
-exports("CreateLog", CreateLog)
+exports('CreateLog', CreateLog)
 
 ---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
 RegisterNetEvent('qb-log:server:CreateLog', CreateLog)

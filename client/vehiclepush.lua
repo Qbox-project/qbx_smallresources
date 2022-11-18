@@ -12,22 +12,14 @@ local function DrawText3Ds(x, y, z, text)
     SetTextFont(4)
     SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
+    BeginTextCommandDisplayText('STRING')
     SetTextCentre(true)
-    AddTextComponentString(text)
+    AddTextComponentSubstringPlayerName(text)
     SetDrawOrigin(x,y,z, 0)
-    DrawText(0.0, 0.0)
+    EndTextCommandDisplayText(0.0, 0.0)
     local factor = (string.len(text)) / 370
     DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
     ClearDrawOrigin()
-end
-
-local function loadAnimDict(dict)
-    if HasAnimDictLoaded(dict) then return end
-    RequestAnimDict(dict)
-    while not HasAnimDictLoaded(dict) do
-        Wait(10)
-    end
 end
 
 CreateThread(function()
@@ -91,7 +83,7 @@ CreateThread(function()
                         0, true)
                 end
 
-                loadAnimDict('missfinale_c2ig_11')
+                lib.requestAnimDict('missfinale_c2ig_11', 1000)
                 TaskPlayAnim(ped, 'missfinale_c2ig_11', 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
                 Wait(200)
 

@@ -124,9 +124,8 @@ local recoils = {
 
 CreateThread(function()
 	while true do
-		local ped = PlayerPedId()
-		if IsPedShooting(ped) and not IsPedDoingDriveby(ped) then
-			local _, wep = GetCurrentPedWeapon(ped)
+		if IsPedShooting(cache.ped) and not IsPedDoingDriveby(cache.ped) then
+			local _, wep = GetCurrentPedWeapon(cache.ped)
 			if recoils[wep] and recoils[wep] ~= 0 then
 				-- luacheck: ignore
 				local tv = 0
