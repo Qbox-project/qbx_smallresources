@@ -49,6 +49,20 @@ local function ResetHandBrake()
     handbrake -= 1
 end
 
+local function Seatbelt()
+    while cache.vehicle do
+        local sleep = 1000
+        if seatbeltOn or harnessOn then
+            sleep = 10
+            DisableControlAction(0, 75, true)
+            DisableControlAction(27, 75, true)
+        end
+        Wait(sleep)
+    end
+    seatbeltOn = false
+    harnessOn = false
+end
+
 -- Export
 
 function HasHarness()
@@ -59,20 +73,8 @@ exports('HasHarness', HasHarness)
 
 -- Main Thread
 
-AddEventHandler('ox_lib:cache:vehicle', function(_)
-    CreateThread(function()
-        local sleep = 1000
-        while cache.vehicle do
-            if seatbeltOn or harnessOn then
-                sleep = 10
-                DisableControlAction(0, 75, true)
-                DisableControlAction(27, 75, true)
-            end
-            Wait(sleep)
-        end
-        seatbeltOn = false
-        harnessOn = false
-    end)
+lib.onCache('vehicle', function()
+    Seatbelt()
 end)
 
 -- Ejection Logic
@@ -213,10 +215,9 @@ end)
 
 -- Events
 
-RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData) -- On Item Use (registered server side)
-    local inveh = IsPedInAnyVehicle(cache.ped, false)
+RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
     local class = GetVehicleClass(GetVehiclePedIsUsing(cache.ped))
-    if inveh and class ~= 8 and class ~= 13 and class ~= 14 then
+    if cache.vehicle and class ~= 8 and class ~= 13 and class ~= 14 then
         if not harnessOn then
             LocalPlayer.state:set('inv_busy', true, true)
             QBCore.Functions.Progressbar('harness_equip', 'Attaching Race Harness', 5000, false, true, {

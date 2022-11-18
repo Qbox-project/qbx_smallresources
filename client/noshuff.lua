@@ -1,21 +1,23 @@
 local disableShuffle = true
 
-AddEventHandler('ox_lib:cache:vehicle', function(_)
-    CreateThread(function()
+local function DisableVehicleShuff()
+    while cache.vehicle do
         local sleep = 100
-        while cache.vehicle do
-            if disableShuffle then
-                if GetPedInVehicleSeat(cache.vehicle, 0) == cache.ped then
-                    if GetIsTaskActive(cache.ped, 165) then
-                        sleep = 0
-                        SetPedIntoVehicle(cache.ped, cache.vehicle, 0)
-                        SetPedConfigFlag(cache.ped, 184, true)
-                    end
+        if disableShuffle then
+            if cache.seat == -1 then
+                if GetIsTaskActive(cache.ped, 165) then
+                    sleep = 0
+                    SetPedIntoVehicle(cache.ped, cache.vehicle, 0)
+                    SetPedConfigFlag(cache.ped, 184, true)
                 end
             end
-            Wait(sleep)
         end
-    end)
+        Wait(sleep)
+    end
+end
+
+lib.onCache('vehicle', function()
+    DisableVehicleShuff()
 end)
 
 RegisterNetEvent('SeatShuffle', function()

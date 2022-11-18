@@ -5,7 +5,7 @@ local shouldAllow, mapNames = true, {
 
 for i = 1, #mapNames do
     local state = GetResourceState(mapNames[i])
-    if state ~= 'missing' and state ~= 'unknown' then
+    if state == 'starting' or state == 'started' then
         shouldAllow = false
     end
 end
