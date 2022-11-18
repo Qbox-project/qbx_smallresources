@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local suicideWeapons = {
 	`WEAPON_PISTOL`,
 	`WEAPON_PISTOL_MK2`,
@@ -32,5 +33,5 @@ RegisterCommand('suicide', function()
         QBCore.Functions.Notify('You killed yourself', 'error')
     else
         QBCore.Functions.Notify('You don\'t have a pistol with ammo in your hand', 'error')
-	end 
+	end
 end, false)

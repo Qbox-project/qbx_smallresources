@@ -1,3 +1,4 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 RegisterCommand('tackle', function()
     if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
         local closestPlayer, closestDistance = QBCore.Functions.GetClosestPlayer()
