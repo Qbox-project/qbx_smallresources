@@ -25,7 +25,7 @@ RegisterCommand('suicide', function()
         end
     end
 	if canSuicide then
-        lib.requestAnimDict('mp_suicide', 1000)
+        lib.requestAnimDict('mp_suicide')
 		TaskPlayAnim(cache.ped, 'mp_suicide', 'pistol', 8.0, 1.0, -1, 2, 0, 0, 0, 0)
 		Wait(750)
 		SetPedShootsAtCoord(cache.ped, 0.0, 0.0, 0.0, 0)

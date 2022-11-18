@@ -6,7 +6,7 @@ local alcoholCount, ParachuteEquiped, currentVest, currentVestTexture, healing, 
 -- Functions
 
 local function EquipParachuteAnim()
-    local hasLoaded = lib.requestAnimDict('clothingshirt', 1000)
+    local hasLoaded = lib.requestAnimDict('clothingshirt')
     if not hasLoaded then return end
     TaskPlayAnim(cache.ped, 'clothingshirt', 'try_shirt_positive_d', 8.0, 1.0, -1, 49, 0, false, false, false)
 end

@@ -38,13 +38,13 @@ CreateThread(function()
     local sleep
     while true do
         local PlayerPos = GetEntityCoords(cache.ped)
-        local Driver = GetPedInVehicleSeat(cache.vehicle, -1)
+        local Driver = cache.seat == -1
         local dirtLevel = GetVehicleDirtLevel(cache.vehicle)
         sleep = 1000
         if IsPedInAnyVehicle(cache.ped, false) then
             for k in pairs(Config.CarWash) do
                 local dist = #(PlayerPos - vector3(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z']))
-                if dist <= 7.5 and Driver == cache.ped then
+                if dist <= 7.5 and Driver then
                     sleep = 0
                     if not washingVehicle then
                         DrawText3Ds(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z'], '~g~E~w~ - Washing car ($'..Config.DefaultPrice..')')

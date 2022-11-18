@@ -5,7 +5,7 @@ RegisterCommand('tackle', function()
         if closestDistance ~= -1 and closestDistance < 1.6 then
             if not cache.vehicle and not IsPedInAnyVehicle(GetPlayerPed(closestPlayer)) then
                 TriggerServerEvent('tackle:server:TacklePlayer', GetPlayerServerId(closestPlayer))
-                lib.requestAnimDict('swimming@first_person@diving', 1000)
+                lib.requestAnimDict('swimming@first_person@diving')
                 TaskPlayAnim(cache.ped, 'swimming@first_person@diving', 'dive_run_fwd_-45_loop' ,3.0, 3.0, -1, 49, 0, false, false, false)
                 Wait(250)
                 ClearPedTasks(cache.ped)
