@@ -10,7 +10,7 @@ QBCore.Functions.CreateCallback('nos:GetNosLoadedVehs', function(_, cb)
 end)
 
 QBCore.Commands.Add("id", "Check Your ID #", {}, false, function(source)
-    TriggerClientEvent('QBCore:Notify', source,  "ID: "..source)
+    TriggerClientEvent('QBCore:Notify', source,  "ID: " .. source)
 end)
 
 QBCore.Functions.CreateUseableItem("harness", function(source, item)
@@ -21,13 +21,14 @@ RegisterNetEvent('equip:harness', function(item)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
-    if not Player then return end
+    if not Player then
+        return
+    end
 
     if not Player.PlayerData.items[item.slot].info.uses then
         Player.PlayerData.items[item.slot].info.uses = 19
         Player.Functions.SetInventory(Player.PlayerData.items)
     elseif Player.PlayerData.items[item.slot].info.uses == 1 then
-        TriggerClientEvent("inventory:client:ItemBox", src, QBCore.Shared.Items['harness'], "remove")
         Player.Functions.RemoveItem('harness', 1)
     else
         Player.PlayerData.items[item.slot].info.uses -= 1
@@ -39,7 +40,9 @@ RegisterNetEvent('seatbelt:DoHarnessDamage', function(hp, data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
-    if not Player then return end
+    if not Player then
+        return
+    end
 
     if hp == 0 then
         Player.Functions.RemoveItem('harness', 1, data.slot)
@@ -67,28 +70,10 @@ end)
 QBCore.Functions.CreateCallback('smallresources:server:GetCurrentPlayers', function(_, cb)
     local TotalPlayers = 0
     local players = QBCore.Functions.GetPlayers()
+
     for _ in pairs(players) do
         TotalPlayers += 1
     end
+
     cb(TotalPlayers)
-end)
-
-RegisterNetEvent('baseevents:enteringVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:enteringVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:enteredVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:enteredVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:leftVehicle', function(...)
-    local src = source
-    TriggerClientEvent('baseevents:leftVehicle', src, ...)
-end)
-
-RegisterNetEvent('baseevents:enteringAborted', function()
-    local src = source
-    TriggerClientEvent('baseevents:enteringAborted', src)
 end)

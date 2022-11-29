@@ -2,7 +2,7 @@
 Base scripts for QB-Core Framework :building_construction:
 
 ## Dependencies
-- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qb-core](https://github.com/Qbox-project/qb-core)
 
 ## Features
 - Consumeable foods/beverages/drinks/drugs (sandwich, water_bottle, tosti, beer, vodka etc.)

@@ -3,16 +3,20 @@ CreateThread(function()
 		for _, sctyp in next, Config.BlacklistedScenarios['TYPES'] do
 			SetScenarioTypeEnabled(sctyp, false)
 		end
+
 		for _, scgrp in next, Config.BlacklistedScenarios['GROUPS'] do
 			SetScenarioGroupEnabled(scgrp, false)
 		end
+
 		Wait(10000)
 	end
 end)
 
 AddEventHandler("populationPedCreating", function(x, y, z)
 	Wait(500)	-- Give the entity some time to be created
+
 	local _, handle = GetClosestPed(x, y, z, 1.0) -- Get the entity handle
+
 	SetPedDropsWeaponsWhenDead(handle, false)
 end)
 
@@ -20,12 +24,14 @@ CreateThread(function() -- all these should only need to be called once
 	if Config.DisableAmbience then
 		StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
 	end
+
 	SetAudioFlag("PoliceScannerDisabled", true)
 	SetGarbageTrucks(false)
 	SetCreateRandomCops(false)
 	SetCreateRandomCopsNotOnScenarios(false)
 	SetCreateRandomCopsOnScenarios(false)
 	DistantCopCarSirens(false)
+
 	RemoveVehiclesFromGeneratorsInArea(335.2616 - 300.0, -1432.455 - 300.0, 46.51 - 300.0, 335.2616 + 300.0, -1432.455 + 300.0, 46.51 + 300.0) -- central los santos medical center
 	RemoveVehiclesFromGeneratorsInArea(441.8465 - 500.0, -987.99 - 500.0, 30.68 -500.0, 441.8465 + 500.0, -987.99 + 500.0, 30.68 + 500.0) -- police station mission row
 	RemoveVehiclesFromGeneratorsInArea(316.79 - 300.0, -592.36 - 300.0, 43.28 - 300.0, 316.79 + 300.0, -592.36 + 300.0, 43.28 + 300.0) -- pillbox
@@ -38,17 +44,19 @@ end)
 
 CreateThread(function()
 	local sleep
+
 	while true do
 		sleep = 1000
-		local ped = PlayerPedId()
-		if IsPedBeingStunned(ped, 0) then
+
+		if IsPedBeingStunned(cache.ped, 0) then
 			sleep = 0
-			SetPedMinGroundTimeForStungun(ped, math.random(4000, 7000))
+
+			SetPedMinGroundTimeForStungun(cache.ped, math.random(4000, 7000))
 		end
+
 		Wait(sleep)
 	end
 end)
-
 
 CreateThread(function()
 	for i = 1, 15 do
@@ -64,25 +72,29 @@ end
 
 CreateThread(function()
 	local sleep
+
 	while true do
 		sleep = 500
-		local ped = PlayerPedId()
-		local weapon = GetSelectedPedWeapon(ped)
-		if weapon ~= `WEAPON_UNARMED` then
-			if IsPedArmed(ped, 6) then
+
+		local weapon = GetSelectedPedWeapon(cache.ped)
+
+		if weapon ~= joaat('WEAPON_UNARMED') then
+			if IsPedArmed(cache.ped, 6) then
 				sleep = 0
+
 				DisableControlAction(1, 140, true)
 				DisableControlAction(1, 141, true)
 				DisableControlAction(1, 142, true)
 			end
 
-			if weapon == `WEAPON_FIREEXTINGUISHER` or weapon == `WEAPON_PETROLCAN` then
-				if IsPedShooting(ped) then
-					SetPedInfiniteAmmo(ped, true, `WEAPON_FIREEXTINGUISHER`)
-					SetPedInfiniteAmmo(ped, true, `WEAPON_PETROLCAN`)
+			if weapon == joaat('WEAPON_FIREEXTINGUISHER') or weapon == joaat('WEAPON_PETROLCAN') then
+				if IsPedShooting(cache.ped) then
+					SetPedInfiniteAmmo(cache.ped, true, joaat('WEAPON_FIREEXTINGUISHER'))
+					SetPedInfiniteAmmo(cache.ped, true, joaat('WEAPON_PETROLCAN'))
 				end
 			end
 		end
+
 		Wait(sleep)
 	end
 end)

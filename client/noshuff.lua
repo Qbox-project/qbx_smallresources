@@ -1,34 +1,39 @@
 local disableShuffle = true
-local vehicle = nil
+local inVehicle = false
 
-RegisterNetEvent('baseevents:enteredVehicle', function (veh)
-    vehicle = veh
-    local ped = PlayerPedId()
-    while vehicle do
-        local sleep = 100
-        if disableShuffle then
-            if GetPedInVehicleSeat(vehicle, 0) == ped then
-                if GetIsTaskActive(ped, 165) then
-                    sleep = 0
-                    SetPedIntoVehicle(ped, vehicle, 0)
-                    SetPedConfigFlag(ped, 184, true)
+lib.onCache('vehicle', function(value)
+    if value then
+        inVehicle = true
+
+        while inVehicle do
+            local sleep = 100
+
+            if disableShuffle then
+                if GetPedInVehicleSeat(value, 0) == cache.ped then
+                    if GetIsTaskActive(cache.ped, 165) then
+                        sleep = 0
+
+                        SetPedIntoVehicle(cache.ped, value, 0)
+                        SetPedConfigFlag(cache.ped, 184, true)
+                    end
                 end
             end
+
+            Wait(sleep)
         end
-        Wait(sleep)
+    else
+        inVehicle = false
     end
 end)
 
-RegisterNetEvent('baseevents:leftVehicle', function ()
-    vehicle = nil
-end)
-
 RegisterNetEvent('SeatShuffle', function()
-    local ped = PlayerPedId()
-	if IsPedInAnyVehicle(ped, false) then
+	if IsPedInAnyVehicle(cache.ped, false) then
 		disableShuffle = false
-        SetPedConfigFlag(ped, 184, false)
+
+        SetPedConfigFlag(cache.ped, 184, false)
+
         Wait(3000)
+
         disableShuffle = true
 	else
 		CancelEvent()

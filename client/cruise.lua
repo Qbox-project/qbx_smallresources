@@ -30,7 +30,7 @@ local function IsTurningOrHandBraking() return IsControlPressed(2, 76) or IsCont
 local function IsDriving() return IsPedInAnyVehicle(Player, false) end
 local function GetVehicle() return GetVehiclePedIsIn(Player, false) end
 local function IsInVehicle() return GetPedInVehicleSeat(GetVehicle(), -1) end
-local function IsDriver() return GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId(), false), -1) == PlayerPedId() end
+local function IsDriver() return GetPedInVehicleSeat(GetVehiclePedIsIn(cache.ped, false), -1) == cache.ped end
 local function GetVehicleSpeed() return GetEntitySpeed(GetVehicle()) end
 --local function TransformToKm(speed) return math.floor(speed * 3.6 + 0.5) end -- Uncomment me for km/h
 local function TransformToMph(speed) return math.floor(speed * 2.2369 + 0.5) end -- Comment me for mp/h
@@ -42,7 +42,7 @@ local function TriggerCruiseControl()
             local CruisedSpeedMph = TransformToMph(CruisedSpeed) -- Comment me for mp/h
             -- CruisedSpeedKm = TransformToKm(CruisedSpeed) -- Uncomment me for km/h
             TriggerEvent('seatbelt:client:ToggleCruise')
-            QBCore.Functions.Notify("Cruise Activated: " .. CruisedSpeedMph .." MP/H") -- Comment me for mp/h
+            QBCore.Functions.Notify("Cruise Activated: " .. CruisedSpeedMph .. " MP/H") -- Comment me for mp/h
             -- QBCore.Functions.Notify("Cruise Activated: " .. CruisedSpeedKm ..  " km/h") -- Uncomment me for km/h
             CreateThread(function()
                 while CruisedSpeed > 0 and IsInVehicle() == Player do
@@ -75,17 +75,21 @@ local function TriggerCruiseControl()
     end
 end
 
-RegisterCommand('togglecruise', function()
-    local veh = GetVehiclePedIsIn(PlayerPedId(), false)
-    local vehClass = GetVehicleClass(veh)
-    if IsDriver() then
-        if vehicleClasses[vehClass] then
-            Player = PlayerPedId()
-            TriggerCruiseControl()
-        else
-            QBCore.Functions.Notify("Cruise control unavailable", "error")
+lib.addKeybind({
+    name = 'togglecruise',
+    description = 'Toggle Cruise Control',
+    defaultKey = 'Y',
+    onPressed = function(_)
+        local vehClass = GetVehicleClass(cache.vehicle)
+
+        if IsDriver() then
+            if vehicleClasses[vehClass] then
+                Player = cache.ped
+
+                TriggerCruiseControl()
+            else
+                QBCore.Functions.Notify("Cruise control unavailable", "error")
+            end
         end
     end
-end, false)
-
-RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', 'Y')
+})

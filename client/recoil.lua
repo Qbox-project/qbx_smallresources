@@ -1,28 +1,4 @@
 local recoils = {
-	-- Melee
-	-- [-1834847097] = 0.3,		--['weapon_dagger']
-	-- [-1786099057] = 0.3,		--['weapon_bat']
-	-- [-102323637] = 0.3,		--['weapon_bottle']
-	-- [2067956739] = 0.3,		--['weapon_crowbar']
-	-- [-1951375401] = 0.3,		--['weapon_flashlight']
-	-- [1141786504] = 0.3,		--['weapon_golfclub']
-	-- [1317494643] = 0.3,		--['weapon_hammer']
-	-- [-102973651] = 0.3,		--['weapon_hatchet']
-	-- [-656458692] = 0.3,		--['weapon_knuckle']
-	-- [-1716189206] = 0.3,		--['weapon_knife']
-	-- [-581044007] = 0.3,		--['weapon_machete']
-	-- [-538741184] = 0.3,		--['weapon_switchblade']
-	-- [1737195953] = 0.3,		--['weapon_nightstick']
-	-- [419712736] = 0.3,		--['weapon_wrench']
-	-- [-853065399] = 0.3,		--['weapon_battleaxe']
-	-- [-1810795771] = 0.3,		--['weapon_poolcue']
-	-- [-2000187721] = 0.0,		--['weapon_briefcase']
-	-- [28811031] = 0.0,		--['weapon_briefcase_02']
-	-- [-499989876] = 0.0,		--['weapon_garbagebag']
-	-- [-800287667] = 0.0,		--['weapon_handcuffs']
-	-- [1309015656] = 0.0,		--['weapon_bread']
-	-- [940833800] = 0.3,		--['weapon_stone_hatchet']
-
 	-- Handguns
 	[453432689] = 0.3,			--['weapon_pistol']
 	[-1075685676] = 0.5,		--['weapon_pistol_mk2']
@@ -102,56 +78,47 @@ local recoils = {
 	[1834241177] = 2.4,			--['weapon_railgun']
 	[1672152130] = 0.0,			--['weapon_hominglauncher']
 	[125959754] = 0.5,			--['weapon_compactlauncher']
-	[-1238556825] = 0.3,		--['weapon_rayminigun']
-
-	-- Throwables
-	-- [-1813897027] = 0.3,		--['weapon_grenade']
-	-- [-1600701090] = 0.3,		--['weapon_bzgas']
-	-- [615608432] = 0.3,		--['weapon_molotov']
-	-- [741814745] = 0.3,		--['weapon_stickybomb']
-	-- [-1420407917] = 0.3,		--['weapon_proxmine']
-	-- [126349499] = 0.3,		--['weapon_snowball']
-	-- [-1169823560] = 0.3,		--['weapon_pipebomb']
-	-- [600439132] = 0.3,		--['weapon_ball']
-	-- [-37975472] = 0.3,		--['weapon_smokegrenade']
-	-- [1233104067] = 0.3,		--['weapon_flare']
-
-	-- Miscellaneous
-	-- [883325847] = 0.3,		--['weapon_petrolcan']
-	-- [101631238] = 0.3,		--['weapon_fireextinguisher']
-	-- [-1168940174] = 0.3,		--['weapon_hazardcan']
+	[-1238556825] = 0.3		--['weapon_rayminigun']
 }
 
 CreateThread(function()
 	while true do
-		local ped = PlayerPedId()
-		if IsPedShooting(ped) and not IsPedDoingDriveby(ped) then
-			local _, wep = GetCurrentPedWeapon(ped)
+		if IsPedShooting(cache.ped) and not IsPedDoingDriveby(cache.ped) then
+			local _, wep = GetCurrentPedWeapon(cache.ped)
+
 			if recoils[wep] and recoils[wep] ~= 0 then
 				-- luacheck: ignore
 				local tv = 0
+
 				if GetFollowPedCamViewMode() ~= 4 then
 					repeat
 						Wait(0)
+
 						local p = GetGameplayCamRelativePitch()
-						SetGameplayCamRelativePitch(p+0.1, 0.2)
+
+						SetGameplayCamRelativePitch(p + 0.1, 0.2)
+
 						tv += 0.1
 					until tv >= recoils[wep]
 				else
 					repeat
 						Wait(0)
+
 						local p = GetGameplayCamRelativePitch()
+
 						if recoils[wep] > 0.1 then
-							SetGameplayCamRelativePitch(p+0.6, 1.2)
+							SetGameplayCamRelativePitch(p + 0.6, 1.2)
 							tv += 0.6
 						else
-							SetGameplayCamRelativePitch(p+0.016, 0.333)
+							SetGameplayCamRelativePitch(p + 0.016, 0.333)
+
 							tv += 0.1
 						end
 					until tv >= recoils[wep]
 				end
 			end
 		end
+
 		Wait(0)
 	end
 end)
