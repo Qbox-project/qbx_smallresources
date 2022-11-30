@@ -10,7 +10,7 @@ CreateThread(function()
 	end
 end)
 
-AddEventHandler("populationPedCreating", function(x, y, z)
+AddEventHandler('populationPedCreating', function(x, y, z)
 	Wait(500)	-- Give the entity some time to be created
 	local _, handle = GetClosestPed(x, y, z, 1.0) -- Get the entity handle
 	SetPedDropsWeaponsWhenDead(handle, false)
@@ -18,9 +18,9 @@ end)
 
 CreateThread(function() -- all these should only need to be called once
 	if Config.DisableAmbience then
-		StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
+		StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE')
 	end
-	SetAudioFlag("PoliceScannerDisabled", true)
+	SetAudioFlag('PoliceScannerDisabled', true)
 	SetGarbageTrucks(false)
 	SetCreateRandomCops(false)
 	SetCreateRandomCopsNotOnScenarios(false)
@@ -40,10 +40,9 @@ CreateThread(function()
 	local sleep
 	while true do
 		sleep = 1000
-		local ped = PlayerPedId()
-		if IsPedBeingStunned(ped, 0) then
+		if IsPedBeingStunned(cache.ped, 0) then
 			sleep = 0
-			SetPedMinGroundTimeForStungun(ped, math.random(4000, 7000))
+			SetPedMinGroundTimeForStungun(cache.ped, math.random(4000, 7000))
 		end
 		Wait(sleep)
 	end
@@ -66,10 +65,9 @@ CreateThread(function()
 	local sleep
 	while true do
 		sleep = 500
-		local ped = PlayerPedId()
-		local weapon = GetSelectedPedWeapon(ped)
+		local weapon = GetSelectedPedWeapon(cache.ped)
 		if weapon ~= `WEAPON_UNARMED` then
-			if IsPedArmed(ped, 6) then
+			if IsPedArmed(cache.ped, 6) then
 				sleep = 0
 				DisableControlAction(1, 140, true)
 				DisableControlAction(1, 141, true)
@@ -77,9 +75,9 @@ CreateThread(function()
 			end
 
 			if weapon == `WEAPON_FIREEXTINGUISHER` or weapon == `WEAPON_PETROLCAN` then
-				if IsPedShooting(ped) then
-					SetPedInfiniteAmmo(ped, true, `WEAPON_FIREEXTINGUISHER`)
-					SetPedInfiniteAmmo(ped, true, `WEAPON_PETROLCAN`)
+				if IsPedShooting(cache.ped) then
+					SetPedInfiniteAmmo(cache.ped, true, `WEAPON_FIREEXTINGUISHER`)
+					SetPedInfiniteAmmo(cache.ped, true, `WEAPON_PETROLCAN`)
 				end
 			end
 		end

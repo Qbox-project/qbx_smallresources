@@ -17,13 +17,12 @@ local function CheckInputRotation(cam, zoomvalue)
         local new_z = rotation.z + rightAxisX*-1.0*(speed_ud)*(zoomvalue+0.1)
         local new_x = math.max(math.min(20.0, rotation.x + rightAxisY*-1.0*(speed_lr)*(zoomvalue+0.1)), -89.5)
         SetCamRot(cam, new_x, 0.0, new_z, 2)
-        SetEntityHeading(PlayerPedId(),new_z)
+        SetEntityHeading(cache.ped,new_z)
     end
 end
 
 local function HandleZoom(cam)
-    local lPed = PlayerPedId()
-    if not IsPedSittingInAnyVehicle(lPed) then
+    if not IsPedSittingInAnyVehicle(cache.ped) then
         if IsControlJustPressed(0,241) then -- Scrollup
             fov = math.max(fov - zoomspeed, fov_min)
         end
@@ -56,18 +55,17 @@ end
 local cam = nil
 local scaleform = nil
 RegisterNetEvent('binoculars:Toggle', function()
-    local ped = PlayerPedId()
-    if IsPedInAnyVehicle(ped, true) then return end
+    if cache.vehicle then return end
     binoculars = not binoculars
 
     if binoculars then
-        TaskStartScenarioInPlace(ped, "WORLD_HUMAN_BINOCULARS", 0, true)
-        cam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-        AttachCamToEntity(cam, ped, 0.0,0.0,1.0, true)
-        SetCamRot(cam, 0.0,0.0, GetEntityHeading(ped), 2)
+        TaskStartScenarioInPlace(cache.ped, 'WORLD_HUMAN_BINOCULARS', 0, true)
+        cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        AttachCamToEntity(cam, cache.ped, 0.0,0.0,1.0, true)
+        SetCamRot(cam, 0.0,0.0, GetEntityHeading(cache.ped), 2)
         RenderScriptCams(true, false, 5000, true, false)
     else
-        ClearPedTasks(ped)
+        ClearPedTasks(cache.ped)
         RenderScriptCams(false, true, 1000, false, false)
         SetScaleformMovieAsNoLongerNeeded()
         DestroyCam(cam, false)
@@ -76,18 +74,18 @@ RegisterNetEvent('binoculars:Toggle', function()
 
     while binoculars do
 
-        scaleform = RequestScaleformMovie("BINOCULARS")
+        scaleform = RequestScaleformMovie('BINOCULARS')
         while not HasScaleformMovieLoaded(scaleform) do
             Wait(10)
         end
 
-        PushScaleformMovieFunction(scaleform, "SET_CAM_LOGO")
-        PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
-        PopScaleformMovieFunctionVoid()
+        BeginScaleformMovieMethod(scaleform, 'SET_CAM_LOGO')
+        ScaleformMovieMethodAddParamInt(0) -- 0 for nothing, 1 for LSPD logo
+        EndScaleformMovieMethod()
 
         if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
             binoculars = false
-            ClearPedTasks(ped)
+            ClearPedTasks(cache.ped)
             RenderScriptCams(false, true, 1000, false, false)
             SetScaleformMovieAsNoLongerNeeded()
             DestroyCam(cam, false)
