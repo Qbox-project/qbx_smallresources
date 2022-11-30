@@ -137,7 +137,7 @@ local function SmokeWeed()
             TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
             RelieveCount += 1
             if RelieveCount == 6 then
-                exports.dpemotes:CancelAnimation()
+                exports.scully_emotemenu:CancelAnimation()
                 if SmokingWeed then
                     SmokingWeed = false
                     RelieveCount = 0
@@ -150,7 +150,7 @@ end
 -- Events
 
 RegisterNetEvent('consumables:client:Eat', function(itemName)
-    exports.dpemotes:PlayByCommand('eat')
+    exports.scully_emotemenu:PlayByCommand('eat')
     QBCore.Functions.Progressbar('eat_something', 'Eating..', 5000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -158,14 +158,14 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
 		disableCombat = true,
     }, {}, {}, {}, function() -- Done
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
-        exports.dpemotes:CancelAnimation()
+        exports.scully_emotemenu:CancelAnimation()
         TriggerServerEvent('consumables:server:addHunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + ConsumablesEat[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
     end)
 end)
 
 RegisterNetEvent('consumables:client:Drink', function(itemName)
-    exports.dpemotes:PlayByCommand('drink')
+    exports.scully_emotemenu:PlayByCommand('drink')
     QBCore.Functions.Progressbar('drink_something', 'Drinking..', 5000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
@@ -173,20 +173,20 @@ RegisterNetEvent('consumables:client:Drink', function(itemName)
 		disableCombat = true,
     }, {}, {}, {}, function() -- Done
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
-        exports.dpemotes:CancelAnimation()
+        exports.scully_emotemenu:CancelAnimation()
         TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + ConsumablesDrink[itemName])
     end)
 end)
 
 RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
-    exports.dpemotes:PlayByCommand('beer7')
+    exports.scully_emotemenu:PlayByCommand('beer7')
     QBCore.Functions.Progressbar('snort_coke', 'Drinking liquor..', math.random(3000, 6000), false, true, {
         disableMovement = false,
         disableCarMovement = false,
         disableMouse = false,
         disableCombat = true,
     }, {}, {}, {}, function() -- Done
-        exports.dpemotes:CancelAnimation()
+        exports.scully_emotemenu:CancelAnimation()
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
         TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + ConsumablesAlcohol[itemName])
@@ -199,7 +199,7 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         end
 
     end, function() -- Cancel
-        exports.dpemotes:CancelAnimation()
+        exports.scully_emotemenu:CancelAnimation()
         QBCore.Functions.Notify('Cancelled..', 'error')
     end)
 end)
@@ -322,7 +322,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
 		disableCombat = true,
     }, {}, {}, {}, function() -- Done
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['joint'], 'remove')
-        exports.dpemotes:PlayByCommand('joint')
+        exports.scully_emotemenu:PlayByCommand('joint')
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         SmokeWeed()
     end)
