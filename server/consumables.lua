@@ -76,7 +76,10 @@ QBCore.Commands.Add("resetarmor", "Resets Vest (Police Only)", {}, false, functi
     if Player.PlayerData.job.name == "police" then
         TriggerClientEvent("consumables:client:ResetArmor", source)
     else
-        TriggerClientEvent('QBCore:Notify', source,  "For Police Officer Only", "error")
+        TriggerClientEvent('ox_lib:notify', source, {
+            description = "For Police Officer Only",
+            type = 'error'
+        })
     end
 end)
 

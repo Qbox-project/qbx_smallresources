@@ -10,7 +10,9 @@ QBCore.Functions.CreateCallback('nos:GetNosLoadedVehs', function(_, cb)
 end)
 
 QBCore.Commands.Add("id", "Check Your ID #", {}, false, function(source)
-    TriggerClientEvent('QBCore:Notify', source,  "ID: " .. source)
+    TriggerClientEvent('ox_lib:notify', source, {
+        description = "ID: " .. source
+    })
 end)
 
 QBCore.Functions.CreateUseableItem("harness", function(source, item)
@@ -56,14 +58,19 @@ RegisterNetEvent('qb-carwash:server:washCar', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
 
-    if not Player then return end
+    if not Player then
+        return
+    end
 
     if Player.Functions.RemoveMoney('cash', Config.DefaultPrice, "car-washed") then
         TriggerClientEvent('qb-carwash:client:washCar', src)
     elseif Player.Functions.RemoveMoney('bank', Config.DefaultPrice, "car-washed") then
         TriggerClientEvent('qb-carwash:client:washCar', src)
     else
-        TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error')
+        TriggerClientEvent('ox_lib:notify', src, {
+            description = 'You dont have enough money..',
+            type = 'error'
+        })
     end
 end)
 
