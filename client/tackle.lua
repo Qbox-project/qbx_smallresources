@@ -12,7 +12,7 @@ local function TackleAnim()
 
             Wait(250)
 
-            ClearPedTasksImmediately(ped)
+            ClearPedTasksImmediately(cache.ped)
             SetPedToRagdoll(cache.ped, 150, 150, 0, false, false, false)
         end
     end
