@@ -4,14 +4,14 @@ local checkUser = {}
 local previousPos = {}
 local time = {}
 local timeMinutes = {
-    ['900'] = 'minutes',
-    ['600'] = 'minutes',
-    ['300'] = 'minutes',
-    ['150'] = 'minutes',
-    ['60'] = 'minutes',
-    ['30'] = 'seconds',
-    ['20'] = 'seconds',
-    ['10'] = 'seconds'
+    [900] = 'minutes',
+    [600] = 'minutes',
+    [300] = 'minutes',
+    [150] = 'minutes',
+    [60] = 'minutes',
+    [30] = 'seconds',
+    [20] = 'seconds',
+    [10] = 'seconds'
 }
 
 local function updateCheckUser(source)
@@ -45,6 +45,7 @@ CreateThread(function()
     for _, v in pairs(GetPlayers()) do
         v = tonumber(v)
         loggedInPlayers[v] = Player(v).state.isLoggedIn
+        checkUser[v] = true
         if loggedInPlayers[v] then
             updateCheckUser(v)
         end
@@ -55,10 +56,6 @@ CreateThread(function()
             -- Events make source a number, GetPlayers() returns it as a string
             v = tonumber(v) --[[@as number]]
 
-            if checkUser[v] == nil then
-                checkUser[v] = true
-            end
-
             if loggedInPlayers[v] and checkUser[v] then
                 local playerPed = GetPlayerPed(v)
                 local currentPos = GetEntityCoords(playerPed)
@@ -68,7 +65,7 @@ CreateThread(function()
 
                 if previousPos[v] and currentPos == previousPos[v] then
                     if time[v] > 0 then
-                        local _type = timeMinutes[tostring(time[v])]
+                        local _type = timeMinutes[time[v]]
                         if _type == 'minutes' then
                             QBCore.Functions.Notify(v, 'You are AFK and will be kicked in ' .. math.ceil(time[v] / 60) .. ' minute(s)!', 'error', 10000)
                         elseif _type == 'seconds' then
@@ -78,6 +75,8 @@ CreateThread(function()
                     else
                         DropPlayer(v --[[@as string]], 'You have been kicked for being AFK')
                     end
+                else
+                    time[v] = Config.TimeUntilAFKKick
                 end
 
                 previousPos[v] = currentPos
