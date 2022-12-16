@@ -253,8 +253,8 @@ end)
 -- Register Key
 
 RegisterCommand('toggleseatbelt', function()
-    if not IsPedInAnyVehicle(cache.vehicle, false) or IsPauseMenuActive() then return end
-    local class = GetVehicleClass(GetVehiclePedIsUsing(cache.vehicle))
+    if not cache.vehicle or IsPauseMenuActive() then return end
+    local class = GetVehicleClass(cache.vehicle)
     if class == 8 or class == 13 or class == 14 then return end
     ToggleSeatbelt()
 end, false)
