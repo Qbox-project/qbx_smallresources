@@ -2,9 +2,9 @@
 
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local playersConnected = GlobalState.Players
+local playersConnected = GlobalState.PlayerCount
 
-AddStateBagChangeHandler('Players', nil, function(bagName, _, value)
+AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
     if bagName == "global" and value then
         playersConnected = value
     end
