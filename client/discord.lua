@@ -5,9 +5,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local playersConnected = GlobalState.PlayerCount
 
 AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
-    if bagName == "global" and value then
-        playersConnected = value
-    end
+     if bagName ~= "global" or not value then return end
+     playersConnected = value
 end)
 
 CreateThread(function()
