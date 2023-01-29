@@ -63,12 +63,3 @@ RegisterNetEvent('qb-carwash:server:washCar', function()
         TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error')
     end
 end)
-
-QBCore.Functions.CreateCallback('smallresources:server:GetCurrentPlayers', function(_, cb)
-    local TotalPlayers = 0
-    local players = QBCore.Functions.GetPlayers()
-    for _ in pairs(players) do
-        TotalPlayers += 1
-    end
-    cb(TotalPlayers)
-end)
