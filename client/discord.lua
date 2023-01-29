@@ -4,7 +4,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 local playersConnected = GlobalState.Players
 
-AddStateBagChangeHandler('Players', nil, function(bagName, _, value, _, _)
+AddStateBagChangeHandler('Players', nil, function(bagName, _, value)
     if bagName == "global" and value then
         playersConnected = value
     end
