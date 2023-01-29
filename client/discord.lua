@@ -2,6 +2,14 @@
 
 local QBCore = exports['qb-core']:GetCoreObject()
 
+local playersConnected = GlobalState.PlayerCount
+
+AddStateBagChangeHandler('PlayerCount', nil, function(bagName, _, value)
+    if bagName == "global" and value then
+        playersConnected = value
+    end
+end)
+
 CreateThread(function()
     while true do
         -- This is the Application ID (Replace this with you own)
@@ -21,9 +29,7 @@ CreateThread(function()
         -- Here you can add hover text for the 'small' icon.
         SetDiscordRichPresenceAssetSmallText('This is a lsmall icon with text')
 
-        QBCore.Functions.TriggerCallback('smallresources:server:GetCurrentPlayers', function(result)
-            SetRichPresence('Players: '..result..'/64')
-        end)
+        SetRichPresence(('Players %s/64'):format(playersConnected))
 
         -- (26-02-2021) New Native:
 
