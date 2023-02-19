@@ -23,8 +23,8 @@ RegisterNetEvent('equip:harness', function(item)
 
     if not Player then return end
 
-    if not item.metadata.harnessuses == nil then
-        item.metadata.harnessuses = 20
+    if item.metadata.harnessuses == nil then
+        item.metadata.harnessuses = 19
         exports.ox_inventory:SetMetadata(src, item.slot, item.metadata)
     elseif item.metadata.harnessuses == 1 then
         exports.ox_inventory:RemoveItem(src, 'harness', 1)
