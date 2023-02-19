@@ -16,6 +16,14 @@ local modifierDensity = true
 local lastVehicle = nil
 local veloc
 
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    if GetResourceState('ox_inventory'):match("start") then
+        exports.ox_inventory:displayMetadata({
+            harnessuses = "Uses",
+        })
+    end
+end)
+
 -- Functions
 
 local function EjectFromVehicle()
