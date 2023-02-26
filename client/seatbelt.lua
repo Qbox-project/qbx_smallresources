@@ -16,6 +16,14 @@ local modifierDensity = true
 local lastVehicle = nil
 local veloc
 
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    if GetResourceState('ox_inventory'):match("start") then
+        exports.ox_inventory:displayMetadata({
+            harnessuses = "Uses",
+        })
+    end
+end)
+
 -- Functions
 
 local function EjectFromVehicle()
@@ -220,30 +228,38 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
     if cache.vehicle and class ~= 8 and class ~= 13 and class ~= 14 then
         if not harnessOn then
             LocalPlayer.state:set('inv_busy', true, true)
-            QBCore.Functions.Progressbar('harness_equip', 'Attaching Race Harness', 5000, false, true, {
-                disableMovement = false,
-                disableCarMovement = false,
-                disableMouse = false,
-                disableCombat = true,
-            }, {}, {}, {}, function()
+            if lib.progressCircle({
+                duration = 5000,
+                label = 'Attaching Race Harness',
+                position = 'bottom',
+                useWhileDead = false,
+                canCancel = true,
+                disable = {
+                    combat = true
+                }
+            }) then
                 LocalPlayer.state:set('inv_busy', false, true)
                 ToggleHarness()
                 TriggerServerEvent('equip:harness', ItemData)
-            end)
-            harnessHp = ItemData.info.uses
+            end
+            harnessHp = ItemData.metadata.harnessuses
             harnessData = ItemData
             TriggerEvent('hud:client:UpdateHarness', harnessHp)
         else
             LocalPlayer.state:set('inv_busy', true, true)
-            QBCore.Functions.Progressbar('harness_equip', 'Removing Race Harness', 5000, false, true, {
-                disableMovement = false,
-                disableCarMovement = false,
-                disableMouse = false,
-                disableCombat = true,
-            }, {}, {}, {}, function()
+            if lib.progressCircle({
+                duration = 5000,
+                label = 'Removing Race Harness',
+                position = 'bottom',
+                useWhileDead = false,
+                canCancel = true,
+                disable = {
+                    combat = true
+                }
+            }) then
                 LocalPlayer.state:set('inv_busy', false, true)
                 ToggleHarness()
-            end)
+            end
         end
     else
         QBCore.Functions.Notify('You\'re not in a car.', 'error')
