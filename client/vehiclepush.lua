@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 
 local Vehicle = {
     Coords = nil,
@@ -24,7 +24,7 @@ end
 
 CreateThread(function()
     while true do
-        Wait(500)
+        Wait(1000)
         local vehicle = QBCore.Functions.GetClosestVehicle()
         if vehicle and vehicle ~= 0 then
             local ped = PlayerPedId()

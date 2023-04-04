@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 
 ----------- / alcohol
 for cAl in pairs(ConsumablesAlcohol) do

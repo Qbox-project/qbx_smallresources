@@ -151,6 +151,6 @@ CreateThread(function()
 				end
 			end
 		end
-		Wait(0)
+		Wait(350)
 	end
 end)

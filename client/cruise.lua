@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 local CruisedSpeed = 0
 local vehicleClasses = {
     [0] = true,

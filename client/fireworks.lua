@@ -1,4 +1,4 @@
-local QBCore = exports['qb-core']:GetCoreObject()
+local QBCore = exports['qbx-core']:GetCoreObject()
 local fireworkTime = 0
 local fireworkLoc = nil
 
@@ -100,7 +100,7 @@ CreateThread(function()
         end
     end
     while true do
-        Wait(0)
+        Wait(700)
         if fireworkTime > 0 and fireworkLoc then
             DrawText3Ds(fireworkLoc.x, fireworkLoc.y, fireworkLoc.z, 'Firework over ~r~'..fireworkTime)
         end
