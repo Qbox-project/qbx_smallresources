@@ -266,7 +266,6 @@ RegisterNetEvent('consumables:server:addHunger', function(amount)
     TriggerClientEvent('hud:client:UpdateNeeds', source, amount, Player.PlayerData.metadata.thirst)
 end)
 
-
 --Id Card
 QBCore.Functions.CreateUseableItem("id_card", function(source, item)
 	local playerPed = GetPlayerPed(source)
