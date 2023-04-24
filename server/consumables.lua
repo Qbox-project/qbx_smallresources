@@ -265,3 +265,83 @@ RegisterNetEvent('consumables:server:addHunger', function(amount)
     Player.Functions.SetMetaData('hunger', amount)
     TriggerClientEvent('hud:client:UpdateNeeds', source, amount, Player.PlayerData.metadata.thirst)
 end)
+
+
+--Id Card
+QBCore.Functions.CreateUseableItem("id_card", function(source, item)
+	local playerPed = GetPlayerPed(source)
+	local playerCoords = GetEntityCoords(playerPed)
+	local players = QBCore.Functions.GetPlayers()
+	for _, v in pairs(players) do
+		local targetPed = GetPlayerPed(v)
+		local dist = #(playerCoords - GetEntityCoords(targetPed))
+		if dist < 3.0 then
+			TriggerClientEvent('chat:addMessage', v,  {
+					template = '<div class="chat-message advert"><div class="chat-message-body"><strong>{0}:</strong><br><br> <strong>Civ ID:</strong> {1} <br><strong>First Name:</strong> {2} <br><strong>Last Name:</strong> {3} <br><strong>Birthdate:</strong> {4} <br><strong>Gender:</strong> {5} <br><strong>Nationality:</strong> {6}</div></div>',
+					args = {
+						"ID Card",
+						item.metadata.citizenid,
+						item.metadata.firstname,
+						item.metadata.lastname,
+						item.metadata.birthdate,
+						item.metadata.gender,
+						item.metadata.nationality
+					}
+				}
+			)
+		end
+	end
+end)
+
+--Driver license
+QBCore.Functions.CreateUseableItem("driver_license", function(source, item)
+	local playerPed = GetPlayerPed(source)
+	local playerCoords = GetEntityCoords(playerPed)
+	local players = QBCore.Functions.GetPlayers()
+	for _, v in pairs(players) do
+		local targetPed = GetPlayerPed(v)
+		local dist = #(playerCoords - GetEntityCoords(targetPed))
+		if dist < 3.0 then
+			TriggerClientEvent('chat:addMessage', v,  {
+                template = '<div class="chat-message advert"><div class="chat-message-body"><strong>{0}:</strong><br><br> <strong>Civ ID:</strong> {1} <br><strong>First Name:</strong> {2} <br><strong>Last Name:</strong> {3} <br><strong>Birthdate:</strong> {4} <br><strong>Gender:</strong> {5} <br><strong>Nationality:</strong> {6} <br><strong>Type:</strong> {7} </div></div>',
+                args = {
+						"Drivers License",
+						item.metadata.citizenid,
+						item.metadata.firstname,
+						item.metadata.lastname,
+						item.metadata.birthdate,
+						item.metadata.gender,
+						item.metadata.nationality,
+                        item.metadata.type,
+					}
+				}
+			)
+		end
+	end
+end)
+
+--Weapon License
+QBCore.Functions.CreateUseableItem("weaponlicense", function(source, item)
+	local playerPed = GetPlayerPed(source)
+	local playerCoords = GetEntityCoords(playerPed)
+	local players = QBCore.Functions.GetPlayers()
+	for _, v in pairs(players) do
+		local targetPed = GetPlayerPed(v)
+		local dist = #(playerCoords - GetEntityCoords(targetPed))
+		if dist < 3.0 then
+			TriggerClientEvent('chat:addMessage', v,  {
+                template = '<div class="chat-message advert"><div class="chat-message-body"><strong>{0}:</strong><br><br> <strong>Civ ID:</strong> {1} <br><strong>First Name:</strong> {2} <br><strong>Last Name:</strong> {3} <br><strong>Birthdate:</strong> {4} <br><strong>Gender:</strong> {5} <br><strong>Nationality:</strong> {6}</div></div>',
+                args = {
+						"Weapon License",
+						item.metadata.citizenid,
+						item.metadata.firstname,
+						item.metadata.lastname,
+						item.metadata.birthdate,
+						item.metadata.gender,
+						item.metadata.nationality,
+					}
+				}
+			)
+		end
+	end
+end)
