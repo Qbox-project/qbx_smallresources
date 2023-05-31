@@ -5,10 +5,6 @@ RegisterNetEvent('tackle:server:TacklePlayer', function(playerId)
     TriggerClientEvent('tackle:client:GetTackled', playerId)
 end)
 
-QBCore.Functions.CreateCallback('nos:GetNosLoadedVehs', function(_, cb)
-    cb(VehicleNitrous)
-end)
-
 QBCore.Commands.Add('id', 'Check Your ID #', {}, false, function(source)
     TriggerClientEvent('QBCore:Notify', source,  'ID: '..source)
 end)
