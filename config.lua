@@ -14,6 +14,7 @@ Config.DefaultPrice = 20 -- Default price for the carwash
 Config.DirtLevel = 0.1 -- Threshold for the dirt level to be counted as dirty
 Config.DisableAmbience = false -- Disabled distance sirens, distance car alarms, etc
 Config.TimeUntilAFKKick = 1800 -- The amount of seconds it takes for you to stand AFK and get kicked
+Config.Trains = false -- Enables trains around LS and Sandy
 
 Config.IgnoreGroupsForAFK = { -- The groups to ignore when checking for AFK activity
     ['mod'] = true,
