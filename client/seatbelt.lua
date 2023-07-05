@@ -227,7 +227,7 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
     local class = GetVehicleClass(cache.vehicle)
     if cache.vehicle and class ~= 8 and class ~= 13 and class ~= 14 then
         if not harnessOn then
-            LocalPlayer.state:set('inv_busy', true, true)
+            LocalPlayer.state:set('invBusy', true, true)
             if lib.progressCircle({
                 duration = 5000,
                 label = 'Attaching Race Harness',
@@ -238,7 +238,7 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
                     combat = true
                 }
             }) then
-                LocalPlayer.state:set('inv_busy', false, true)
+                LocalPlayer.state:set('invBusy', false, true)
                 ToggleHarness()
                 TriggerServerEvent('equip:harness', ItemData)
             end
@@ -246,7 +246,7 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
             harnessData = ItemData
             TriggerEvent('hud:client:UpdateHarness', harnessHp)
         else
-            LocalPlayer.state:set('inv_busy', true, true)
+            LocalPlayer.state:set('invBusy', true, true)
             if lib.progressCircle({
                 duration = 5000,
                 label = 'Removing Race Harness',
@@ -257,7 +257,7 @@ RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
                     combat = true
                 }
             }) then
-                LocalPlayer.state:set('inv_busy', false, true)
+                LocalPlayer.state:set('invBusy', false, true)
                 ToggleHarness()
             end
         end
