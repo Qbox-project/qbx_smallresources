@@ -105,7 +105,7 @@ local function logPayload(payload)
                 requestDelay = resetDelay * 1000 / 10
             end
         end
-    end, 'POST', json.encode({content = payload.tag and '@everyone' or nil, embeds = {payload.embed}}), { ['Content-Type'] = 'application/json' })
+    end, 'POST', json.encode({content = payload.tag and '@everyone' or nil, embeds = payload.embed}), { ['Content-Type'] = 'application/json' })
 end
 
 ---Log Queue
