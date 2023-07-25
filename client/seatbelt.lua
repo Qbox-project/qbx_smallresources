@@ -59,7 +59,7 @@ local function seatbelt()
     while cache.vehicle do
         local sleep = 1000
         if seatbeltOn or harnessOn then
-            sleep = 10
+            sleep = 0
             DisableControlAction(0, 75, true)
             DisableControlAction(27, 75, true)
         end
