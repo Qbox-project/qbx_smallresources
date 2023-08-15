@@ -14,7 +14,6 @@ Base scripts for QB-Core Framework :building_construction:
 - Useable binoculars
 - Weapon draw animations (normal/holster)
 - Ability to add teleport markers (from a place to another place)
-- Taking hostage
 - Pointing animation with finger (by pressing "B")
 - Seatbelt and cruise control
 - Useable parachute
