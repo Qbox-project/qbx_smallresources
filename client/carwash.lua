@@ -47,7 +47,8 @@ CreateThread(function()
         local dirtLevel = GetVehicleDirtLevel(cache.vehicle)
         local sleep = 1000
         if IsPedInAnyVehicle(cache.ped, false) then
-            for _, carWashCoords in ipairs(Config.CarWash.locations) do
+            for i = 1, #Config.CarWash.locations do
+                local carWashCoords = Config.CarWash.locations[i]
                 local dist = #(playerPos - carWashCoords)
                 if dist <= 7.5 and driver then
                     sleep = 0
