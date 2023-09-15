@@ -41,17 +41,15 @@ RegisterNetEvent('qb-carwash:client:washCar', function()
 end)
 
 CreateThread(function()
-    local sleep
     while true do
-        local PlayerPos = GetEntityCoords(cache.ped)
-        local Driver = cache.seat == -1
+        local playerPos = GetEntityCoords(cache.ped)
+        local driver = cache.seat == -1
         local dirtLevel = GetVehicleDirtLevel(cache.vehicle)
-        sleep = 1000
+        local sleep = 1000
         if IsPedInAnyVehicle(cache.ped, false) then
-            for i = 1, #Config.CarWash.locations do
-                local carWashCoords = Config.CarWash.locations[i].coords
-                local dist = #(PlayerPos - vector3(carWashCoords.x, carWashCoords.y, carWashCoords.z))
-                if dist <= 7.5 and Driver then
+            for _, carWashCoords in ipairs(Config.CarWash.locations) do
+                local dist = #(playerPos - carWashCoords)
+                if dist <= 7.5 and driver then
                     sleep = 0
                     if not washingVehicle then
                         DrawText3Ds(carWashCoords.x, carWashCoords.y, carWashCoords.z, '~g~E~w~ - Wash the car ($'..Config.CarWash.defaultPrice..')')

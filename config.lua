@@ -167,10 +167,10 @@ Config.CarWash = {
     dirtLevel = 0.1, -- threshold for the dirt level to be counted as dirty
     defaultPrice = 20, -- default price for carwash
     locations = {
-        [1] = {label = 'Hands Free Carwash', coords = vector3(25.29, -1391.96, 29.33)},
-        [2] = {label = 'Hands Free Carwash', coords = vector3(174.18, -1736.66, 29.35)},
-        [3] = {label = 'Hands Free Carwash', coords = vector3(-74.56, 6427.87, 31.44)},
-        [4] = {label = 'Hands Free Carwash', coords = vector3(1363.22, 3592.7, 34.92)},
-        [5] = {label = 'Hands Free Carwash', coords = vector3(-699.62, -932.7, 19.01)}
+        vector3(25.29, -1391.96, 29.33),
+        vector3(174.18, -1736.66, 29.35),
+        vector3(-74.56, 6427.87, 31.44),
+        vector3(1363.22, 3592.7, 34.92),
+        vector3(-699.62, -932.7, 19.01)
     }
 }
