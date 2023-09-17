@@ -18,45 +18,51 @@ end
 
 RegisterNetEvent('qb-carwash:client:washCar', function()
     washingVehicle = true
-    QBCore.Functions.Progressbar('search_cabin', 'Vehicle is being washed ..', math.random(4000, 8000), false, true, {
-        disableMovement = true,
-        disableCarMovement = true,
-        disableMouse = false,
-        disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = math.random(4000, 8000),
+        label = 'Vehicle is being washed...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = true,
+            car = true,
+            mouse = false,
+            combat = true
+        },
+    }) then -- if completed
         SetVehicleDirtLevel(cache.vehicle, 0.0)
         SetVehicleUndriveable(cache.vehicle, false)
         WashDecalsFromVehicle(cache.vehicle, 1.0)
         washingVehicle = false
-    end, function() -- Cancel
+    else -- if cancel
         QBCore.Functions.Notify('Washing canceled ..', 'error')
         washingVehicle = false
-    end)
+    end
 end)
 
 CreateThread(function()
-    local sleep
     while true do
-        local PlayerPos = GetEntityCoords(cache.ped)
-        local Driver = cache.seat == -1
+        local playerPos = GetEntityCoords(cache.ped)
+        local driver = cache.seat == -1
         local dirtLevel = GetVehicleDirtLevel(cache.vehicle)
-        sleep = 1000
+        local sleep = 1000
         if IsPedInAnyVehicle(cache.ped, false) then
-            for k in pairs(Config.CarWash) do
-                local dist = #(PlayerPos - vector3(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z']))
-                if dist <= 7.5 and Driver then
+            for i = 1, #Config.CarWash.locations do
+                local carWashCoords = Config.CarWash.locations[i]
+                local dist = #(playerPos - carWashCoords)
+                if dist <= 7.5 and driver then
                     sleep = 0
                     if not washingVehicle then
-                        DrawText3Ds(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z'], '~g~E~w~ - Washing car ($'..Config.DefaultPrice..')')
+                        DrawText3Ds(carWashCoords.x, carWashCoords.y, carWashCoords.z, '~g~E~w~ - Wash the car ($'..Config.CarWash.defaultPrice..')')
                         if IsControlJustPressed(0, 38) then
-                            if dirtLevel > Config.DirtLevel then
+                            if dirtLevel > Config.CarWash.dirtLevel then
                                 TriggerServerEvent('qb-carwash:server:washCar')
                             else
                                 QBCore.Functions.Notify('The vehicle isn\'t dirty', 'error')
                             end
                         end
                     else
-                        DrawText3Ds(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z'], 'The car wash is not available ..')
+                        DrawText3Ds(carWashCoords.x, carWashCoords.y, carWashCoords.z, 'The car wash is not available...')
                     end
                 end
             end
@@ -66,15 +72,15 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    for k in pairs(Config.CarWash) do
-        local carWash = AddBlipForCoord(Config.CarWash[k]['coords']['x'], Config.CarWash[k]['coords']['y'], Config.CarWash[k]['coords']['z'])
+    for k in pairs(Config.CarWash.locations) do
+        local carWash = AddBlipForCoord(Config.CarWash.locations[k].coords.x, Config.CarWash.locations[k].coords.y, Config.CarWash.locations[k].coords.z)
         SetBlipSprite (carWash, 100)
         SetBlipDisplay(carWash, 4)
         SetBlipScale  (carWash, 0.75)
         SetBlipAsShortRange(carWash, true)
         SetBlipColour(carWash, 37)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentSubstringPlayerName(Config.CarWash[k]['label'])
+        AddTextComponentSubstringPlayerName(Config.CarWash.locations[k].label)
         EndTextCommandSetBlipName(carWash)
     end
 end)
