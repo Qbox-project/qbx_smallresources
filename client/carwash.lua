@@ -80,7 +80,7 @@ CreateThread(function()
         SetBlipAsShortRange(carWash, true)
         SetBlipColour(carWash, 37)
         BeginTextCommandSetBlipName('STRING')
-        AddTextComponentSubstringPlayerName(Config.CarWash.locations[k].label)
+        AddTextComponentSubstringPlayerName('Car Wash')
         EndTextCommandSetBlipName(carWash)
     end
 end)
