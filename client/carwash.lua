@@ -73,7 +73,7 @@ end)
 
 CreateThread(function()
     for k in pairs(Config.CarWash.locations) do
-        local carWash = AddBlipForCoord(Config.CarWash.locations[k].coords.x, Config.CarWash.locations[k].coords.y, Config.CarWash.locations[k].coords.z)
+        local carWash = AddBlipForCoord(Config.CarWash.locations[k].x, Config.CarWash.locations[k].y, Config.CarWash.locations[k].z)
         SetBlipSprite (carWash, 100)
         SetBlipDisplay(carWash, 4)
         SetBlipScale  (carWash, 0.75)
