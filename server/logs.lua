@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local logQueue, isProcessingQueue, logCount = {}, false, 0
 local lastRequestTime, requestDelay = 0, 0
 
@@ -189,6 +188,6 @@ exports('CreateLog', CreateLog)
 ---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
 RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
 
-QBCore.Commands.Add('testwebhook', 'Test Your Discord Webhook For Logs (God Only)', {}, false, function()
+lib.addCommand('testwebhook', {help = 'Test Your Discord Webhook For Logs (God Only)', restricted = 'group.god'}, function()
     CreateLog('testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
-end, 'god')
+end)

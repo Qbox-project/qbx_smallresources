@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local suicideWeapons = {
 	`WEAPON_PISTOL`,
 	`WEAPON_PISTOL_MK2`,

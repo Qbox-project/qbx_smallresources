@@ -15,7 +15,7 @@ lib.addKeybind({
             self:disable(true)
             TriggerServerEvent('tackle:server:TacklePlayer', GetPlayerServerId(targetId))
             lib.requestAnimDict('swimming@first_person@diving')
-            TaskPlayAnim(cache.ped, 'swimming@first_person@diving', 'dive_run_fwd_-45_loop' ,3.0, 3.0, -1, 49, 0, false, false, false)
+            TaskPlayAnim(cache.ped, 'swimming@first_person@diving', 'dive_run_fwd_-45_loop', 3.0, 3.0, -1, 49, 0, false, false, false)
             Wait(250)
             ClearPedTasks(cache.ped)
             SetPedToRagdoll(cache.ped, 150, 150, 0, 0, 0, 0)

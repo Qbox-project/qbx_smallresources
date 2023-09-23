@@ -11,9 +11,9 @@ CreateThread(function()
 end)
 
 AddEventHandler('populationPedCreating', function(x, y, z)
-	Wait(500)	-- Give the entity some time to be created
-	local _, handle = GetClosestPed(x, y, z, 1.0) -- Get the entity handle
-	SetPedDropsWeaponsWhenDead(handle, false)
+    Wait(500)    -- Give the entity some time to be created
+    local _, handle = GetClosestPed(vec3(x, y, z), {}) -- Get the entity handle
+    SetPedDropsWeaponsWhenDead(handle, false)
 end)
 
 CreateThread(function() -- all these should only need to be called once

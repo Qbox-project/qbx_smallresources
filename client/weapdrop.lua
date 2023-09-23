@@ -87,6 +87,6 @@ local disabledPickups = {
 
 CreateThread(function()
     for _, hash in pairs(disabledPickups) do
-        ToggleUsePickupsForPlayer(PlayerId(), hash, false)
+        ToggleUsePickupsForPlayer(cache.playerId, hash, false)
     end
 end)

@@ -1,18 +1,3 @@
-local function DrawText3Ds(x, y, z, text)
-	SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(true)
-    SetTextColour(255, 255, 255, 215)
-    BeginTextCommandDisplayText('STRING')
-    SetTextCentre(true)
-    AddTextComponentSubstringPlayerName(text)
-    SetDrawOrigin(x,y,z, 0)
-    EndTextCommandDisplayText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
-
 CreateThread(function()
     local sleep
     while true do
@@ -28,7 +13,7 @@ CreateThread(function()
                     DrawMarker(2, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 255, false, false, 0, true, nil, nil, false)
 
                     if dist < 1 then
-                        DrawText3Ds(v.coords.x, v.coords.y, v.coords.z, v.drawText)
+                        DrawText3D(v.drawText, v.coords)
                         if IsControlJustReleased(0, 51) then
                             if k == 1 then
                                 if v.AllowVehicle then

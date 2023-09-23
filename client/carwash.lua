@@ -1,20 +1,4 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local washingVehicle = false
-
-local function DrawText3Ds(x, y, z, text)
-	SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(true)
-    SetTextColour(255, 255, 255, 215)
-    BeginTextCommandDisplayText('STRING')
-    SetTextCentre(true)
-    AddTextComponentSubstringPlayerName(text)
-    SetDrawOrigin(x,y,z, 0)
-    EndTextCommandDisplayText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
 
 RegisterNetEvent('qb-carwash:client:washCar', function()
     washingVehicle = true
@@ -35,7 +19,7 @@ RegisterNetEvent('qb-carwash:client:washCar', function()
         WashDecalsFromVehicle(cache.vehicle, 1.0)
         washingVehicle = false
     else -- if cancel
-        QBCore.Functions.Notify('Washing canceled ..', 'error')
+        QBCore.Functions.Notify('Washing canceled...', 'error')
         washingVehicle = false
     end
 end)
@@ -53,7 +37,7 @@ CreateThread(function()
                 if dist <= 7.5 and driver then
                     sleep = 0
                     if not washingVehicle then
-                        DrawText3Ds(carWashCoords.x, carWashCoords.y, carWashCoords.z, '~g~E~w~ - Wash the car ($'..Config.CarWash.defaultPrice..')')
+                        DrawText3D('~g~E~w~ - Wash the car ($'..Config.CarWash.defaultPrice..')', carWashCoords)
                         if IsControlJustPressed(0, 38) then
                             if dirtLevel > Config.CarWash.dirtLevel then
                                 TriggerServerEvent('qb-carwash:server:washCar')
@@ -62,7 +46,7 @@ CreateThread(function()
                             end
                         end
                     else
-                        DrawText3Ds(carWashCoords.x, carWashCoords.y, carWashCoords.z, 'The car wash is not available...')
+                        DrawText3D('The car wash is not available...', carWashCoords)
                     end
                 end
             end

@@ -1,7 +1,5 @@
 -- Variables
-
-local QBCore = exports['qbx-core']:GetCoreObject()
-local alcoholCount, ParachuteEquiped, currentVest, currentVestTexture, healing, SmokingWeed, RelieveCount = 0, false, nil, nil, false, false, 0
+local alcoholCount, parachuteEquipped, currentVest, currentVestTexture, healing, smokingWeed, relieveCount = 0, false, nil, nil, false, false, 0
 
 -- Functions
 
@@ -11,7 +9,7 @@ local function EquipParachuteAnim()
     TaskPlayAnim(cache.ped, 'clothingshirt', 'try_shirt_positive_d', 8.0, 1.0, -1, 49, 0, false, false, false)
 end
 
-local function HealOxy()
+local function healOxy()
     if not healing then
         healing = true
     else
@@ -27,7 +25,7 @@ local function HealOxy()
     healing = false
 end
 
-local function TrevorEffect()
+local function trevorEffect()
     AnimpostfxPlay('DrugsTrevorClownsFightIn', 3.0, 0)
     Wait(3000)
     AnimpostfxPlay('DrugsTrevorClownsFight', 3.0, 0)
@@ -38,30 +36,30 @@ local function TrevorEffect()
 	AnimpostfxStop('DrugsTrevorClownsFightOut')
 end
 
-local function MethBagEffect()
+local function methBagEffect()
     local startStamina = 8
-    TrevorEffect()
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.49)
+    trevorEffect()
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.49)
     while startStamina > 0 do
         Wait(1000)
         if math.random(5, 100) < 10 then
-            RestorePlayerStamina(PlayerId(), 1.0)
+            RestorePlayerStamina(cache.playerId, 1.0)
         end
         startStamina = startStamina - 1
         if math.random(5, 100) < 51 then
-            TrevorEffect()
+            trevorEffect()
         end
     end
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
 
-local function EcstasyEffect()
+local function ecstasyEffect()
     local startStamina = 30
     SetFlash(0, 0, 500, 7000, 500)
     while startStamina > 0 do
         Wait(1000)
         startStamina -= 1
-        RestorePlayerStamina(PlayerId(), 1.0)
+        RestorePlayerStamina(cache.playerId, 1.0)
         if math.random(1, 100) < 51 then
             SetFlash(0, 0, 500, 7000, 500)
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08)
@@ -72,7 +70,7 @@ local function EcstasyEffect()
     end
 end
 
-local function AlienEffect()
+local function alienEffect()
     AnimpostfxPlay('DrugsMichaelAliensFightIn', 3.0, 0)
     Wait(math.random(5000, 8000))
     AnimpostfxPlay('DrugsMichaelAliensFight', 3.0, 0)
@@ -83,64 +81,64 @@ local function AlienEffect()
     AnimpostfxStop('DrugsMichaelAliensFightOut')
 end
 
-local function CrackBaggyEffect()
+local function crackBaggyEffect()
     local startStamina = 8
-    AlienEffect()
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.3)
+    alienEffect()
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.3)
     while startStamina > 0 do
         Wait(1000)
         if math.random(1, 100) < 10 then
-            RestorePlayerStamina(PlayerId(), 1.0)
+            RestorePlayerStamina(cache.playerId, 1.0)
         end
         startStamina -= 1
         if math.random(1, 100) < 60 and IsPedRunning(cache.ped) then
             SetPedToRagdoll(cache.ped, math.random(1000, 2000), math.random(1000, 2000), 3, false, false, false)
         end
         if math.random(1, 100) < 51 then
-            AlienEffect()
+            alienEffect()
         end
     end
     if IsPedRunning(cache.ped) then
         SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
     end
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
 
-local function CokeBaggyEffect()
+local function cokeBaggyEffect()
     local startStamina = 20
-    AlienEffect()
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.1)
+    alienEffect()
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.1)
     while startStamina > 0 do
         Wait(1000)
         if math.random(1, 100) < 20 then
-            RestorePlayerStamina(PlayerId(), 1.0)
+            RestorePlayerStamina(cache.playerId, 1.0)
         end
         startStamina -= 1
         if math.random(1, 100) < 10 and IsPedRunning(cache.ped) then
             SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
         end
         if math.random(1, 300) < 10 then
-            AlienEffect()
+            alienEffect()
             Wait(math.random(3000, 6000))
         end
     end
     if IsPedRunning(cache.ped) then
         SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
     end
-    SetRunSprintMultiplierForPlayer(PlayerId(), 1.0)
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
 
-local function SmokeWeed()
+local function smokeWeed()
     CreateThread(function()
-        while SmokingWeed do
+        while smokingWeed do
             Wait(10000)
             TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
-            RelieveCount += 1
-            if RelieveCount == 6 then
+            relieveCount += 1
+            if relieveCount == 6 then
                 exports.scully_emotemenu:cancelEmote()
-                if SmokingWeed then
-                    SmokingWeed = false
-                    RelieveCount = 0
+                if smokingWeed then
+                    smokingWeed = false
+                    relieveCount = 0
                 end
             end
         end
@@ -151,45 +149,63 @@ end
 
 RegisterNetEvent('consumables:client:Eat', function(itemName)
     exports.scully_emotemenu:playEmoteByCommand('eat')
-    QBCore.Functions.Progressbar('eat_something', 'Eating..', 5000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 5000,
+        label = 'Eating...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addHunger', QBCore.Functions.GetPlayerData().metadata['hunger'] + ConsumablesEat[itemName])
+        TriggerServerEvent('consumables:server:addHunger', PlayerData.metadata.hunger + Config.Consumables.food[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
-    end)
+    end
 end)
 
 RegisterNetEvent('consumables:client:Drink', function(itemName)
     exports.scully_emotemenu:playEmoteByCommand('drink')
-    QBCore.Functions.Progressbar('drink_something', 'Drinking..', 5000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 5000,
+        label = 'Drinking...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + ConsumablesDrink[itemName])
-    end)
+        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + Config.Consumables.drink[itemName])
+    end
 end)
 
 RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
     exports.scully_emotemenu:playEmoteByCommand('beer7')
-    QBCore.Functions.Progressbar('snort_coke', 'Drinking liquor..', math.random(3000, 6000), false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = math.random(3000, 6000),
+        label = 'Drinking liquor...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         exports.scully_emotemenu:cancelEmote()
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
-        TriggerServerEvent('consumables:server:addThirst', QBCore.Functions.GetPlayerData().metadata['thirst'] + ConsumablesAlcohol[itemName])
+        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + Config.Consumables.alcohol[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
         alcoholCount += 1
         if alcoholCount > 1 and alcoholCount < 4 then
@@ -197,160 +213,194 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         elseif alcoholCount >= 4 then
             TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 200)
         end
-
-    end, function() -- Cancel
+    else -- if canceled
         exports.scully_emotemenu:cancelEmote()
-        QBCore.Functions.Notify('Cancelled..', 'error')
-    end)
+        QBCore.Functions.Notify('Canceled..,', 'error')
+    end
 end)
 
 RegisterNetEvent('consumables:client:Cokebaggy', function()
-    QBCore.Functions.Progressbar('snort_coke', 'Quick sniff..', math.random(5000, 8000), false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = 'switch@trevor@trev_smoking_meth',
-        anim = 'trev_smoking_meth_loop',
-        flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
+    if lib.progressBar({
+        duration = math.random(5000, 8000),
+        label = 'Quick sniff...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = {
+            dict = 'switch@trevor@trev_smoking_meth',
+            clip = 'trev_smoking_meth_loop',
+            flag = 49
+        }
+    }) then -- if completed
         TriggerServerEvent('consumables:server:useCokeBaggy')
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['cokebaggy'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
-        CokeBaggyEffect()
-    end, function() -- Cancel
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
-        QBCore.Functions.Notify('Canceled..', 'error')
-    end)
+        cokeBaggyEffect()
+    else -- if canceled
+        QBCore.Functions.Notify('Canceled...', 'error')
+    end
 end)
 
 RegisterNetEvent('consumables:client:Crackbaggy', function()
-    QBCore.Functions.Progressbar('snort_coke', 'Smoking crack..', math.random(7000, 10000), false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = 'switch@trevor@trev_smoking_meth',
-        anim = 'trev_smoking_meth_loop',
-        flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
+    if lib.progressBar({
+        duration = math.random(7000, 10000),
+        label = 'Smoking crack...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = {
+            dict = 'switch@trevor@trev_smoking_meth',
+            clip = 'trev_smoking_meth_loop',
+            flag = 49
+        }
+    }) then -- if completed
         TriggerServerEvent('consumables:server:useCrackBaggy')
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['crack_baggy'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
-        CrackBaggyEffect()
-    end, function() -- Cancel
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
-        QBCore.Functions.Notify('Canceled..', 'error')
-    end)
+        crackBaggyEffect()
+    else -- if canceled
+        QBCore.Functions.Notify('Canceled...', 'error')
+    end
 end)
 
 RegisterNetEvent('consumables:client:EcstasyBaggy', function()
-    QBCore.Functions.Progressbar('use_ecstasy', 'Pops Pills', 3000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {
-		animDict = 'mp_suicide',
-		anim = 'pill',
-		flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
+    if lib.progressBar({
+        duration = 3000,
+        label = 'Popping pills...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = {
+            dict = 'mp_suicide',
+            clip = 'pill',
+            flag = 49
+        }
+    }) then -- if completed
         TriggerServerEvent('consumables:server:useXTCBaggy')
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['xtcbaggy'], 'remove')
-        EcstasyEffect()
-    end, function() -- Cancel
-        StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
-        QBCore.Functions.Notify('Failed', 'error')
-    end)
+        ecstasyEffect()
+    else -- if canceled
+        QBCore.Functions.Notify('Canceled...', 'error')
+    end
 end)
 
 RegisterNetEvent('consumables:client:oxy', function()
-    QBCore.Functions.Progressbar('use_oxy', 'Healing', 2000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {
-		animDict = 'mp_suicide',
-		anim = 'pill',
-		flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
+    if lib.progressBar({
+        duration = 2000,
+        label = 'Healing...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = {
+            dict = 'mp_suicide',
+            clip = 'pill',
+            flag = 49
+        }
+    }) then -- if completed
         TriggerServerEvent('consumables:server:useOxy')
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['oxy'], 'remove')
         ClearPedBloodDamage(cache.ped)
-		HealOxy()
-    end, function() -- Cancel
-        StopAnimTask(cache.ped, 'mp_suicide', 'pill', 1.0)
+		healOxy()
+    else -- if canceled
         QBCore.Functions.Notify('Canceled', 'error')
-    end)
+    end
 end)
 
 RegisterNetEvent('consumables:client:meth', function()
-    QBCore.Functions.Progressbar('snort_meth', 'Smoking Ass Meth', 1500, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-        disableMouse = false,
-        disableCombat = true,
-    }, {
-        animDict = 'switch@trevor@trev_smoking_meth',
-        anim = 'trev_smoking_meth_loop',
-        flags = 49,
-    }, {}, {}, function() -- Done
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
+    if lib.progressBar({
+        duration = 1500,
+        label = 'Smoking meth...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        },
+        anim = {
+            dict = 'switch@trevor@trev_smoking_meth',
+            clip = 'trev_smoking_meth_loop',
+            flag = 49
+        }
+    }) then -- if completed
         TriggerServerEvent('consumables:server:useMeth')
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['meth'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         MethBagEffect()
-    end, function() -- Cancel
-        StopAnimTask(cache.ped, 'switch@trevor@trev_smoking_meth', 'trev_smoking_meth_loop', 1.0)
+    else -- if canceled
         QBCore.Functions.Notify('Canceled..', 'error')
-	end)
+	end
 end)
 
 RegisterNetEvent('consumables:client:UseJoint', function()
-    QBCore.Functions.Progressbar('smoke_joint', 'Lighting joint..', 1500, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 1500,
+        label = 'Lighting joint...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['joint'], 'remove')
         exports.scully_emotemenu:playEmoteByCommand('joint')
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
-        SmokeWeed()
-    end)
+        smokeWeed()
+    end
 end)
 
 RegisterNetEvent('consumables:client:UseParachute', function()
     EquipParachuteAnim()
-    QBCore.Functions.Progressbar('use_parachute', 'Putting on parachute..', 5000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 5000,
+        label = 'Putting on parachute...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['parachute'], 'remove')
         GiveWeaponToPed(cache.ped, `GADGET_PARACHUTE`, 1, false, false)
-        local ParachuteData = {
-            outfitData = {
-                ['bag']   = { item = 7, texture = 0},  -- Adding Parachute Clothing
-            }
+        local parachuteData = {
+            outfitData = {['bag'] = {item = 7, texture = 0}} -- Adding Parachute Clothing
         }
-        TriggerEvent('qb-clothing:client:loadOutfit', ParachuteData)
-        ParachuteEquiped = true
+        TriggerEvent('qb-clothing:client:loadOutfit', parachuteData)
+        parachuteEquipped = true
         TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
-    end)
+    end
 end)
 
 RegisterNetEvent('consumables:client:ResetParachute', function()
-    if ParachuteEquiped then
+    if parachuteEquipped then
         EquipParachuteAnim()
         QBCore.Functions.Progressbar('reset_parachute', 'Packing parachute..', 40000, false, true, {
             disableMovement = false,
@@ -367,37 +417,48 @@ RegisterNetEvent('consumables:client:ResetParachute', function()
             TriggerEvent('qb-clothing:client:loadOutfit', ParachuteRemoveData)
             TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
             TriggerServerEvent('qb-smallpenis:server:AddParachute')
-            ParachuteEquiped = false
+            parachuteEquipped = false
         end)
     else
-        QBCore.Functions.Notify('You dont have a parachute!', 'error')
+        QBCore.Functions.Notify('You don\'t have a parachute...', 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:UseArmor', function()
     if GetPedArmour(cache.ped) >= 75 then QBCore.Functions.Notify('You already have enough armor on!', 'error') return end
-    QBCore.Functions.Progressbar('use_armor', 'Putting on the body armour..', 5000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 5000,
+        label = 'Putting on the body armour...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['armor'], 'remove')
         TriggerServerEvent('hospital:server:SetArmor', 75)
         TriggerServerEvent('consumables:server:useArmor')
         SetPedArmour(cache.ped, 75)
-    end)
+    end
 end)
 
 RegisterNetEvent('consumables:client:UseHeavyArmor', function()
     if GetPedArmour(cache.ped) == 100 then QBCore.Functions.Notify('You already have enough armor on!', 'error') return end
-    local PlayerData = QBCore.Functions.GetPlayerData()
-    QBCore.Functions.Progressbar('use_heavyarmor', 'Putting on body armour..', 5000, false, true, {
-        disableMovement = false,
-        disableCarMovement = false,
-		disableMouse = false,
-		disableCombat = true,
-    }, {}, {}, {}, function() -- Done
+    if lib.progressBar({
+        duration = 5000,
+        label = 'Putting on body armor...',
+        useWhileDead = false,
+        canCancel = true,
+        disable = {
+            move = false,
+            car = false,
+            mouse = false,
+            combat = true
+        }
+    }) then -- if completed
         if PlayerData.charinfo.gender == 0 then
             currentVest = GetPedDrawableVariation(cache.ped, 9)
             currentVestTexture = GetPedTextureVariation(cache.ped, 9)
@@ -414,24 +475,30 @@ RegisterNetEvent('consumables:client:UseHeavyArmor', function()
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['heavyarmor'], 'remove')
         TriggerServerEvent('consumables:server:useHeavyArmor')
         SetPedArmour(cache.ped, 100)
-    end)
+    end
 end)
 
 RegisterNetEvent('consumables:client:ResetArmor', function()
     if currentVest ~= nil and currentVestTexture ~= nil then
-        QBCore.Functions.Progressbar('remove_armor', 'Removing the body armour..', 2500, false, true, {
-            disableMovement = false,
-            disableCarMovement = false,
-            disableMouse = false,
-            disableCombat = true,
-        }, {}, {}, {}, function() -- Done
+        if lib.progressBar({
+            duration = 2500,
+            label = 'Removing the body armour...',
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                move = false,
+                car = false,
+                mouse = false,
+                combat = true
+            }
+        }) then -- if completed
             SetPedComponentVariation(cache.ped, 9, currentVest, currentVestTexture, 2)
             SetPedArmour(cache.ped, 0)
             TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['heavyarmor'], 'add')
             TriggerServerEvent('consumables:server:resetArmor')
-        end)
+        end
     else
-        QBCore.Functions.Notify('You\'re not wearing a vest..', 'error')
+        QBCore.Functions.Notify('You\'re not wearing a vest...', 'error')
     end
 end)
 
