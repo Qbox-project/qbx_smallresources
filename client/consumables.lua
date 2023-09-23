@@ -163,7 +163,7 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
     }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addHunger', PlayerData.metadata.hunger + Config.Consumables.food[itemName])
+        TriggerServerEvent('consumables:server:addHunger', PlayerData.metadata.hunger + ConsumablesEat[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
     end
 end)
@@ -184,7 +184,7 @@ RegisterNetEvent('consumables:client:Drink', function(itemName)
     }) then -- if completed
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + Config.Consumables.drink[itemName])
+        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + ConsumablesDrink[itemName])
     end
 end)
 
@@ -205,7 +205,7 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         exports.scully_emotemenu:cancelEmote()
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items[itemName], 'remove')
         TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
-        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + Config.Consumables.alcohol[itemName])
+        TriggerServerEvent('consumables:server:addThirst', PlayerData.metadata.thirst + ConsumablesAlcohol[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
         alcoholCount += 1
         if alcoholCount > 1 and alcoholCount < 4 then
