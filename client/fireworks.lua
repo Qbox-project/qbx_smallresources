@@ -62,10 +62,7 @@ CreateThread(function()
     }
     
     for i = 1, #assets do
-        local asset = assets[i]
-        if not HasNamedPtfxAssetLoaded(asset) then
-            lib.requestNamedPtfxAsset(asset)
-        end
+        lib.requestNamedPtfxAsset(assets[i])
     end
 
     while true do
