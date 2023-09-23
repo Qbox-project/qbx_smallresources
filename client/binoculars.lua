@@ -9,7 +9,7 @@ local storeBinoclarKey = 177 -- Backspace
 
 --FUNCTIONS--
 
-local function CheckInputRotation(cam, zoomvalue)
+local function checkInputRotation(cam, zoomvalue)
     local rightAxisX = GetControlNormal(0, 220)
     local rightAxisY = GetControlNormal(0, 221)
     local rotation = GetCamRot(cam, 2)
@@ -21,7 +21,7 @@ local function CheckInputRotation(cam, zoomvalue)
     end
 end
 
-local function HandleZoom(cam)
+local function handleZoom(cam)
     if not IsPedSittingInAnyVehicle(cache.ped) then
         if IsControlJustPressed(0, 241) then -- Scrollup
             fov = math.max(fov - zoomspeed, fov_min)
@@ -90,8 +90,8 @@ RegisterNetEvent('binoculars:Toggle', function()
         end
 
         local zoomvalue = (1.0 / (fov_max-fov_min)) * (fov-fov_min)
-        CheckInputRotation(cam, zoomvalue)
-        HandleZoom(cam)
+        checkInputRotation(cam, zoomvalue)
+        handleZoom(cam)
         DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
         Wait(0)
     end

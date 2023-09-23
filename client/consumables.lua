@@ -3,7 +3,7 @@ local alcoholCount, parachuteEquipped, currentVest, currentVestTexture, healing,
 
 -- Functions
 
-local function EquipParachuteAnim()
+local function equipParachuteAnim()
     local hasLoaded = lib.requestAnimDict('clothingshirt')
     if not hasLoaded then return end
     TaskPlayAnim(cache.ped, 'clothingshirt', 'try_shirt_positive_d', 8.0, 1.0, -1, 49, 0, false, false, false)
@@ -375,7 +375,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
 end)
 
 RegisterNetEvent('consumables:client:UseParachute', function()
-    EquipParachuteAnim()
+    equipParachuteAnim()
     if lib.progressBar({
         duration = 5000,
         label = 'Putting on parachute...',
@@ -401,24 +401,27 @@ end)
 
 RegisterNetEvent('consumables:client:ResetParachute', function()
     if parachuteEquipped then
-        EquipParachuteAnim()
-        QBCore.Functions.Progressbar('reset_parachute', 'Packing parachute..', 40000, false, true, {
-            disableMovement = false,
-            disableCarMovement = false,
-            disableMouse = false,
-            disableCombat = true,
-        }, {}, {}, {}, function() -- Done
-            TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['parachute'], 'add')
-            local ParachuteRemoveData = {
-                outfitData = {
-                    ['bag'] = { item = 0, texture = 0} -- Removing Parachute Clothing
-                }
+        equipParachuteAnim()
+        if lib.progressBar({
+            duration = 40000,
+            label = 'Packing parachute...',
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                move = false,
+                car = false,
+                mouse = false,
+                combat = true
             }
-            TriggerEvent('qb-clothing:client:loadOutfit', ParachuteRemoveData)
+        }) then -- if completed
+            local parachuteRemoveData = {
+                outfitData = {['bag'] = {item = 0, texture = 0}} -- Removing Parachute Clothing
+            }
+            TriggerEvent('qb-clothing:client:loadOutfit', parachuteRemoveData)
             TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
             TriggerServerEvent('qb-smallpenis:server:AddParachute')
             parachuteEquipped = false
-        end)
+        end
     else
         QBCore.Functions.Notify('You don\'t have a parachute...', 'error')
     end
