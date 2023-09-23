@@ -25,8 +25,8 @@ files {
 
 modules {
 	'qbx-core:core',
-    'qbx-core:playerdata',
-    'qbx-core:utils'
+	'qbx-core:playerdata',
+	'qbx-core:utils'
 }
 
 lua54 'yes'
