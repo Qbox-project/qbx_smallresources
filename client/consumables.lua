@@ -292,7 +292,7 @@ RegisterNetEvent('consumables:client:EcstasyBaggy', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useXTCBaggy')
-        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['xtcbaggy'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items.xtcbaggy, 'remove')
         ecstasyEffect()
     else -- if canceled
         QBCore.Functions.Notify('Canceled...', 'error')
