@@ -1,5 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
-
 lib.addKeybind({
     name = 'tackle',
     description = 'Tackle',

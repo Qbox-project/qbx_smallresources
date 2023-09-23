@@ -16,23 +16,23 @@ CreateThread(function()
                         if IsControlJustReleased(0, 51) then
                             if k == 1 then
                                 if v.AllowVehicle then
-                                    SetPedCoordsKeepVehicle(cache.ped), Config.Teleports[loc][2].coords.x, Config.Teleports[loc][2].coords.y, Config.Teleports[loc][2].coords.z)
+                                    SetPedCoordsKeepVehicle(cache.ped, Config.Teleports[loc][2].coords.x, Config.Teleports[loc][2].coords.y, Config.Teleports[loc][2].coords.z)
                                 else
-                                    SetEntityCoords(cache.ped), Config.Teleports[loc][2].coords.x, Config.Teleports[loc][2].coords.y, Config.Teleports[loc][2].coords.z)
+                                    SetEntityCoords(cache.ped, Config.Teleports[loc][2].coords.x, Config.Teleports[loc][2].coords.y, Config.Teleports[loc][2].coords.z)
                                 end
 
                                 if type(Config.Teleports[loc][2].coords) == 'vector4' then
-                                    SetEntityHeading(cache.ped), Config.Teleports[loc][2].coords.w)
+                                    SetEntityHeading(cache.ped, Config.Teleports[loc][2].coords.w)
                                 end
                             elseif k == 2 then
                                 if v.AllowVehicle then
-                                    SetPedCoordsKeepVehicle(cache.ped), Config.Teleports[loc][1].coords.x, Config.Teleports[loc][1].coords.y, Config.Teleports[loc][1].coords.z)
+                                    SetPedCoordsKeepVehicle(cache.ped, Config.Teleports[loc][1].coords.x, Config.Teleports[loc][1].coords.y, Config.Teleports[loc][1].coords.z)
                                 else
-                                    SetEntityCoords(cache.ped), Config.Teleports[loc][1].coords.x, Config.Teleports[loc][1].coords.y, Config.Teleports[loc][1].coords.z)
+                                    SetEntityCoords(cache.ped, Config.Teleports[loc][1].coords.x, Config.Teleports[loc][1].coords.y, Config.Teleports[loc][1].coords.z)
                                 end
 
                                 if type(Config.Teleports[loc][1].coords) == 'vector4' then
-                                    SetEntityHeading(cache.ped), Config.Teleports[loc][1].coords.w)
+                                    SetEntityHeading(cache.ped, Config.Teleports[loc][1].coords.w)
                                 end
                             end
                         end
