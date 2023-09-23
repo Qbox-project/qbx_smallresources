@@ -5,9 +5,7 @@ local speed_lr = 8.0 -- speed by which the camera pans left-right
 local speed_ud = 8.0 -- speed by which the camera pans up-down
 local binoculars = false
 local fov = (fov_max + fov_min) * 0.5
-local storeBinoclarKey = 177 -- backspace
-local cam = nil
-local scaleform = nil
+local storeBinoclarKey = 177 -- Backspace
 
 --FUNCTIONS--
 
@@ -25,21 +23,37 @@ end
 
 local function HandleZoom(cam)
     if not IsPedSittingInAnyVehicle(cache.ped) then
-        if IsControlJustPressed(0, 241) then  fov = math.max(fov - zoomspeed, fov_min) end -- scrollup
-        if IsControlJustPressed(0, 242) then fov = math.min(fov + zoomspeed, fov_max) end -- scrolldown
+        if IsControlJustPressed(0, 241) then -- Scrollup
+            fov = math.max(fov - zoomspeed, fov_min)
+        end
+        if IsControlJustPressed(0, 242) then
+            fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
+        end
         local current_fov = GetCamFov(cam)
-        if math.abs(fov - current_fov) < 0.1 then fov = current_fov end
+        if math.abs(fov-current_fov) < 0.1 then
+            fov = current_fov
+        end
         SetCamFov(cam, current_fov + (fov - current_fov) * 0.05)
     else
-        if IsControlJustPressed(0, 17) then fov = math.max(fov - zoomspeed, fov_min) end -- scrollup
-        if IsControlJustPressed(0, 16) then fov = math.min(fov + zoomspeed, fov_max) end -- scrolldown
+        if IsControlJustPressed(0, 17) then -- Scrollup
+            fov = math.max(fov - zoomspeed, fov_min)
+        end
+        if IsControlJustPressed(0, 16) then
+            fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
+        end
         local current_fov = GetCamFov(cam)
-        if math.abs(fov - current_fov) < 0.1 then  fov = current_fov end -- the difference is too small, just set the value directly to avoid unneeded updates to FOV of order 10^-5
-        SetCamFov(cam, current_fov + (fov - current_fov) * 0.05) -- smoothing of camera zoom
+        if math.abs(fov-current_fov) < 0.1 then -- the difference is too small, just set the value directly to avoid unneeded updates to FOV of order 10^-5
+            fov = current_fov
+        end
+        SetCamFov(cam, current_fov + (fov - current_fov) * 0.05) -- Smoothing of camera zoom
     end
 end
 
--- Events
+--EVENTS--
+
+-- Activate binoculars
+local cam = nil
+local scaleform = nil
 RegisterNetEvent('binoculars:Toggle', function()
     if cache.vehicle then return end
     binoculars = not binoculars
@@ -61,6 +75,7 @@ RegisterNetEvent('binoculars:Toggle', function()
     while binoculars do
 
         scaleform = lib.requestScaleformMovie('BINOCULARS')
+
         BeginScaleformMovieMethod(scaleform, 'SET_CAM_LOGO')
         ScaleformMovieMethodAddParamInt(0) -- 0 for nothing, 1 for LSPD logo
         EndScaleformMovieMethod()

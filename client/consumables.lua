@@ -348,7 +348,7 @@ RegisterNetEvent('consumables:client:meth', function()
         TriggerEvent('inventory:client:ItemBox', QBCore.Shared.Items['meth'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
-        MethBagEffect()
+        methBagEffect()
     else -- if canceled
         QBCore.Functions.Notify('Canceled...', 'error')
 	end
