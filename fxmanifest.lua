@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QBX-SmallResources'
+description 'Collection of small scripts'
 repository 'https://github.com/Qbox-project/qbx-smallresources'
 version '1.1.0'
 
