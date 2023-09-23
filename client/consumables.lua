@@ -215,7 +215,7 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         end
     else -- if canceled
         exports.scully_emotemenu:cancelEmote()
-        QBCore.Functions.Notify('Canceled..,', 'error')
+        QBCore.Functions.Notify('Canceled...,', 'error')
     end
 end)
 
@@ -350,7 +350,7 @@ RegisterNetEvent('consumables:client:meth', function()
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         MethBagEffect()
     else -- if canceled
-        QBCore.Functions.Notify('Canceled..', 'error')
+        QBCore.Functions.Notify('Canceled...', 'error')
 	end
 end)
 
