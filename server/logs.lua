@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local logQueue, isProcessingQueue, logCount = {}, false, 0
 local lastRequestTime, requestDelay = 0, 0
 

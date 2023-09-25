@@ -1,4 +1,3 @@
-local QBCore = exports['qbx-core']:GetCoreObject()
 local seatbeltOn = false
 local harnessOn = false
 local harnessHp = 20
@@ -29,7 +28,7 @@ local function ejectFromVehicle()
     SetEntityCoords(cache.ped, coords.x, coords.y, coords.z)
     Wait(1)
     SetPedToRagdoll(cache.ped, 5511, 5511, 0, false, false, false)
-    SetEntityVelocity(cache.ped, veloc.x*4,veloc.y*4,veloc.z*4)
+    SetEntityVelocity(cache.ped, veloc.x * 4,veloc.y * 4,veloc.z * 4)
     local ejectspeed = math.ceil(GetEntitySpeed(cache.ped) * 8)
     if GetEntityHealth(cache.ped) - ejectspeed > 0 then
         SetEntityHealth(cache.ped, GetEntityHealth(cache.ped) - ejectspeed)

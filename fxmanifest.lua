@@ -1,11 +1,16 @@
 fx_version 'cerulean'
 game 'gta5'
 
-description 'QB-SmallResources'
+description 'Collection of small scripts'
+repository 'https://github.com/Qbox-project/qbx-smallresources'
 version '1.1.0'
 
-shared_script 'config.lua'
-shared_script '@ox_lib/init.lua'
+shared_scripts {
+	'@qbx-core/import.lua',
+	'@ox_lib/init.lua',
+	'config.lua'
+}
+
 server_script 'server/*.lua'
 client_script 'client/*.lua'
 
@@ -16,6 +21,12 @@ files {
 	'events.meta',
 	'popgroups.ymt',
 	'relationships.dat'
+}
+
+modules {
+	'qbx-core:core',
+	'qbx-core:playerdata',
+	'qbx-core:utils'
 }
 
 lua54 'yes'
