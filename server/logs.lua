@@ -188,6 +188,9 @@ exports('CreateLog', CreateLog)
 ---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
 RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
 
-lib.addCommand('testwebhook', {help = 'Test Your Discord Webhook For Logs (God Only)', restricted = 'group.god'}, function()
+lib.addCommand('testwebhook', {
+    help = 'Test Your Discord Webhook For Logs (God Only)',
+    restricted = 'group.god',
+}, function()
     CreateLog('testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
 end)

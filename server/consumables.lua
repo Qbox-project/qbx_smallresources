@@ -69,9 +69,11 @@ QBCore.Functions.CreateUseableItem('heavyarmor', function(source)
     TriggerClientEvent('consumables:client:UseHeavyArmor', source)
 end)
 
-lib.addCommand('resetarmor', {help = 'Resets Vest (Police Only)'}, function(source)
-    local player = QBCore.Functions.GetPlayer(source)
-    if player.PlayerData.job.name == 'police' then
+lib.addCommand('resetvest', {
+    help = 'Resets Vest (Police Only)',
+}, function(source)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player.PlayerData.job.name == 'police' then
         TriggerClientEvent('consumables:client:ResetArmor', source)
     else
         TriggerClientEvent('QBCore:Notify', source,  'For Police Officer Only', 'error')
@@ -88,8 +90,10 @@ QBCore.Functions.CreateUseableItem('parachute', function(source, item)
     TriggerClientEvent('consumables:client:UseParachute', source)
 end)
 
-lib.addCommand('resetparachute', {help = 'Resets Parachute'}, function(source)
-    TriggerClientEvent('consumables:client:ResetParachute', source)
+lib.addCommand('resetparachute', {
+    help = 'Resets Parachute',
+}, function(source)
+	TriggerClientEvent('consumables:client:ResetParachute', source)
 end)
 
 RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
