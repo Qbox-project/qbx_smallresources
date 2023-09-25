@@ -5,7 +5,9 @@ RegisterNetEvent('tackle:server:TacklePlayer', function(playerId)
     TriggerClientEvent('tackle:client:GetTackled', playerId)
 end)
 
-QBCore.Commands.Add('id', 'Check Your ID #', {}, false, function(source)
+lib.addCommand('id', {
+    help = 'Check Your ID #',
+}, function(source)
     TriggerClientEvent('QBCore:Notify', source,  'ID: '..source)
 end)
 
