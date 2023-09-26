@@ -6,8 +6,8 @@ repository 'https://github.com/Qbox-project/qbx-smallresources'
 version '1.1.0'
 
 shared_scripts {
-	'@qbx_core/import.lua',
 	'@ox_lib/init.lua',
+	'@qbx_core/import.lua',
 	'config.lua'
 }
 
