@@ -4,9 +4,9 @@ lib.addKeybind({
     defaultKey = 'E',
     onReleased = function(self)
         if cache.vehicle then return end
-        if QBXore.Functions.GetPlayerData().metadata["ishandcuffed"] and not IsPedRagdoll(PlayerPedId()) then return end   
-        if IsPedSprinting(PlayerPedId()) or IsPedRunning(PlayerPedId()) then
-            local coords = GetEntityCoords(PlayerPedId())
+ if QBX.PlayerData.metadata.ishandcuffed then return end
+        if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
+            local coords = GetEntityCoords(cache.ped)
             local targetId, targetPed, _ = lib.getClosestPlayer(coords, 1.6, false)
             if not targetPed then return end
             if IsPedInAnyVehicle(targetPed, true) then return end
