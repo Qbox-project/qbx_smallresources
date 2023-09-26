@@ -6,7 +6,7 @@ repository 'https://github.com/Qbox-project/qbx-smallresources'
 version '1.1.0'
 
 shared_scripts {
-	'@qbx-core/import.lua',
+	'@qbx_core/import.lua',
 	'@ox_lib/init.lua',
 	'config.lua'
 }
@@ -24,9 +24,9 @@ files {
 }
 
 modules {
-	'qbx-core:core',
-	'qbx-core:playerdata',
-	'qbx-core:utils'
+	'qbx_core:core',
+	'qbx_core:playerdata',
+	'qbx_core:utils'
 }
 
 lua54 'yes'

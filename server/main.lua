@@ -8,13 +8,13 @@ lib.addCommand('id', {
     TriggerClientEvent('QBCore:Notify', source,  'ID: '..source)
 end)
 
-QBCore.Functions.CreateUseableItem('harness', function(source, item)
+QBX.Functions.CreateUseableItem('harness', function(source, item)
     TriggerClientEvent('seatbelt:client:UseHarness', source, item)
 end)
 
 RegisterNetEvent('equip:harness', function(item)
     local src = source
-    local player = QBCore.Functions.GetPlayer(src)
+    local player = QBX.Functions.GetPlayer(src)
 
     if not player then return end
 
@@ -31,7 +31,7 @@ end)
 
 RegisterNetEvent('seatbelt:DoHarnessDamage', function(hp, data)
     local src = source
-    local player = QBCore.Functions.GetPlayer(src)
+    local player = QBX.Functions.GetPlayer(src)
 
     local harness = exports.ox_inventory:Search(src, 1, 'harness')
 
@@ -47,7 +47,7 @@ end)
 
 RegisterNetEvent('qb-carwash:server:washCar', function()
     local src = source
-    local player = QBCore.Functions.GetPlayer(src)
+    local player = QBX.Functions.GetPlayer(src)
 
     if not player then return end
 

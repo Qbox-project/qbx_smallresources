@@ -1,8 +1,8 @@
 ----------- / alcohol
 for cAl in pairs(ConsumablesAlcohol) do
-    QBCore.Functions.CreateUseableItem(cAl, function(source, item)
+    QBX.Functions.CreateUseableItem(cAl, function(source, item)
         local src = source
-        local player = QBCore.Functions.GetPlayer(src)
+        local player = QBX.Functions.GetPlayer(src)
         if player.Functions.RemoveItem(item.name, 1, item.slot) then
             TriggerClientEvent('consumables:client:DrinkAlcohol', src, item.name)
         end
@@ -11,9 +11,9 @@ end
 
 ----------- / Non-Alcoholic Drinks
 for cDr in pairs(ConsumablesDrink) do
-    QBCore.Functions.CreateUseableItem(cDr, function(source, item)
+    QBX.Functions.CreateUseableItem(cDr, function(source, item)
         local src = source
-        local player = QBCore.Functions.GetPlayer(src)
+        local player = QBX.Functions.GetPlayer(src)
         if player.Functions.RemoveItem(item.name, 1, item.slot) then
             TriggerClientEvent('consumables:client:Drink', src, item.name)
         end
@@ -22,9 +22,9 @@ end
 
 ----------- / Food
 for cEa in pairs(ConsumablesEat) do
-    QBCore.Functions.CreateUseableItem(cEa, function(source, item)
+    QBX.Functions.CreateUseableItem(cEa, function(source, item)
         local src = source
-        local player = QBCore.Functions.GetPlayer(src)
+        local player = QBX.Functions.GetPlayer(src)
         if player.Functions.RemoveItem(item.name, 1, item.slot) then
             TriggerClientEvent('consumables:client:Eat', src, item.name)
         end
@@ -33,46 +33,46 @@ end
 
 ----------- / Drug
 
-QBCore.Functions.CreateUseableItem('joint', function(source, item)
-    local player = QBCore.Functions.GetPlayer(source)
+QBX.Functions.CreateUseableItem('joint', function(source, item)
+    local player = QBX.Functions.GetPlayer(source)
 	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
     TriggerClientEvent('consumables:client:UseJoint', source)
 end)
 
-QBCore.Functions.CreateUseableItem('cokebaggy', function(source)
+QBX.Functions.CreateUseableItem('cokebaggy', function(source)
     TriggerClientEvent('consumables:client:Cokebaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem('crack_baggy', function(source)
+QBX.Functions.CreateUseableItem('crack_baggy', function(source)
     TriggerClientEvent('consumables:client:Crackbaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem('xtcbaggy', function(source, _)
+QBX.Functions.CreateUseableItem('xtcbaggy', function(source, _)
     TriggerClientEvent('consumables:client:EcstasyBaggy', source)
 end)
 
-QBCore.Functions.CreateUseableItem('oxy', function(source)
+QBX.Functions.CreateUseableItem('oxy', function(source)
     TriggerClientEvent('consumables:client:oxy', source)
 end)
 
-QBCore.Functions.CreateUseableItem('meth', function(source)
+QBX.Functions.CreateUseableItem('meth', function(source)
     TriggerClientEvent('consumables:client:meth', source)
 end)
 
 ----------- / Tools
 
-QBCore.Functions.CreateUseableItem('armor', function(source)
+QBX.Functions.CreateUseableItem('armor', function(source)
     TriggerClientEvent('consumables:client:UseArmor', source)
 end)
 
-QBCore.Functions.CreateUseableItem('heavyarmor', function(source)
+QBX.Functions.CreateUseableItem('heavyarmor', function(source)
     TriggerClientEvent('consumables:client:UseHeavyArmor', source)
 end)
 
 lib.addCommand('resetvest', {
     help = 'Resets Vest (Police Only)',
 }, function(source)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local Player = QBX.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == 'police' then
         TriggerClientEvent('consumables:client:ResetArmor', source)
     else
@@ -80,12 +80,12 @@ lib.addCommand('resetvest', {
     end
 end)
 
-QBCore.Functions.CreateUseableItem('binoculars', function(source)
+QBX.Functions.CreateUseableItem('binoculars', function(source)
     TriggerClientEvent('binoculars:Toggle', source)
 end)
 
-QBCore.Functions.CreateUseableItem('parachute', function(source, item)
-    local player = QBCore.Functions.GetPlayer(source)
+QBX.Functions.CreateUseableItem('parachute', function(source, item)
+    local player = QBX.Functions.GetPlayer(source)
 	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
     TriggerClientEvent('consumables:client:UseParachute', source)
 end)
@@ -97,7 +97,7 @@ lib.addCommand('resetparachute', {
 end)
 
 RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -106,42 +106,42 @@ end)
 
 ----------- / Firework
 
-QBCore.Functions.CreateUseableItem('firework1', function(source, item)
+QBX.Functions.CreateUseableItem('firework1', function(source, item)
     local src = source
     TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework')
 end)
 
-QBCore.Functions.CreateUseableItem('firework2', function(source, item)
+QBX.Functions.CreateUseableItem('firework2', function(source, item)
     local src = source
     TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework_v2')
 end)
 
-QBCore.Functions.CreateUseableItem('firework3', function(source, item)
+QBX.Functions.CreateUseableItem('firework3', function(source, item)
     local src = source
     TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_xmas_firework')
 end)
 
-QBCore.Functions.CreateUseableItem('firework4', function(source, item)
+QBX.Functions.CreateUseableItem('firework4', function(source, item)
     local src = source
     TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'scr_indep_fireworks')
 end)
 
 ----------- / Lockpicking
 
-QBCore.Functions.CreateUseableItem('lockpick', function(source)
+QBX.Functions.CreateUseableItem('lockpick', function(source)
     TriggerClientEvent('lockpicks:UseLockpick', source, false)
     TriggerEvent('lockpicks:UseLockpick', source, false)
 end)
 
-QBCore.Functions.CreateUseableItem('advancedlockpick', function(source)
+QBX.Functions.CreateUseableItem('advancedlockpick', function(source)
     TriggerClientEvent('lockpicks:UseLockpick', source, true)
     TriggerEvent('lockpicks:UseLockpick', source, true)
 end)
 
 ----------- / Unused
 
--- QBCore.Functions.CreateUseableItem('smoketrailred', function(source, item)
---     local player = QBCore.Functions.GetPlayer(source)
+-- QBX.Functions.CreateUseableItem('smoketrailred', function(source, item)
+--     local player = QBX.Functions.GetPlayer(source)
 -- 	   if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
 --     TriggerClientEvent('consumables:client:UseRedSmoke', source)
 -- end)
@@ -149,7 +149,7 @@ end)
 -- Events for adding and removing specific items to fix some exploits
 
 RegisterNetEvent('consumables:server:resetArmor', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -157,7 +157,7 @@ RegisterNetEvent('consumables:server:resetArmor', function()
 end)
 
 RegisterNetEvent('consumables:server:useHeavyArmor', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -165,7 +165,7 @@ RegisterNetEvent('consumables:server:useHeavyArmor', function()
 end)
 
 RegisterNetEvent('consumables:server:useArmor', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -173,7 +173,7 @@ RegisterNetEvent('consumables:server:useArmor', function()
 end)
 
 RegisterNetEvent('consumables:server:useMeth', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -181,7 +181,7 @@ RegisterNetEvent('consumables:server:useMeth', function()
 end)
 
 RegisterNetEvent('consumables:server:useOxy', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -189,7 +189,7 @@ RegisterNetEvent('consumables:server:useOxy', function()
 end)
 
 RegisterNetEvent('consumables:server:useXTCBaggy', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -197,7 +197,7 @@ RegisterNetEvent('consumables:server:useXTCBaggy', function()
 end)
 
 RegisterNetEvent('consumables:server:useCrackBaggy', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -205,7 +205,7 @@ RegisterNetEvent('consumables:server:useCrackBaggy', function()
 end)
 
 RegisterNetEvent('consumables:server:useCokeBaggy', function()
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -213,7 +213,7 @@ RegisterNetEvent('consumables:server:useCokeBaggy', function()
 end)
 
 RegisterNetEvent('consumables:server:drinkAlcohol', function(item)
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -232,7 +232,7 @@ RegisterNetEvent('consumables:server:drinkAlcohol', function(item)
 end)
 
 RegisterNetEvent('consumables:server:UseFirework', function(item)
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -251,7 +251,7 @@ RegisterNetEvent('consumables:server:UseFirework', function(item)
 end)
 
 RegisterNetEvent('consumables:server:addThirst', function(amount)
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 
@@ -260,7 +260,7 @@ RegisterNetEvent('consumables:server:addThirst', function(amount)
 end)
 
 RegisterNetEvent('consumables:server:addHunger', function(amount)
-    local player = QBCore.Functions.GetPlayer(source)
+    local player = QBX.Functions.GetPlayer(source)
 
     if not player then return end
 

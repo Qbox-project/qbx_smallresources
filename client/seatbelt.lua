@@ -229,7 +229,7 @@ end)
 RegisterNetEvent('seatbelt:client:UseHarness', function(ItemData)
     local class = GetVehicleClass(cache.vehicle)
     if not cache.vehicle or class == 8 or class == 13 or class == 14 then
-        QBCore.Functions.Notify('You\'re not in a car.', 'error')
+        QBX.Functions.Notify('You\'re not in a car.', 'error')
         return
     end
     if not harnessOn then
