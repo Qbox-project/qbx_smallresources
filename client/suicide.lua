@@ -29,8 +29,8 @@ RegisterCommand('suicide', function()
 		Wait(750)
 		SetPedShootsAtCoord(cache.ped, 0.0, 0.0, 0.0, 0)
 		SetEntityHealth(cache.ped, 0)
-        QBCore.Functions.Notify('You killed yourself', 'error')
+        QBX.Functions.Notify('You killed yourself', 'error')
     else
-        QBCore.Functions.Notify('You don\'t have a pistol with ammo in your hand', 'error')
+        QBX.Functions.Notify('You don\'t have a pistol with ammo in your hand', 'error')
 	end
 end, false)

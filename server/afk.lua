@@ -14,7 +14,7 @@ local timeMinutes = {
 }
 
 local function updateCheckUser(source)
-    local permissions = QBCore.Functions.GetPermission(source)
+    local permissions = QBX.Functions.GetPermission(source)
 
     for k in pairs(permissions) do
         if Config.IgnoreGroupsForAFK[k] then
@@ -66,9 +66,9 @@ CreateThread(function()
                     if time[v] > 0 then
                         local _type = timeMinutes[time[v]]
                         if _type == 'minutes' then
-                            QBCore.Functions.Notify(v, 'You are AFK and will be kicked in ' .. math.ceil(time[v] / 60) .. ' minute(s)!', 'error', 10000)
+                            QBX.Functions.Notify(v, 'You are AFK and will be kicked in ' .. math.ceil(time[v] / 60) .. ' minute(s)!', 'error', 10000)
                         elseif _type == 'seconds' then
-                            QBCore.Functions.Notify(v, 'You are AFK and will be kicked in ' .. time[v] .. ' seconds!', 'error', 10000)
+                            QBX.Functions.Notify(v, 'You are AFK and will be kicked in ' .. time[v] .. ' seconds!', 'error', 10000)
                         end
                         time[v] -= 1
                     else
