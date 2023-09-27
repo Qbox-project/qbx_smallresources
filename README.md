@@ -1,8 +1,8 @@
-# qb-smallresources
-Base scripts for QB-Core Framework :building_construction:
+# qbx_smallresources
+Base scripts for QBox Core Framework :building_construction:
 
 ## Dependencies
-- [qb-core](https://github.com/qbcore-framework/qb-core)
+- [qbx_core]([https://github.com/Qbox-project](https://github.com/Qbox-project/qbx_core))
 
 ## Features
 - Consumeable foods/beverages/drinks/drugs (sandwich, water_bottle, tosti, beer, vodka etc.)
@@ -36,11 +36,11 @@ Base scripts for QB-Core Framework :building_construction:
 
 ## Installation
 ### Manual
-- Download the script and put it in the `[qb]` directory.
+- Download the script and put it in the `[qbx]` directory.
 - Add the following code to your server.cfg/resouces.cfg
 ```
-ensure qb-core
-ensure qb-smallresources
+ensure qbx_core
+ensure qbx_smallresources
 ```
 
 ## Configuration
