@@ -31,7 +31,7 @@ local function TriggerCruiseControl()
         if cruisedSpeed > 0 and GetVehicleCurrentGear(cache.vehicle) > 0 then
 
             TriggerEvent('seatbelt:client:ToggleCruise')
-            QBX.Functions.Notify('Cruise control enabled!', 'success')
+            exports.qbx_core:Notify('Cruise control enabled!', 'success')
 
             CreateThread(function()
                 while cruisedSpeed > 0 and cache.vehicle do
@@ -42,7 +42,7 @@ local function TriggerCruiseControl()
                     if not turningOrBraking and speed < (cruisedSpeed - 1.5) then
                         cruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
-                        QBX.Functions.Notify('Cruise control disabled!', 'error')
+                        exports.qbx_core:Notify('Cruise control disabled!', 'error')
                         Wait(500)
                         break
                     end
@@ -59,7 +59,7 @@ local function TriggerCruiseControl()
                     if IsControlJustPressed(2, 72) then
                         cruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
-                        QBX.Functions.Notify('Cruise control disabled!', 'error')
+                        exports.qbx_core:Notify('Cruise control disabled!', 'error')
                         Wait(500)
                         break
                     end
@@ -76,7 +76,7 @@ RegisterCommand('togglecruise', function()
         if vehicleClasses[vehicleClass] then
             TriggerCruiseControl()
         else
-            QBX.Functions.Notify('Cruise control unavailable', 'error')
+            exports.qbx_core:Notify('Cruise control unavailable', 'error')
         end
     end
 end, false)

@@ -161,7 +161,7 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items[itemName], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
         TriggerServerEvent('consumables:server:addHunger', QBX.PlayerData.metadata.hunger + ConsumablesEat[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
@@ -182,7 +182,7 @@ RegisterNetEvent('consumables:client:Drink', function(itemName)
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items[itemName], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
         exports.scully_emotemenu:cancelEmote()
         TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesDrink[itemName])
     end
@@ -203,7 +203,7 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         }
     }) then -- if completed
         exports.scully_emotemenu:cancelEmote()
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items[itemName], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
         TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
         TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
@@ -215,7 +215,7 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         end
     else -- if canceled
         exports.scully_emotemenu:cancelEmote()
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
@@ -238,11 +238,11 @@ RegisterNetEvent('consumables:client:Cokebaggy', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useCokeBaggy')
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['cokebaggy'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['cokebaggy'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
         cokeBaggyEffect()
     else -- if canceled
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
@@ -265,11 +265,11 @@ RegisterNetEvent('consumables:client:Crackbaggy', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useCrackBaggy')
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['crack_baggy'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['crack_baggy'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
         crackBaggyEffect()
     else -- if canceled
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
@@ -292,10 +292,10 @@ RegisterNetEvent('consumables:client:EcstasyBaggy', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useXTCBaggy')
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items.xtcbaggy, 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items().xtcbaggy, 'remove')
         ecstasyEffect()
     else -- if canceled
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
@@ -318,11 +318,11 @@ RegisterNetEvent('consumables:client:oxy', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useOxy')
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['oxy'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['oxy'], 'remove')
         ClearPedBloodDamage(cache.ped)
 		healOxy()
     else -- if canceled
-        QBX.Functions.Notify('Canceled', 'error')
+        exports.qbx_core:Notify('Canceled', 'error')
     end
 end)
 
@@ -345,12 +345,12 @@ RegisterNetEvent('consumables:client:meth', function()
         }
     }) then -- if completed
         TriggerServerEvent('consumables:server:useMeth')
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['meth'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['meth'], 'remove')
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         methBagEffect()
     else -- if canceled
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
 	end
 end)
 
@@ -367,7 +367,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['joint'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['joint'], 'remove')
         exports.scully_emotemenu:playEmoteByCommand('joint')
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         smokeWeed()
@@ -388,7 +388,7 @@ RegisterNetEvent('consumables:client:UseParachute', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['parachute'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['parachute'], 'remove')
         GiveWeaponToPed(cache.ped, `GADGET_PARACHUTE`, 1, false, false)
         local parachuteData = {
             outfitData = {['bag'] = {item = 7, texture = 0}} -- Adding Parachute Clothing
@@ -423,12 +423,12 @@ RegisterNetEvent('consumables:client:ResetParachute', function()
             parachuteEquipped = false
         end
     else
-        QBX.Functions.Notify('You don\'t have a parachute...', 'error')
+        exports.qbx_core:Notify('You don\'t have a parachute...', 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:UseArmor', function()
-    if GetPedArmour(cache.ped) >= 75 then QBX.Functions.Notify('You already have enough armor on!', 'error') return end
+    if GetPedArmour(cache.ped) >= 75 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
     if lib.progressBar({
         duration = 5000,
         label = 'Putting on the body armour...',
@@ -441,7 +441,7 @@ RegisterNetEvent('consumables:client:UseArmor', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['armor'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['armor'], 'remove')
         TriggerServerEvent('hospital:server:SetArmor', 75)
         TriggerServerEvent('consumables:server:useArmor')
         SetPedArmour(cache.ped, 75)
@@ -449,7 +449,7 @@ RegisterNetEvent('consumables:client:UseArmor', function()
 end)
 
 RegisterNetEvent('consumables:client:UseHeavyArmor', function()
-    if GetPedArmour(cache.ped) == 100 then QBX.Functions.Notify('You already have enough armor on!', 'error') return end
+    if GetPedArmour(cache.ped) == 100 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
     if lib.progressBar({
         duration = 5000,
         label = 'Putting on body armor...',
@@ -475,7 +475,7 @@ RegisterNetEvent('consumables:client:UseHeavyArmor', function()
             currentVestTexture = GetPedTextureVariation(cache.ped, 30)
             SetPedComponentVariation(cache.ped, 9, 30, 0, 2)
         end
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['heavyarmor'], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'remove')
         TriggerServerEvent('consumables:server:useHeavyArmor')
         SetPedArmour(cache.ped, 100)
     end
@@ -497,11 +497,11 @@ RegisterNetEvent('consumables:client:ResetArmor', function()
         }) then -- if completed
             SetPedComponentVariation(cache.ped, 9, currentVest, currentVestTexture, 2)
             SetPedArmour(cache.ped, 0)
-            TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items['heavyarmor'], 'add')
+            TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'add')
             TriggerServerEvent('consumables:server:resetArmor')
         end
     else
-        QBX.Functions.Notify('You\'re not wearing a vest...', 'error')
+        exports.qbx_core:Notify('You\'re not wearing a vest...', 'error')
     end
 end)
 

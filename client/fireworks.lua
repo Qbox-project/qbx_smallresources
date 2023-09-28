@@ -92,10 +92,10 @@ RegisterNetEvent('fireworks:client:UseFirework', function(itemName, assetName)
         },
     }) then
         TriggerServerEvent('consumables:server:UseFirework', itemName)
-        TriggerEvent('inventory:client:ItemBox', QBX.Shared.Items[itemName], 'remove')
+        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
         local pos = GetEntityCoords(cache.ped)
         doFirework(assetName, pos)
     else
-        QBX.Functions.Notify('Canceled...', 'error')
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
