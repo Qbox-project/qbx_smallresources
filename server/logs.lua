@@ -87,7 +87,7 @@ local allowedErr = {
 ---Log Queue
 ---@param payload Log Queue
 local function logPayload(payload)
-    PerformHttpRequest(payload.webhook, function(err, text, headers)
+    PerformHttpRequest(payload.webhook, function(err, _, headers)
         if err and not allowedErr[err] then
             print('^1Error occurred while attempting to send log to discord: ' .. err .. '^7')
             return
