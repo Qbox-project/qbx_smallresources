@@ -5,7 +5,7 @@ lib.addKeybind({
     onReleased = function(self)
         if cache.vehicle then return end
  	if QBX.PlayerData.metadata.ishandcuffed then return end
-        if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
+	if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
             local coords = GetEntityCoords(cache.ped)
             local targetId, targetPed, _ = lib.getClosestPlayer(coords, 1.6, false)
             if not targetPed then return end
