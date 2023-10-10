@@ -49,6 +49,25 @@ local function handleZoom(cam)
     end
 end
 
+local function hideHUDThisFrame()
+    HideHelpTextThisFrame()
+    HideHudAndRadarThisFrame()
+    HideHudComponentThisFrame(1) -- Wanted Stars
+    HideHudComponentThisFrame(2) -- Weapon icon
+    HideHudComponentThisFrame(3) -- Cash
+    HideHudComponentThisFrame(4) -- MP CASH
+    HideHudComponentThisFrame(6)
+    HideHudComponentThisFrame(7)
+    HideHudComponentThisFrame(8)
+    HideHudComponentThisFrame(9)
+    HideHudComponentThisFrame(13) -- Cash Change
+    HideHudComponentThisFrame(11) -- Floating Help Text
+    HideHudComponentThisFrame(12) -- more floating help text
+    HideHudComponentThisFrame(15) -- Subtitle Text
+    HideHudComponentThisFrame(18) -- Game Stream
+    HideHudComponentThisFrame(19) -- weapon wheel
+end
+
 --EVENTS--
 
 -- Activate binoculars
@@ -92,6 +111,7 @@ RegisterNetEvent('binoculars:Toggle', function()
         local zoomvalue = (1.0 / (fov_max-fov_min)) * (fov-fov_min)
         checkInputRotation(cam, zoomvalue)
         handleZoom(cam)
+        hideHUDThisFrame()
         DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
         Wait(0)
     end
