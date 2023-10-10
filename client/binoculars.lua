@@ -49,7 +49,7 @@ local function handleZoom(cam)
     end
 end
 
-local function HideHUDThisFrame()
+local function hideHUDThisFrame()
     HideHelpTextThisFrame()
     HideHudAndRadarThisFrame()
     HideHudComponentThisFrame(1) -- Wanted Stars
@@ -111,7 +111,7 @@ RegisterNetEvent('binoculars:Toggle', function()
         local zoomvalue = (1.0 / (fov_max-fov_min)) * (fov-fov_min)
         checkInputRotation(cam, zoomvalue)
         handleZoom(cam)
-        HideHUDThisFrame()
+        hideHUDThisFrame()
         DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255, 0)
         Wait(0)
     end
