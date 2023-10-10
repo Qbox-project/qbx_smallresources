@@ -4,8 +4,8 @@ lib.addKeybind({
     defaultKey = 'E',
     onReleased = function(self)
         if cache.vehicle then return end
-        if QBX.PlayerData.metadata.ishandcuffed then return end
-        if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
+ 	if QBX.PlayerData.metadata.ishandcuffed then return end
+	if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
             local coords = GetEntityCoords(cache.ped)
             local targetId, targetPed, _ = lib.getClosestPlayer(coords, 1.6, false)
             if not targetPed then return end
@@ -18,10 +18,10 @@ lib.addKeybind({
             ClearPedTasks(cache.ped)
             SetPedToRagdoll(cache.ped, 150, 150, 0, 0, 0, 0)
             RemoveAnimDict('swimming@first_person@diving')
+            SetTimeout(1000, function ()
+                self:disable(false)
+            end)
         end
-        SetTimeout(10000, function ()
-            self:disable(false)
-        end)
     end
 })
 
