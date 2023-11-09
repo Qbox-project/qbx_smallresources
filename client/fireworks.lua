@@ -62,7 +62,7 @@ CreateThread(function()
     }
     
     for i = 1, #assets do
-        lib.requestNamedPtfxAsset(assets[i])
+        lib.requestNamedPtfxAsset(assets[i], 5000)
     end
 
     while true do
