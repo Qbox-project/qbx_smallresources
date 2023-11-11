@@ -26,7 +26,6 @@ Base scripts for QBox Core Framework :building_construction:
 - Adjusting npc/vehicle/parked vehicle spawn rates
 - Infinite ammo for fire extinguisher and petrol can
 - Removal of GTA's default huds (weapon wheel, cash etc.)
-- Fireworks
 - Automatically engine on after entering vehicle
 - Discord rich presence
 - Crouch and prone
