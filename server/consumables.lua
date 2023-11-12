@@ -104,28 +104,6 @@ RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
     player.Functions.AddItem('parachute', 1)
 end)
 
------------ / Firework
-
-exports.qbx_core:CreateUseableItem('firework1', function(source, item)
-    local src = source
-    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework')
-end)
-
-exports.qbx_core:CreateUseableItem('firework2', function(source, item)
-    local src = source
-    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_indep_firework_v2')
-end)
-
-exports.qbx_core:CreateUseableItem('firework3', function(source, item)
-    local src = source
-    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'proj_xmas_firework')
-end)
-
-exports.qbx_core:CreateUseableItem('firework4', function(source, item)
-    local src = source
-    TriggerClientEvent('fireworks:client:UseFirework', src, item.name, 'scr_indep_fireworks')
-end)
-
 ----------- / Lockpicking
 
 exports.qbx_core:CreateUseableItem('lockpick', function(source)
@@ -222,25 +200,6 @@ RegisterNetEvent('consumables:server:drinkAlcohol', function(item)
     for k in pairs(ConsumablesAlcohol) do
         if k == item then
             foundItem = k
-            break
-        end
-    end
-
-    if not foundItem then return end
-
-    player.Functions.RemoveItem(foundItem, 1)
-end)
-
-RegisterNetEvent('consumables:server:UseFirework', function(item)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    local foundItem = nil
-
-    for i = 1, #ConsumablesFireworks do
-        if ConsumablesFireworks[i] == item then
-            foundItem = ConsumablesFireworks[i]
             break
         end
     end

@@ -52,13 +52,6 @@ ConsumablesAlcohol = {
     ['vodka'] = math.random(20, 40),
 }
 
-ConsumablesFireworks = {
-    'firework1',
-    'firework2',
-    'firework3',
-    'firework4'
-}
-
 Config.BlacklistedScenarios = {
     ['TYPES'] = {
         'WORLD_VEHICLE_MILITARY_PLANES_SMALL',
@@ -161,16 +154,4 @@ Config.Teleports = {
             drawText = '[E] Leave'
         },
     },
-}
-
-Config.CarWash = {
-    dirtLevel = 0.1, -- threshold for the dirt level to be counted as dirty
-    defaultPrice = 20, -- default price for carwash
-    locations = {
-        vector3(25.29, -1391.96, 29.33),
-        vector3(174.18, -1736.66, 29.35),
-        vector3(-74.56, 6427.87, 31.44),
-        vector3(1363.22, 3592.7, 34.92),
-        vector3(-699.62, -932.7, 19.01)
-    }
 }

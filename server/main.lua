@@ -44,18 +44,3 @@ RegisterNetEvent('seatbelt:DoHarnessDamage', function(hp, data)
         exports.ox_inventory:SetMetadata(src, harness.slot, harness.metadata)
     end
 end)
-
-RegisterNetEvent('qb-carwash:server:washCar', function()
-    local src = source
-    local player = exports.qbx_core:GetPlayer(src)
-
-    if not player then return end
-
-    if player.Functions.RemoveMoney('cash', Config.CarWash.defaultPrice, 'car-washed') then
-        TriggerClientEvent('qb-carwash:client:washCar', src)
-    elseif player.Functions.RemoveMoney('bank', Config.CarWash.defaultPrice, 'car-washed') then
-        TriggerClientEvent('qb-carwash:client:washCar', src)
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error')
-    end
-end)
