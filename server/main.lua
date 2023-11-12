@@ -2,12 +2,6 @@ RegisterNetEvent('tackle:server:TacklePlayer', function(playerId)
     TriggerClientEvent('tackle:client:GetTackled', playerId)
 end)
 
-lib.addCommand('id', {
-    help = 'Check Your ID #',
-}, function(source)
-    TriggerClientEvent('QBCore:Notify', source,  'ID: '..source)
-end)
-
 exports.qbx_core:CreateUseableItem('harness', function(source, item)
     TriggerClientEvent('seatbelt:client:UseHarness', source, item)
 end)
