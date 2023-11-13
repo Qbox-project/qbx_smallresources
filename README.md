@@ -1,3 +1,5 @@
+###### This resource is now deprecated and will be deconstructed in future releases. No new code will be added.
+
 # qbx_smallresources
 Base scripts for QBox Core Framework :building_construction:
 
