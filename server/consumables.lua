@@ -80,10 +80,6 @@ lib.addCommand('resetvest', {
     end
 end)
 
-exports.qbx_core:CreateUseableItem('binoculars', function(source)
-    TriggerClientEvent('binoculars:Toggle', source)
-end)
-
 exports.qbx_core:CreateUseableItem('parachute', function(source, item)
     local player = exports.qbx_core:GetPlayer(source)
 	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
