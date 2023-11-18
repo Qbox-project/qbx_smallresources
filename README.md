@@ -1,4 +1,4 @@
-###### This resource is now deprecated and will be deconstructed in future releases. No new code will be added.
+##### This resource is now deprecated and will be deconstructed in future releases. No new code will be added.
 
 # qbx_smallresources
 Base scripts for QBox Core Framework :building_construction:
@@ -13,7 +13,6 @@ Base scripts for QBox Core Framework :building_construction:
 - Removal of GTA's default vehicle spawns (planes, helicopters, emergency vehicles etc.)
 - Removal of GTA's default emergency service npcs
 - Removal of GTA's default wanted system
-- Useable binoculars
 - Weapon draw animations (normal/holster)
 - Ability to add teleport markers (from a place to another place)
 - Pointing animation with finger (by pressing "B")
