@@ -15,14 +15,6 @@ local Colors = { -- https://www.spycolor.com/
     lightgreen = 65309,
 }
 
----Logs using ox_lib logger regardless of Config.EnableOxLogging value
----@see https://overextended.github.io/docs/ox_lib/Logger/Server
-local function OxLog(source, event, message, ...)
-    lib.logger(source, event, message, ...)
-end
-
-exports('OxLog', OxLog)
-
 ---Log Queue
 local function applyRequestDelay()
     local currentTime = GetGameTimer()
@@ -58,7 +50,7 @@ local function logPayload(payload)
 
     PerformHttpRequest(payload.webhook, function(err, _, headers)
         if err and not allowedErr[err] then
-            print('^1Error occurred while attempting to send log to discord: ' .. err .. '^7')
+            lib.print.error('can\'t send log to discord', err)
             return
         end
 
@@ -148,7 +140,7 @@ exports('DiscordLog', discordLog)
 ---@param log Log
 local function createLog(log)
     if Config.EnableOxLogging then
-        OxLog(log.source, log.event, log.message)
+        lib.logger(log.source, log.event, log.message)
     end
 
     if Config.EnableDiscordLogging then
@@ -162,8 +154,3 @@ local function createLog(log)
 end
 
 exports('CreateLog', createLog)
-
----@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
-RegisterNetEvent('qb-log:server:CreateLog', function()
-    lib.print.warn('qb-log:server:CreateLog is unsupported and has no effect. Use CreateLog() after installing qbx_core\'s logger module instead.')
-end)
