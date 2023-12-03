@@ -49,9 +49,11 @@ local allowedErr = {
 local function logPayload(payload)
     local tags
 
-    for i = 1, #payload.tags do
-        if not tags then tags = '' end
-        tags = tags .. payload.tags[i]
+    if payload.tags then
+        for i = 1, #payload.tags do
+            if not tags then tags = '' end
+            tags = tags .. payload.tags[i]
+        end
     end
 
     PerformHttpRequest(payload.webhook, function(err, _, headers)
