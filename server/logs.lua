@@ -1,58 +1,18 @@
 local logQueue, isProcessingQueue, logCount = {}, false, 0
 local lastRequestTime, requestDelay = 0, 0
 
-local Webhooks = {
-    ['default'] = '',
-    ['testwebhook'] = '',
-    ['playermoney'] = '',
-    ['playerinventory'] = '',
-    ['robbing'] = '',
-    ['cuffing'] = '',
-    ['drop'] = '',
-    ['trunk'] = '',
-    ['stash'] = '',
-    ['glovebox'] = '',
-    ['banking'] = '',
-    ['vehicleshop'] = '',
-    ['vehicleupgrades'] = '',
-    ['shops'] = '',
-    ['dealers'] = '',
-    ['storerobbery'] = '',
-    ['bankrobbery'] = '',
-    ['powerplants'] = '',
-    ['death'] = '',
-    ['joinleave'] = '',
-    ['ooc'] = '',
-    ['report'] = '',
-    ['me'] = '',
-    ['pmelding'] = '',
-    ['112'] = '',
-    ['bans'] = '',
-    ['anticheat'] = '',
-    ['weather'] = '',
-    ['moneysafes'] = '',
-    ['bennys'] = '',
-    ['bossmenu'] = '',
-    ['robbery'] = '',
-    ['casino'] = '',
-    ['traphouse'] = '',
-    ['911'] = '',
-    ['palert'] = '',
-    ['house'] = '',
-}
-
 ---@enum Colors
 local Colors = { -- https://www.spycolor.com/
-    ['default'] = 14423100,
-    ['blue'] = 255,
-    ['red'] = 16711680,
-    ['green'] = 65280,
-    ['white'] = 16777215,
-    ['black'] = 0,
-    ['orange'] = 16744192,
-    ['yellow'] = 16776960,
-    ['pink'] = 16761035,
-    ['lightgreen'] = 65309,
+    default = 14423100,
+    blue = 255,
+    red = 16711680,
+    green = 65280,
+    white = 16777215,
+    black = 0,
+    orange = 16744192,
+    yellow = 16776960,
+    pink = 16761035,
+    lightgreen = 65309,
 }
 
 ---Logs using ox_lib logger regardless of Config.EnableOxLogging value
@@ -87,6 +47,13 @@ local allowedErr = {
 ---Log Queue
 ---@param payload Log Queue
 local function logPayload(payload)
+    local tags
+
+    for i = 1, #payload.tags do
+        if not tags then tags = '' end
+        tags = tags .. payload.tags[i]
+    end
+
     PerformHttpRequest(payload.webhook, function(err, _, headers)
         if err and not allowedErr[err] then
             print('^1Error occurred while attempting to send log to discord: ' .. err .. '^7')
@@ -104,7 +71,7 @@ local function logPayload(payload)
                 requestDelay = resetDelay * 1000 / 10
             end
         end
-    end, 'POST', json.encode({content = payload.tag and '@everyone' or nil, embeds = payload.embed}), { ['Content-Type'] = 'application/json' })
+    end, 'POST', json.encode({content = tags, embeds = payload.embed}), { ['Content-Type'] = 'application/json' })
 end
 
 ---Log Queue
@@ -128,69 +95,73 @@ local function processLogQueue()
     end
 end
 
----Logs to discord regardless of Config.EnableDiscordLogging value
----@param name string source of the log. Usually a playerId or name of a script.
----@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
----@param message string the message attached to the log
----@param color? string what color the message should be
----@param tagEveryone? boolean Whether an @everyone tag should be applied to this log.
-local function DiscordLog(name, title, message, color, tagEveryone)
-    local tag = tagEveryone or false
-    local webHook = Webhooks[name] or Webhooks['default']
+---@class DiscordLog
+---@field source string source of the log. Usually a playerId or name of a resource.
+---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@field message string the message attached to the log
+---@field webhook string url of the webhook this log should send to
+---@field color? string what color the message should be
+---@field tags? string[] tags in discord. Example: ['@admin', '@everyone']
+
+---Creates a discord log
+---@param log DiscordLog
+local function discordLog(log)
     local embedData = {
         {
-            ['title'] = title,
-            ['color'] = Colors[color] or Colors['default'],
-            ['footer'] = {
-                ['text'] = os.date('%H:%M:%S %m-%d-%Y'),
+            title = log.event,
+            color = Colors[log.color] or Colors.default,
+            footer = {
+                text = os.date('%H:%M:%S %m-%d-%Y'),
             },
-            ['description'] = message,
-            ['author'] = {
-                ['name'] = 'QBX Logs',
-                ['icon_url'] = 'https://media.discordapp.net/attachments/870094209783308299/870104331142189126/Logo_-_Display_Picture_-_Stylized_-_Red.png?width=670&height=670',
+            description = log.message,
+            author = {
+                name = 'QBX Logs',
             },
         }
     }
 
     logQueue[#logQueue + 1] = {
-        webhook = webHook,
-        tag = tag,
+        webhook = log.webhook,
+        tags = log.tags,
         embed = embedData
     }
 
     if not isProcessingQueue then
         isProcessingQueue = true
-
         CreateThread(processLogQueue)
     end
 end
 
-exports('DiscordLog', DiscordLog)
+exports('DiscordLog', discordLog)
 
----Creates a log using either ox_lib logger, discord webhooks, or both depending on config. If not needing discord logs, use qb-log:server:CreateOxLog event instead.
----@param name string source of the log. Usually a playerId or name of a script.
----@param title string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
----@param color? string used for discord logging only, what color the message should be
----@param message string the message attached to the log
----@param tagEveryone? boolean used for discord logging only. Whether an @everyone tag should be applied to this log.
-local function CreateLog(name, title, color, message, tagEveryone)
+---@class Log
+---@field source string source of the log. Usually a playerId or name of a resource.
+---@field event string the action or 'event' being logged. Usually a verb describing what the name is doing. Example: SpawnVehicle
+---@field message string the message attached to the log
+---@field webhook? string Discord logs only. url of the webhook this log should send to
+---@field color? string Discord logs only. what color the message should be
+---@field tags? string[] Discord logs only. tags in discord. Example: ['@admin', '@everyone']
+
+---Creates a log using either ox_lib logger, discord webhooks, or both depending on config.
+---@param log Log
+local function createLog(log)
     if Config.EnableOxLogging then
-        OxLog(name, title, message)
+        OxLog(log.source, log.event, log.message)
     end
 
     if Config.EnableDiscordLogging then
-        DiscordLog(name, title, message, color, tagEveryone)
+        if log.webhook then
+            ---@diagnostic disable-next-line: param-type-mismatch
+            discordLog(log)
+        else
+            lib.print.error('webhook is required for discord logs')
+        end
     end
 end
 
-exports('CreateLog', CreateLog)
+exports('CreateLog', createLog)
 
 ---@deprecated use the CreateLog export instead for discord logging, or OxLog for other logging.
-RegisterNetEvent('qb-log:server:CreateLog', CreateLog)
-
-lib.addCommand('testwebhook', {
-    help = 'Test Your Discord Webhook For Logs (God Only)',
-    restricted = 'group.god',
-}, function()
-    CreateLog('testwebhook', 'Test Webhook', 'default', 'Webhook setup successfully')
+RegisterNetEvent('qb-log:server:CreateLog', function()
+    lib.print.warn('qb-log:server:CreateLog is unsupported and has no effect. Use CreateLog() after installing qbx_core\'s logger module instead.')
 end)
