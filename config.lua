@@ -1,6 +1,4 @@
 Config = {}
-Config.EnableOxLogging = false -- See https://overextended.github.io/docs/ox_lib/Logger/Server
-Config.EnableDiscordLogging = true
 Config.MaxWidth = 5.0
 Config.MaxHeight = 5.0
 Config.MaxLength = 5.0
