@@ -1,224 +1,193 @@
+lib.callback.register('consumables:server:AddHunger', function(source, item)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+
+    if not Player then return false end
+
+    if Player.Functions.RemoveItem(item, 1) then
+        local hunger = Player.PlayerData.metadata['hunger'] + (Config.ConsumablesEat[item].fill or 0)
+        hunger = hunger > 100 and 100 or hunger
+        Player.Functions.SetMetaData('hunger', hunger)
+        TriggerClientEvent('hud:client:UpdateNeeds', src, hunger, Player.PlayerData.metadata.thirst)
+        return true
+    end
+
+    return false
+end)
+
+lib.callback.register('consumables:server:AddThirst', function(source, item)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+
+    if not Player then return false end
+
+    if Player.Functions.RemoveItem(item, 1) then
+        local thirst = Player.PlayerData.metadata['thirst'] +  (Config.ConsumablesDrink[item].fill or 0)
+        thirst = thirst > 100 and 100 or thirst
+        Player.Functions.SetMetaData('thirst', thirst)
+        TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata.hunger, thirst)
+        return true
+    end
+
+    return false
+end)
+
+lib.callback.register('consumables:server:useIllegal', function(source, item)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+
+    if not Player then return false end
+    if Player.Functions.RemoveItem(item, 1) then
+        if Config.ConsumablesAddiction[item].fill then
+            if Config.ConsumablesAddiction[item].filltype == 'hunger' then
+                local hunger = Player.PlayerData.metadata['hunger'] + (Config.ConsumablesAddiction[item].fill or 0)
+                hunger = hunger > 100 and 100 or hunger
+                Player.Functions.SetMetaData('hunger', hunger)
+                TriggerClientEvent('hud:client:UpdateNeeds', src, hunger, Player.PlayerData.metadata.thirst)
+            elseif Config.ConsumablesAddiction[item].filltype == 'thirst' then
+                local thirst = Player.PlayerData.metadata['thirst'] +  (Config.ConsumablesAddiction[item].fill or 0)
+                thirst = thirst > 100 and 100 or thirst
+                Player.Functions.SetMetaData('thirst', thirst)
+                TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata.hunger, thirst)
+            end
+        end
+        return true
+    end
+    return false
+end)
+
+lib.callback.register('consumables:server:useItem', function(source, item)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+
+    if not Player then return false end
+
+    if not Config.ConsumablesItems[item].removeItem then return true end
+
+    if Player.Functions.RemoveItem(item, 1) then
+        return true
+    end
+    return false
+end)
+
+-- Add CreateUseable Events
+
 ----------- / alcohol
-for cAl in pairs(ConsumablesAlcohol) do
-    exports.qbx_core:CreateUseableItem(cAl, function(source, item)
-        local src = source
-        local player = exports.qbx_core:GetPlayer(src)
-        if player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent('consumables:client:DrinkAlcohol', src, item.name)
+for k,_ in pairs(Config.ConsumablesAddiction) do
+    exports.qbx_core:CreateUseableItem(k, function(source, item)
+        TriggerClientEvent("consumables:client:Addiction", source, item.name)
+    end)
+end
+
+----------- / Eat
+for k,_ in pairs(Config.ConsumablesEat) do
+    exports.qbx_core:CreateUseableItem(k, function(source, item)
+        TriggerClientEvent("consumables:client:Eat", source, item.name)
+    end)
+end
+
+----------- / Drink
+for k,_ in pairs(Config.ConsumablesDrink) do
+    exports.qbx_core:CreateUseableItem(k, function(source, item)
+        TriggerClientEvent("consumables:client:Drink", source, item.name)
+    end)
+end
+
+----------- / Item
+for k,_ in pairs(Config.ConsumablesItems) do
+    exports.qbx_core:CreateUseableItem(k, function(source, item)
+        local consume = Config.ConsumablesItems[item.name]
+        if consume.event then
+            TriggerClientEvent(consume.event, source, consume.args or nil)
+        elseif consume.serverEvent then
+            TriggerEvent(consume.serverEvent, source, consume.args or nil)
+        else
+            TriggerClientEvent("consumables:client:Item", source, item.name)
         end
     end)
 end
 
------------ / Non-Alcoholic Drinks
-for cDr in pairs(ConsumablesDrink) do
-    exports.qbx_core:CreateUseableItem(cDr, function(source, item)
-        local src = source
-        local player = exports.qbx_core:GetPlayer(src)
-        if player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent('consumables:client:Drink', src, item.name)
-        end
+
+----------- / external useable item
+local function CreateItem(name,type)
+    exports.qbx_core:CreateUseableItem(name, function(source, item)
+        TriggerClientEvent("consumables:client:"..type, source, item.name)
     end)
 end
 
------------ / Food
-for cEa in pairs(ConsumablesEat) do
-    exports.qbx_core:CreateUseableItem(cEa, function(source, item)
-        local src = source
-        local player = exports.qbx_core:GetPlayer(src)
-        if player.Functions.RemoveItem(item.name, 1, item.slot) then
-            TriggerClientEvent('consumables:client:Eat', src, item.name)
-        end
-    end)
-end
-
------------ / Drug
-
-exports.qbx_core:CreateUseableItem('joint', function(source, item)
-    local player = exports.qbx_core:GetPlayer(source)
-	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent('consumables:client:UseJoint', source)
-end)
-
-exports.qbx_core:CreateUseableItem('cokebaggy', function(source)
-    TriggerClientEvent('consumables:client:Cokebaggy', source)
-end)
-
-exports.qbx_core:CreateUseableItem('crack_baggy', function(source)
-    TriggerClientEvent('consumables:client:Crackbaggy', source)
-end)
-
-exports.qbx_core:CreateUseableItem('xtcbaggy', function(source, _)
-    TriggerClientEvent('consumables:client:EcstasyBaggy', source)
-end)
-
-exports.qbx_core:CreateUseableItem('oxy', function(source)
-    TriggerClientEvent('consumables:client:oxy', source)
-end)
-
-exports.qbx_core:CreateUseableItem('meth', function(source)
-    TriggerClientEvent('consumables:client:meth', source)
-end)
-
------------ / Tools
-
-exports.qbx_core:CreateUseableItem('armor', function(source)
-    TriggerClientEvent('consumables:client:UseArmor', source)
-end)
-
-exports.qbx_core:CreateUseableItem('heavyarmor', function(source)
-    TriggerClientEvent('consumables:client:UseHeavyArmor', source)
-end)
-
-lib.addCommand('resetvest', {
-    help = 'Resets Vest (Police Only)',
-}, function(source)
-    local Player = exports.qbx_core:GetPlayer(source)
-    if Player.PlayerData.job.name == 'police' then
-        TriggerClientEvent('consumables:client:ResetArmor', source)
+local function AddDrink(drinkname, replenish)
+    if Config.ConsumablesDrink[drinkname] ~= nil then
+        return {false, "already added"}
     else
-        TriggerClientEvent('QBCore:Notify', source,  'For Police Officer Only', 'error')
+        Config.ConsumablesDrink[drinkname] = replenish
+        CreateItem(drinkname, 'Drink')
+        return {true, "success"}
     end
+end
+
+exports('AddDrink', AddDrink)
+
+local function AddFood(foodname, replenish)
+    if Config.ConsumablesEat[foodname] ~= nil then
+        return {false, "already added"}
+    else
+        Config.ConsumablesEat[foodname] = replenish
+        CreateItem(foodname, 'Eat')
+        return {true, "success"}
+    end
+end
+
+exports('AddFood', AddFood)
+
+local function Addiction(alcoholname, replenish)
+    if Config.ConsumablesAlcohol[alcoholname] ~= nil then
+        return {false, "already added"}
+    else
+        Config.ConsumablesAlcohol[alcoholname] = replenish
+        CreateItem(alcoholname, 'Addiction')
+        return {true, "success"}
+    end
+end
+
+exports('Addiction', Addiction)
+
+lib.addCommand('adminheal', {
+    help = 'Admin heal command',
+    params = {},
+    restricted = 'group.admin'
+}, function(source, args, raw)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+    if not Player then return false end
+    Player.Functions.SetMetaData('hunger', 100)
+    Player.Functions.SetMetaData('thirst', 100)
+    TriggerClientEvent('hud:client:UpdateNeeds', src, 100, 100)
 end)
 
-exports.qbx_core:CreateUseableItem('parachute', function(source, item)
-    local player = exports.qbx_core:GetPlayer(source)
-	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent('consumables:client:UseParachute', source)
+lib.addCommand('adminremove', {
+    help = 'Admin Thirsty command',
+    params = {},
+    restricted = 'group.admin'
+}, function(source, args, raw)
+    local src = source
+    local Player = exports.qbx_core:GetPlayer(src)
+    if not Player then return false end
+    Player.Functions.SetMetaData('hunger', 10)
+    Player.Functions.SetMetaData('thirst', 10)
+    TriggerClientEvent('hud:client:UpdateNeeds', src, 10, 10)
 end)
 
-lib.addCommand('resetparachute', {
-    help = 'Resets Parachute',
+lib.addCommand("removeparachute", {
+    help = 'Take off your Parachute',
+    params = {},
 }, function(source)
-	TriggerClientEvent('consumables:client:ResetParachute', source)
+    TriggerClientEvent("consumables:client:ResetParachute", source)
 end)
 
-RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
-    local player = exports.qbx_core:GetPlayer(source)
+RegisterNetEvent('consumables:server:AddParachute', function()
+    local Player = exports.qbx_core:GetPlayer(source)
 
-    if not player then return end
+    if not Player then return end
 
-    player.Functions.AddItem('parachute', 1)
-end)
-
------------ / Lockpicking
-
-exports.qbx_core:CreateUseableItem('lockpick', function(source)
-    TriggerClientEvent('lockpicks:UseLockpick', source, false)
-    TriggerEvent('lockpicks:UseLockpick', source, false)
-end)
-
-exports.qbx_core:CreateUseableItem('advancedlockpick', function(source)
-    TriggerClientEvent('lockpicks:UseLockpick', source, true)
-    TriggerEvent('lockpicks:UseLockpick', source, true)
-end)
-
------------ / Unused
-
--- exports.qbx_core:CreateUseableItem('smoketrailred', function(source, item)
---     local player = exports.qbx_core:GetPlayer(source)
--- 	   if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
---     TriggerClientEvent('consumables:client:UseRedSmoke', source)
--- end)
-
--- Events for adding and removing specific items to fix some exploits
-
-RegisterNetEvent('consumables:server:resetArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.AddItem('heavyarmor', 1)
-end)
-
-RegisterNetEvent('consumables:server:useHeavyArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('heavyarmor', 1)
-end)
-
-RegisterNetEvent('consumables:server:useArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('armor', 1)
-end)
-
-RegisterNetEvent('consumables:server:useMeth', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('meth', 1)
-end)
-
-RegisterNetEvent('consumables:server:useOxy', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('oxy', 1)
-end)
-
-RegisterNetEvent('consumables:server:useXTCBaggy', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('xtcbaggy', 1)
-end)
-
-RegisterNetEvent('consumables:server:useCrackBaggy', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('crack_baggy', 1)
-end)
-
-RegisterNetEvent('consumables:server:useCokeBaggy', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.RemoveItem('cokebaggy', 1)
-end)
-
-RegisterNetEvent('consumables:server:drinkAlcohol', function(item)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    local foundItem = nil
-
-    for k in pairs(ConsumablesAlcohol) do
-        if k == item then
-            foundItem = k
-            break
-        end
-    end
-
-    if not foundItem then return end
-
-    player.Functions.RemoveItem(foundItem, 1)
-end)
-
-RegisterNetEvent('consumables:server:addThirst', function(amount)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.SetMetaData('thirst', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, amount)
-end)
-
-RegisterNetEvent('consumables:server:addHunger', function(amount)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.SetMetaData('hunger', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, player.PlayerData.metadata.thirst)
+    Player.Functions.AddItem("parachute", 1)
 end)

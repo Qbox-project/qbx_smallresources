@@ -1,157 +1,37 @@
 -- Variables
-local alcoholCount, parachuteEquipped, currentVest, currentVestTexture, healing, smokingWeed, relieveCount = 0, false, nil, nil, false, false, 0
+local prop = 0
+local alcoholCount = 0
+local drunk = false
+local drunkDriving = false
+local timing = false
+local ParachuteEquiped = false
 
--- Functions
-
-local function equipParachuteAnim()
-    local hasLoaded = lib.requestAnimDict('clothingshirt')
-    if not hasLoaded then return end
-    TaskPlayAnim(cache.ped, 'clothingshirt', 'try_shirt_positive_d', 8.0, 1.0, -1, 49, 0, false, false, false)
-end
-
-local function healOxy()
-    if not healing then
-        healing = true
-    else
-        return
-    end
-
-    local count = 9
-    while count > 0 do
-        Wait(1000)
-        count -= 1
-        SetEntityHealth(cache.ped, GetEntityHealth(cache.ped) + 6)
-    end
-    healing = false
-end
-
-local function trevorEffect()
-    AnimpostfxPlay('DrugsTrevorClownsFightIn', 3.0, 0)
-    Wait(3000)
-    AnimpostfxPlay('DrugsTrevorClownsFight', 3.0, 0)
-    Wait(3000)
-	AnimpostfxPlay('DrugsTrevorClownsFightOut', 3.0, 0)
-	AnimpostfxStop('DrugsTrevorClownsFight')
-	AnimpostfxStop('DrugsTrevorClownsFightIn')
-	AnimpostfxStop('DrugsTrevorClownsFightOut')
-end
-
-local function methBagEffect()
-    local startStamina = 8
-    trevorEffect()
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.49)
-    while startStamina > 0 do
-        Wait(1000)
-        if math.random(5, 100) < 10 then
-            RestorePlayerStamina(cache.playerId, 1.0)
-        end
-        startStamina = startStamina - 1
-        if math.random(5, 100) < 51 then
-            trevorEffect()
-        end
-    end
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
-end
-
-local function ecstasyEffect()
-    local startStamina = 30
-    SetFlash(0, 0, 500, 7000, 500)
-    while startStamina > 0 do
-        Wait(1000)
-        startStamina -= 1
-        RestorePlayerStamina(cache.playerId, 1.0)
-        if math.random(1, 100) < 51 then
-            SetFlash(0, 0, 500, 7000, 500)
-            ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', 0.08)
-        end
-    end
-    if IsPedRunning(cache.ped) then
-        SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
-    end
-end
-
-local function alienEffect()
-    AnimpostfxPlay('DrugsMichaelAliensFightIn', 3.0, 0)
-    Wait(math.random(5000, 8000))
-    AnimpostfxPlay('DrugsMichaelAliensFight', 3.0, 0)
-    Wait(math.random(5000, 8000))
-    AnimpostfxPlay('DrugsMichaelAliensFightOut', 3.0, 0)
-    AnimpostfxStop('DrugsMichaelAliensFightIn')
-    AnimpostfxStop('DrugsMichaelAliensFight')
-    AnimpostfxStop('DrugsMichaelAliensFightOut')
-end
-
-local function crackBaggyEffect()
-    local startStamina = 8
-    alienEffect()
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.3)
-    while startStamina > 0 do
-        Wait(1000)
-        if math.random(1, 100) < 10 then
-            RestorePlayerStamina(cache.playerId, 1.0)
-        end
-        startStamina -= 1
-        if math.random(1, 100) < 60 and IsPedRunning(cache.ped) then
-            SetPedToRagdoll(cache.ped, math.random(1000, 2000), math.random(1000, 2000), 3, false, false, false)
-        end
-        if math.random(1, 100) < 51 then
-            alienEffect()
-        end
-    end
-    if IsPedRunning(cache.ped) then
-        SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
-    end
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
-end
-
-local function cokeBaggyEffect()
-    local startStamina = 20
-    alienEffect()
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.1)
-    while startStamina > 0 do
-        Wait(1000)
-        if math.random(1, 100) < 20 then
-            RestorePlayerStamina(cache.playerId, 1.0)
-        end
-        startStamina -= 1
-        if math.random(1, 100) < 10 and IsPedRunning(cache.ped) then
-            SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
-        end
-        if math.random(1, 300) < 10 then
-            alienEffect()
-            Wait(math.random(3000, 6000))
-        end
-    end
-    if IsPedRunning(cache.ped) then
-        SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
-    end
-    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
-end
-
-local function smokeWeed()
-    CreateThread(function()
-        while smokingWeed do
-            Wait(10000)
-            TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
-            relieveCount += 1
-            if relieveCount == 6 then
-                exports.scully_emotemenu:cancelEmote()
-                if smokingWeed then
-                    smokingWeed = false
-                    relieveCount = 0
-                end
-            end
-        end
-    end)
-end
-
--- Events
 
 RegisterNetEvent('consumables:client:Eat', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('eat')
+    if not Config.ConsumablesEat[itemName] then return end
+
+    local consume = Config.ConsumablesEat[itemName]
+
+    if consume.prop then
+        local propData = consume.prop
+        lib.requestModel(propData.model)
+        prop = CreateObject(joaat(propData.model), 0, 0, 0, true, true, true)
+        AttachEntityToEntity(prop, cache.ped, GetPedBoneIndex(cache.ped, propData.bone), propData.coords.x, propData.coords.y, propData.coords.z, propData.rot.x, propData.rot.y, propData.rot.z, true, true, false, true, 1, true)
+    end
+
+    if consume.anim then
+        local anim = consume.anim
+        lib.requestAnimDict(anim.lib)
+        TaskPlayAnim(cache.ped, anim.lib, anim.name, 8.0, 1.0, -1, anim.flag, 0, false, false, false)
+    elseif consume.scenario then
+        TaskStartScenarioInPlace(cache.ped, consume.scenario, 0, true)
+    else
+        exports.scully_emotemenu:playEmoteByCommand(consume.emote or "eat")
+    end
+
     if lib.progressBar({
-        duration = 5000,
-        label = 'Eating...',
+        duration = consume.progress or 5000,
+        label = consume.label or 'Eating...',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -161,38 +41,63 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addHunger', QBX.PlayerData.metadata.hunger + ConsumablesEat[itemName])
-        TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
+        end
+        if prop ~= 0 then
+            DeleteEntity(prop)
+            prop = 0
+        end
+        lib.callback('consumables:server:AddHunger', false, function(retreval)
+            if retreval then
+                if consume.relieveStress then
+                    TriggerServerEvent('hud:server:RelieveStress', consume.relieveStress)
+                end
+                if consume.action then
+                    consume.action(itemName)
+                end
+            end
+        end, itemName)
+    else
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
+        end
+        lib.notify({
+            description = "Cancelled",
+            type = "error",
+        })
     end
 end)
 
 RegisterNetEvent('consumables:client:Drink', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('drink')
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Drinking...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesDrink[itemName])
-    end
-end)
+    if not Config.ConsumablesDrink[itemName] then return end
 
-RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('beer7')
+    local consume = Config.ConsumablesDrink[itemName]
+
+    if consume.prop then
+        local propData = consume.prop
+        lib.requestModel(propData.model)
+        prop = CreateObject(joaat(propData.model), 0, 0, 0, true, true, true)
+        AttachEntityToEntity(prop, cache.ped, GetPedBoneIndex(cache.ped, propData.bone), propData.coords.x, propData.coords.y, propData.coords.z, propData.rot.x, propData.rot.y, propData.rot.z, true, true, false, true, 1, true)
+    end
+
+    if consume.anim then
+        local anim = consume.anim
+        lib.requestAnimDict(anim.lib)
+        TaskPlayAnim(cache.ped, anim.lib, anim.name, 8.0, 1.0, -1, anim.flag, 0, false, false, false)
+    elseif consume.scenario then
+        TaskStartScenarioInPlace(cache.ped, consume.scenario, 0, true)
+    else
+        exports.scully_emotemenu:playEmoteByCommand(consume.emote or "drink")
+    end
+
     if lib.progressBar({
-        duration = math.random(3000, 6000),
-        label = 'Drinking liquor...',
+        duration = consume.progress or 5000,
+        label = consume.label or 'Drinking...',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -202,27 +107,63 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
             combat = true
         }
     }) then -- if completed
-        exports.scully_emotemenu:cancelEmote()
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
-        TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName])
-        TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
-        alcoholCount += 1
-        if alcoholCount > 1 and alcoholCount < 4 then
-            TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
-        elseif alcoholCount >= 4 then
-            TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 200)
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
         end
-    else -- if canceled
-        exports.scully_emotemenu:cancelEmote()
-        exports.qbx_core:Notify('Canceled...', 'error')
+        if prop ~= 0 then
+            DeleteEntity(prop)
+            prop = 0
+        end
+        lib.callback('consumables:server:AddThirst', false, function(retreval)
+            if retreval then
+                if consume.relieveStress then
+                    TriggerServerEvent('hud:server:RelieveStress', consume.relieveStress)
+                end
+                if consume.action then
+                    consume.action(itemName)
+                end
+            end
+        end, itemName)
+    else
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
+        end
+        lib.notify({
+            description = "Cancelled",
+            type = "error",
+        })
     end
 end)
 
-RegisterNetEvent('consumables:client:Cokebaggy', function()
+RegisterNetEvent('consumables:client:Addiction', function(itemName)
+    if not Config.ConsumablesAddiction[itemName] then return end
+
+    local consume = Config.ConsumablesAddiction[itemName]
+
+    if consume.prop then
+        local propData = consume.prop
+        lib.requestModel(propData.model)
+        prop = CreateObject(joaat(propData.model), 0, 0, 0, true, true, true)
+        AttachEntityToEntity(prop, cache.ped, GetPedBoneIndex(cache.ped, propData.bone), propData.coords.x, propData.coords.y, propData.coords.z, propData.rot.x, propData.rot.y, propData.rot.z, true, true, false, true, 1, true)
+    end
+
+    if consume.anim then
+        local anim = consume.anim
+        lib.requestAnimDict(anim.lib)
+        TaskPlayAnim(cache.ped, anim.lib, anim.name, 8.0, 1.0, -1, anim.flag, 0, false, false, false)
+    elseif consume.scenario then
+        TaskStartScenarioInPlace(cache.ped, consume.scenario, 0, true)
+    else
+        exports.scully_emotemenu:playEmoteByCommand(consume.emote or "smokeweed")
+    end
+
     if lib.progressBar({
-        duration = math.random(5000, 8000),
-        label = 'Quick sniff...',
+        duration = consume.progress or 5000,
+        label = consume.label or 'Doing addiction...',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -230,134 +171,65 @@ RegisterNetEvent('consumables:client:Cokebaggy', function()
             car = false,
             mouse = false,
             combat = true
-        },
-        anim = {
-            dict = 'switch@trevor@trev_smoking_meth',
-            clip = 'trev_smoking_meth_loop',
-            flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useCokeBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['cokebaggy'], 'remove')
-        TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
-        cokeBaggyEffect()
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
+        end
+        if prop ~= 0 then
+            DeleteEntity(prop)
+            prop = 0
+        end
+        lib.callback('consumables:server:useIllegal', false, function(retreval)
+            if retreval then
+                if consume.relieveStress then
+                    TriggerServerEvent('hud:server:RelieveStress', consume.relieveStress)
+                end
+                if consume.action then
+                    consume.action(itemName)
+                end
+            end
+        end, itemName)
+    else
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        else
+            exports.scully_emotemenu:cancelEmote()
+        end
+        lib.notify({
+            description = "Cancelled",
+            type = "error",
+        })
     end
 end)
 
-RegisterNetEvent('consumables:client:Crackbaggy', function()
-    if lib.progressBar({
-        duration = math.random(7000, 10000),
-        label = 'Smoking crack...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        },
-        anim = {
-            dict = 'switch@trevor@trev_smoking_meth',
-            clip = 'trev_smoking_meth_loop',
-            flag = 49
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useCrackBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['crack_baggy'], 'remove')
-        TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
-        crackBaggyEffect()
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+RegisterNetEvent('consumables:client:Item', function(itemName)
+    if not Config.ConsumablesItems[itemName] then return end
+
+    local consume = Config.ConsumablesItems[itemName]
+
+    if consume.prop then
+        local propData = consume.prop
+        lib.requestModel(propData.model)
+        prop = CreateObject(joaat(propData.model), 0, 0, 0, true, true, true)
+        AttachEntityToEntity(prop, cache.ped, GetPedBoneIndex(cache.ped, propData.bone), propData.coords.x, propData.coords.y, propData.coords.z, propData.rot.x, propData.rot.y, propData.rot.z, true, true, false, true, 1, true)
     end
-end)
 
-RegisterNetEvent('consumables:client:EcstasyBaggy', function()
-    if lib.progressBar({
-        duration = 3000,
-        label = 'Popping pills...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        },
-        anim = {
-            dict = 'mp_suicide',
-            clip = 'pill',
-            flag = 49
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useXTCBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items().xtcbaggy, 'remove')
-        ecstasyEffect()
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+    if consume.anim then
+        local anim = consume.anim
+        lib.requestAnimDict(anim.lib)
+        TaskPlayAnim(cache.ped, anim.lib, anim.name, 8.0, 1.0, -1, anim.flag, 0, false, false, false)
+    elseif consume.scenario then
+        TaskStartScenarioInPlace(cache.ped, consume.scenario, 0, true)
+    elseif consume.emote then
+        exports.scully_emotemenu:playEmoteByCommand(consume.emote)
     end
-end)
 
-RegisterNetEvent('consumables:client:oxy', function()
     if lib.progressBar({
-        duration = 2000,
-        label = 'Healing...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        },
-        anim = {
-            dict = 'mp_suicide',
-            clip = 'pill',
-            flag = 49
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useOxy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['oxy'], 'remove')
-        ClearPedBloodDamage(cache.ped)
-		healOxy()
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled', 'error')
-    end
-end)
-
-RegisterNetEvent('consumables:client:meth', function()
-    if lib.progressBar({
-        duration = 1500,
-        label = 'Smoking meth...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        },
-        anim = {
-            dict = 'switch@trevor@trev_smoking_meth',
-            clip = 'trev_smoking_meth_loop',
-            flag = 49
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useMeth')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['meth'], 'remove')
-        TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
-		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
-        methBagEffect()
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
-	end
-end)
-
-RegisterNetEvent('consumables:client:UseJoint', function()
-    if lib.progressBar({
-        duration = 1500,
-        label = 'Lighting joint...',
+        duration = consume.progress or 5000,
+        label = consume.label or 'Using item...',
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -367,41 +239,39 @@ RegisterNetEvent('consumables:client:UseJoint', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['joint'], 'remove')
-        exports.scully_emotemenu:playEmoteByCommand('joint')
-        TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
-        smokeWeed()
-    end
-end)
-
-RegisterNetEvent('consumables:client:UseParachute', function()
-    equipParachuteAnim()
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on parachute...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['parachute'], 'remove')
-        GiveWeaponToPed(cache.ped, `GADGET_PARACHUTE`, 1, false, false)
-        local parachuteData = {
-            outfitData = {['bag'] = {item = 7, texture = 0}} -- Adding Parachute Clothing
-        }
-        TriggerEvent('qb-clothing:client:loadOutfit', parachuteData)
-        parachuteEquipped = true
-        TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        elseif consume.emote then
+            exports.scully_emotemenu:cancelEmote()
+        end
+        if prop ~= 0 then
+            DeleteEntity(prop)
+            prop = 0
+        end
+        lib.callback('consumables:server:useItem', false, function(retreval)
+            if retreval then
+                if consume.action then
+                    consume.action(itemName)
+                end
+            end
+        end, itemName)
+    else
+        if consume.anim or consume.scenario then
+            ClearPedTasks(cache.ped)
+        elseif consume.emote then
+            exports.scully_emotemenu:cancelEmote()
+        end
+        lib.notify({
+            description = "Cancelled",
+            type = "error",
+        })
     end
 end)
 
 RegisterNetEvent('consumables:client:ResetParachute', function()
-    if parachuteEquipped then
-        equipParachuteAnim()
+    if GetterParachute() then
+        lib.requestAnimDict("clothingshirt")
+        TaskPlayAnim(cache.ped, "clothingshirt", "try_shirt_positive_d", 8.0, 1.0, -1, 49, 0, false, false, false)
         if lib.progressBar({
             duration = 40000,
             label = 'Packing parachute...',
@@ -414,107 +284,165 @@ RegisterNetEvent('consumables:client:ResetParachute', function()
                 combat = true
             }
         }) then -- if completed
-            local parachuteRemoveData = {
-                outfitData = {['bag'] = {item = 0, texture = 0}} -- Removing Parachute Clothing
+            local ped = cache.ped
+            local ParachuteRemoveData = {
+                outfitData = {
+                    ["bag"] = { item = 0, texture = 0} -- Removing Parachute Clothing
+                }
             }
-            TriggerEvent('qb-clothing:client:loadOutfit', parachuteRemoveData)
-            TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
-            TriggerServerEvent('qb-smallpenis:server:AddParachute')
-            parachuteEquipped = false
+            TriggerEvent('qb-clothing:client:loadOutfit', ParachuteRemoveData)
+            TaskPlayAnim(ped, "clothingshirt", "exit", 8.0, 1.0, -1, 49, 0, false, false, false)
+            TriggerServerEvent("consumables:server:AddParachute")
+            SetterParachute(false)
         end
     else
-        exports.qbx_core:Notify('You don\'t have a parachute...', 'error')
+        lib.notify({
+            description = 'No parachute found',
+            type = "error",
+        })
     end
 end)
 
-RegisterNetEvent('consumables:client:UseArmor', function()
-    if GetPedArmour(cache.ped) >= 75 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on the body armour...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['armor'], 'remove')
-        TriggerServerEvent('hospital:server:SetArmor', 75)
-        TriggerServerEvent('consumables:server:useArmor')
-        SetPedArmour(cache.ped, 75)
-    end
-end)
+local function timer()
+	local time = 300
+	CreateThread( function()
+		if not timing then
+			timing = true
+			while timer ~= 0 do
+				Wait(5000) --- update timer every 5 seconds
+				time = time - 5
+				if time == 0 then
+					Sober()
+					return
+				end
+			end
+		end
+	end)
+end
 
-RegisterNetEvent('consumables:client:UseHeavyArmor', function()
-    if GetPedArmour(cache.ped) == 100 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on body armor...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        if QBX.PlayerData.charinfo.gender == 0 then
-            currentVest = GetPedDrawableVariation(cache.ped, 9)
-            currentVestTexture = GetPedTextureVariation(cache.ped, 9)
-            if GetPedDrawableVariation(cache.ped, 9) == 7 then
-                SetPedComponentVariation(cache.ped, 9, 19, GetPedTextureVariation(cache.ped, 9), 2)
-            else
-                SetPedComponentVariation(cache.ped, 9, 5, 2, 2) -- Blue
+-- Return to reality
+function Sober()
+	CreateThread(function()
+		local playerPed = cache.ped
+		timing = false
+		drunk = false
+		drunkDriving = false
+		ClearTimecycleModifier()
+		ResetScenarioTypesEnabled()
+		ResetPedMovementClipset(playerPed, 0)
+		SetPedIsDrunk(playerPed, false)
+		SetPedMotionBlur(playerPed, false)
+		ClearPedSecondaryTask(playerPed)
+		ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+
+	end)
+end
+
+local function fuckDrunkDriver()
+
+	math.randomseed(GetGameTimer())
+
+	local shitFuckDamn = math.random(1, #Config.RandomVehicleInteraction)
+	return Config.RandomVehicleInteraction[shitFuckDamn]
+end
+
+local function setPlayerDrunk(anim, shake)
+	local PlayerPed = cache.ped
+
+	RequestAnimSet(anim)
+
+	while not HasAnimSetLoaded(anim) do
+		Wait(100)
+	end
+
+	SetPedMovementClipset(PlayerPed, anim, 1)
+	ShakeGameplayCam("DRUNK_SHAKE", shake)
+	SetPedMotionBlur(PlayerPed, true)
+	SetPedIsDrunk(PlayerPed, true)
+
+end
+
+local function alcoholAction()
+    if alcoholCount <= 1 then return end
+    local anim, shake = 'move_m@drunk@slightlydrunk', 1.0
+	if alcoholCount == 2 then
+		anim = "move_m@drunk@slightlydrunk"
+		shake = 1.0
+		setPlayerDrunk(anim, shake)
+
+	elseif alcoholCount == 3 then
+		anim = "move_m@drunk@moderatedrunk"
+		shake = 2.0
+		setPlayerDrunk(anim, shake)
+
+	elseif alcoholCount >= 4 then
+		anim = "move_m@drunk@verydrunk"
+		shake = 2.0
+		setPlayerDrunk(anim, shake)
+        
+	end
+
+	if not drunk then
+		drunk = true
+		timer()
+		CreateThread(function()
+			local PlayerPed = cache.ped
+			drunkDriving = true
+
+			while drunkDriving do
+				Wait(Config.Fuckage) -- How often you want to fuck with the driver
+				if IsPedInAnyVehicle(PlayerPed, false) or IsPedInAnyVehicle(PlayerPed, false) == 0 then
+					local vehicle = GetVehiclePedIsIn(PlayerPed, false)
+					if GetPedInVehicleSeat(vehicle, -1) == PlayerPed then
+						local class = GetVehicleClass(vehicle)
+
+						if class ~= 15 or 16 or 21 or 13 then
+							local whatToFuckThemWith = fuckDrunkDriver()
+							TaskVehicleTempAction(PlayerPed, vehicle, whatToFuckThemWith.interaction, whatToFuckThemWith.time)
+						end
+					end
+				end
+			end
+		end)
+	end
+end
+
+local looped = false
+function AlcoholLoop()
+    alcoholCount = alcoholCount + 1
+    if alcoholCount > 1 and alcoholCount < 4 then
+        TriggerEvent("evidence:client:SetStatus", "alcohol", 200)
+    elseif alcoholCount >= 4 then
+        TriggerEvent("evidence:client:SetStatus", "heavyalcohol", 200)
+    end
+    alcoholAction()
+    if not looped then
+        looped = true
+        CreateThread(function()
+            while true do
+                Wait(10)
+                if alcoholCount > 0 then
+                    Wait(1000 * 60 * 15)
+                    alcoholCount -= 1
+                else
+                    looped = false
+                    break
+                end
             end
-        else
-            currentVest = GetPedDrawableVariation(cache.ped, 30)
-            currentVestTexture = GetPedTextureVariation(cache.ped, 30)
-            SetPedComponentVariation(cache.ped, 9, 30, 0, 2)
-        end
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'remove')
-        TriggerServerEvent('consumables:server:useHeavyArmor')
-        SetPedArmour(cache.ped, 100)
+        end)
     end
-end)
+end
 
-RegisterNetEvent('consumables:client:ResetArmor', function()
-    if currentVest ~= nil and currentVestTexture ~= nil then
-        if lib.progressBar({
-            duration = 2500,
-            label = 'Removing the body armour...',
-            useWhileDead = false,
-            canCancel = true,
-            disable = {
-                move = false,
-                car = false,
-                mouse = false,
-                combat = true
-            }
-        }) then -- if completed
-            SetPedComponentVariation(cache.ped, 9, currentVest, currentVestTexture, 2)
-            SetPedArmour(cache.ped, 0)
-            TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'add')
-            TriggerServerEvent('consumables:server:resetArmor')
-        end
-    else
-        exports.qbx_core:Notify('You\'re not wearing a vest...', 'error')
-    end
-end)
+function GetterParachute()
+    print('get data')
+    return ParachuteEquiped
+end
 
---Threads
+function SetterParachute(data)
+    print('set data')
+    ParachuteEquiped = data
+end
 
-CreateThread(function()
-    while true do
-        Wait(10)
-        if alcoholCount > 0 then
-            Wait(1000 * 60 * 15)
-            alcoholCount -= 1
-        else
-            Wait(2000)
-        end
-    end
-end)
+RegisterCommand('getdata', function()
+    print(ParachuteEquiped)
+end, false)
