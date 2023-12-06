@@ -155,7 +155,7 @@ lib.addCommand('adminheal', {
     help = 'Admin heal command',
     params = {},
     restricted = 'group.admin'
-}, function(source, args, raw)
+}, function(source)
     local src = source
     local Player = exports.qbx_core:GetPlayer(src)
     if not Player then return false end
@@ -168,7 +168,7 @@ lib.addCommand('adminremove', {
     help = 'Admin Thirsty command',
     params = {},
     restricted = 'group.admin'
-}, function(source, args, raw)
+}, function(source)
     local src = source
     local Player = exports.qbx_core:GetPlayer(src)
     if not Player then return false end

@@ -58,7 +58,7 @@ Config.ConsumablesAddiction = {
         relieveStress = 10,
         filltype = 'thirst',
         fill = math.random(10, 20),
-        action = function(item)
+        action = function()
             AlcoholLoop()
         end
     },
@@ -69,7 +69,7 @@ Config.ConsumablesAddiction = {
         relieveStress = 10,
         filltype = 'thirst',
         fill = math.random(10, 20),
-        action = function(item)
+        action = function()
             AlcoholLoop()
         end
     },
@@ -90,7 +90,7 @@ Config.ConsumablesAddiction = {
         relieveStress = 10,
         filltype = 'thirst',
         fill = math.random(10, 20),
-        action = function(item)
+        action = function()
             AlcoholLoop()
         end
     },
@@ -161,7 +161,7 @@ Config.ConsumablesAddiction = {
             flag = 49,
         },
         relieveStress = 10,
-        action = function (item)
+        action = function ()
             local function TrevorEffect()
                 StartScreenEffect("DrugsTrevorClownsFightIn", 3.0, false)
                 Wait(3000)
@@ -198,7 +198,7 @@ Config.ConsumablesAddiction = {
             flag = 49,
         },
         relieveStress = 10,
-        action = function(item)
+        action = function()
             local startStamina = 30
             SetFlash(0, 0, 500, 7000, 500)
             while startStamina > 0 do
@@ -247,7 +247,7 @@ Config.ConsumablesItems = {
             flag = 49,
         },
         removeItem = true,
-        action = function(itemName)
+        action = function()
             TriggerServerEvent('hospital:server:SetArmor', 50)
             SetPedArmour(cache.ped, 50)
         end
@@ -261,7 +261,7 @@ Config.ConsumablesItems = {
             flag = 49,
         },
         removeItem = true,
-        action = function(itemName)
+        action = function()
             TriggerServerEvent('hospital:server:SetArmor', 100)
             SetPedArmour(cache.ped, 100)
         end
@@ -275,7 +275,7 @@ Config.ConsumablesItems = {
             flag = 49,
         },
         removeItem = true,
-        action = function(itemName)
+        action = function()
             if not GetterParachute() then
                 local ped = cache.ped
                 GiveWeaponToPed(ped, `GADGET_PARACHUTE`, 1, false, false)

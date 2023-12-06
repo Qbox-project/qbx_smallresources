@@ -363,11 +363,10 @@ local function setPlayerDrunk(anim, shake)
 end
 
 local function alcoholAction()
+    local anim = 'move_m@drunk@slightlydrunk'
+    local shake = 1.0
     if alcoholCount <= 1 then return end
-    local anim, shake = 'move_m@drunk@slightlydrunk', 1.0
 	if alcoholCount == 2 then
-		anim = "move_m@drunk@slightlydrunk"
-		shake = 1.0
 		setPlayerDrunk(anim, shake)
 	elseif alcoholCount == 3 then
 		anim = "move_m@drunk@moderatedrunk"
