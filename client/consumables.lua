@@ -369,17 +369,14 @@ local function alcoholAction()
 		anim = "move_m@drunk@slightlydrunk"
 		shake = 1.0
 		setPlayerDrunk(anim, shake)
-
 	elseif alcoholCount == 3 then
 		anim = "move_m@drunk@moderatedrunk"
 		shake = 2.0
 		setPlayerDrunk(anim, shake)
-
 	elseif alcoholCount >= 4 then
 		anim = "move_m@drunk@verydrunk"
 		shake = 2.0
 		setPlayerDrunk(anim, shake)
-        
 	end
 
 	if not drunk then
@@ -434,15 +431,9 @@ function AlcoholLoop()
 end
 
 function GetterParachute()
-    print('get data')
     return ParachuteEquiped
 end
 
 function SetterParachute(data)
-    print('set data')
     ParachuteEquiped = data
 end
-
-RegisterCommand('getdata', function()
-    print(ParachuteEquiped)
-end, false)
