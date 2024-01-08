@@ -6,8 +6,8 @@ CreateThread(function()
         else
             text = v.name
         end
-        if v.hash ~= 0 and v.hash ~= nil then
-            AddTextEntryByHash(v.hash, text)
+        if v.hash then
+            AddTextEntryByHash(GetDisplayNameFromVehicleModel(v.model), text)
         end
     end
 end)
