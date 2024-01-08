@@ -40,7 +40,8 @@ CreateThread(function()
     local sleep
     while true do
         sleep = 250
-        if Vehicle.Vehicle then
+        local pos = GetEntityCoords(cache.ped)
+        if Vehicle.Vehicle and #(pos - Vehicle.Coords) < 3.5 then
             local vehClass = GetVehicleClass(Vehicle.Vehicle)
             sleep = 0
 
