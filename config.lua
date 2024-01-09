@@ -11,6 +11,10 @@ Config.RemoveWeaponDropsTimer = 25
 Config.DisableAmbience = false -- Disabled distance sirens, distance car alarms, etc
 Config.TimeUntilAFKKick = 1800 -- The amount of seconds it takes for you to stand AFK and get kicked
 
+Config.FontList = {
+    ["A9eelsh"] = { dict = 'A9eelsh', name = 'A9eelsh', lang = 'ar' }
+}
+
 Config.IgnoreGroupsForAFK = { -- The groups to ignore when checking for AFK activity
     ['mod'] = true,
     ['admin'] = true,
