@@ -1,7 +1,7 @@
 ##### This resource is now deprecated and will be deconstructed in future releases. No new code will be added.
 
 # qbx_smallresources
-Base scripts for QBox Core Framework :building_construction:
+Base scripts for the QBox Core Framework :building_construction:
 
 ## Dependencies
 - [qbx_core](https://github.com/Qbox-project/qbx_core)
@@ -15,24 +15,14 @@ Base scripts for QBox Core Framework :building_construction:
 - Removal of GTA's default wanted system
 - Weapon draw animations (normal/holster)
 - Ability to add teleport markers (from a place to another place)
-- Pointing animation with finger (by pressing "B")
-- Seatbelt and cruise control
 - Useable parachute
 - Useable armor
 - Weapon recoil (specific to each weapon)
 - Tackle
 - Calm AI (adjusting npc/gang npc aggresiveness)
-- Race Harness
-- /id to see the id
 - Adjusting npc/vehicle/parked vehicle spawn rates
 - Infinite ammo for fire extinguisher and petrol can
 - Removal of GTA's default huds (weapon wheel, cash etc.)
-- Automatically engine on after entering vehicle
-- Discord rich presence
-- Crouch and prone
-
-
-
 
 ## Installation
 ### Manual
