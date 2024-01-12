@@ -45,7 +45,7 @@ CreateThread(function()
             local vehClass = GetVehicleClass(Vehicle.Vehicle)
             sleep = 0
 
-            if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded and GetVehicleEngineHealth(Vehicle.Vehicle) >= 0 then
+            if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) >= Config.DamageNeeded and GetVehicleEngineHealth(Vehicle.Vehicle) >= 0 then
                 if vehClass ~= 13 or vehClass ~= 14 or vehClass ~= 15 or vehClass ~= 16 then
                     DrawText3D('Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle', Vehicle.Coords)
                 end
