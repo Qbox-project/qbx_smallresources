@@ -114,8 +114,8 @@ Config.BlacklistedScenarios = {
         "AIRTUG",
         "RIPLEY",
         "SUNTRAP",
-		"BLIMP",
-    }
+	"BLIMP",
+    },
     ['GROUPS'] = {
         2017590552,
         2141866469,
