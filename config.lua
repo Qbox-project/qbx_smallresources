@@ -103,6 +103,19 @@ Config.BlacklistedScenarios = {
         'WORLD_VEHICLE_TRUCKS_TRAILERS',
         'WORLD_VEHICLE_DISTANT_EMPTY_GROUND',
     },
+    ['SUPPRESSED'] = {
+        "SHAMAL",
+        "LUXOR",
+        "LUXOR2",
+        "LAZER",
+        "TITAN",
+        "CRUSADER",
+        "RHINO",
+        "AIRTUG",
+        "RIPLEY",
+        "SUNTRAP",
+		"BLIMP",
+    }
     ['GROUPS'] = {
         2017590552,
         2141866469,
