@@ -122,35 +122,49 @@ local recoils = {
 	-- [-1168940174] = 0.3,		--['weapon_hazardcan']
 }
 
-CreateThread(function()
-	while true do
-		if IsPedShooting(cache.ped) and not IsPedDoingDriveby(cache.ped) then
-			local _, wep = GetCurrentPedWeapon(cache.ped)
-			if recoils[wep] and recoils[wep] ~= 0 then
-				-- luacheck: ignore
-				local tv = 0
-				if GetFollowPedCamViewMode() ~= 4 then
-					repeat
-						Wait(0)
-						local p = GetGameplayCamRelativePitch()
-						SetGameplayCamRelativePitch(p + 0.1, 0.2)
-						tv += 0.1
-					until tv >= recoils[wep]
-				else
-					repeat
-						Wait(0)
-						local p = GetGameplayCamRelativePitch()
-						if recoils[wep] > 0.1 then
-							SetGameplayCamRelativePitch(p + 0.6, 1.2)
-							tv += 0.6
-						else
-							SetGameplayCamRelativePitch(p + 0.016, 0.333)
+local recoilThreadActive = false
+
+local function startWeaponRecoilThread(weapon)
+    recoilThreadActive = true
+	CreateThread(function()
+		while recoilThreadActive do
+			if IsPedShooting(cache.ped) and not IsPedDoingDriveby(cache.ped) then
+				local _, wep = GetCurrentPedWeapon(cache.ped)
+				if recoils[wep] and recoils[wep] ~= 0 then
+					-- luacheck: ignore
+					local tv = 0
+					if GetFollowPedCamViewMode() ~= 4 then
+						repeat
+							Wait(0)
+							local p = GetGameplayCamRelativePitch()
+							SetGameplayCamRelativePitch(p + 0.1, 0.2)
 							tv += 0.1
-						end
-					until tv >= recoils[wep]
+						until tv >= recoils[wep]
+					else
+						repeat
+							Wait(0)
+							local p = GetGameplayCamRelativePitch()
+							if recoils[wep] > 0.1 then
+								SetGameplayCamRelativePitch(p + 0.6, 1.2)
+								tv += 0.6
+							else
+								SetGameplayCamRelativePitch(p + 0.016, 0.333)
+								tv += 0.1
+							end
+						until tv >= recoils[wep]
+					end
 				end
 			end
+			Wait(350)
 		end
-		Wait(350)
-	end
+	end)
+end
+
+AddEventHandler('ox_inventory:currentWeapon', function(currentWeapon)
+    recoilThreadActive = false
+    Wait(0)
+
+    if currentWeapon == nil then return end
+
+    startWeaponRecoilThread(currentWeapon.name)
 end)
