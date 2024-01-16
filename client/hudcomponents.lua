@@ -35,7 +35,6 @@ CreateThread(function()
         
         -- Density
             
-        StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE') -- this should disable city sounds
         SetParkedVehicleDensityMultiplierThisFrame(Config.Density['parked'])
         SetVehicleDensityMultiplierThisFrame(Config.Density['vehicle'])
         SetRandomVehicleDensityMultiplierThisFrame(Config.Density['multiplier'])
