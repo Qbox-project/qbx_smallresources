@@ -103,6 +103,7 @@ Config.BlacklistedScenarios = {
         'WORLD_VEHICLE_TRUCKS_TRAILERS',
         'WORLD_VEHICLE_DISTANT_EMPTY_GROUND',
     },
+    -- These vehicles will be stopped from being spawned in traffic only. (unsure if this affects car generators as well)
     ['SUPPRESSED'] = {
         "SHAMAL",
         "LUXOR",
@@ -124,6 +125,7 @@ Config.BlacklistedScenarios = {
     }
 }
 
+-- these vehicles will always be deleted once anything tries to create them.
 Config.BlacklistedVehs = {
     [`SHAMAL`] = true,
     [`LUXOR`] = true,
