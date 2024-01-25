@@ -51,7 +51,9 @@ ConsumablesAlcohol = {
 }
 
 Config.BlacklistedScenarios = {
-    -- These vehicles will be stopped from being spawned in traffic only. (unsure if this affects car generators as well)
+    ['TYPES'] = {
+        -- "WORLD_VEHICLE_MILITARY_PLANES_SMALL",
+    },
     ['SUPPRESSED'] = {
         "SHAMAL",
         "LUXOR",

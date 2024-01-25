@@ -1,5 +1,8 @@
 CreateThread(function()
 	while true do
+		for _, sctyp in next, Config.BlacklistedScenarios['TYPES'] do
+			SetScenarioTypeEnabled(sctyp, false)
+		end
 		for _, scmdl in next, Config.BlacklistedScenarios['SUPPRESSED'] do
 			SetVehicleModelIsSuppressed(GetHashKey(scmdl), true)
 		end
