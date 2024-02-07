@@ -15,8 +15,6 @@ Base scripts for the QBox Core Framework :building_construction:
 - Removal of GTA's default wanted system
 - Weapon draw animations (normal/holster)
 - Ability to add teleport markers (from a place to another place)
-- Useable parachute
-- Useable armor
 - Weapon recoil (specific to each weapon)
 - Tackle
 - Calm AI (adjusting npc/gang npc aggresiveness)
