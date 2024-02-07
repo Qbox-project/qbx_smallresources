@@ -4,7 +4,7 @@ CreateThread(function()
 			SetScenarioTypeEnabled(sctyp, false)
 		end
 		for _, scmdl in next, Config.BlacklistedScenarios['SUPPRESSED'] do
-			SetVehicleModelIsSuppressed(GetHashKey(scmdl), true)
+			SetVehicleModelIsSuppressed(joaat(scmdl), true)
 		end
 		for _, scgrp in next, Config.BlacklistedScenarios['GROUPS'] do
 			SetScenarioGroupEnabled(scgrp, false)
