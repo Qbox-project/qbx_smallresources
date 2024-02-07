@@ -12,7 +12,7 @@ CreateThread(function()
                     DrawMarker(2, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 255, false, false, 0, true, nil, nil, false)
 
                     if dist < 1 then
-                        DrawText3D(v.drawText, v.coords)
+                        qbx.drawText3d({ text = v.drawText, coords = v.coords})
                         if IsControlJustReleased(0, 51) then
                             if k == 1 then
                                 if v.AllowVehicle then
