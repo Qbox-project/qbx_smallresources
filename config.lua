@@ -1,29 +1,29 @@
-Config = {}
-Config.MaxWidth = 5.0
-Config.MaxHeight = 5.0
-Config.MaxLength = 5.0
-Config.DamageNeeded = 100.0
-Config.IdleCamera = true
-Config.EnableProne = true
-Config.JointEffectTime = 60
-Config.RemoveWeaponDrops = true
+Config                        = {}
+Config.MaxWidth               = 5.0
+Config.MaxHeight              = 5.0
+Config.MaxLength              = 5.0
+Config.DamageNeeded           = 100.0
+Config.IdleCamera             = true
+Config.EnableProne            = true
+Config.JointEffectTime        = 60
+Config.RemoveWeaponDrops      = true
 Config.RemoveWeaponDropsTimer = 25
-Config.DisableAmbience = false -- Disabled distance sirens, distance car alarms, etc
-Config.TimeUntilAFKKick = 1800 -- The amount of seconds it takes for you to stand AFK and get kicked
+Config.DisableAmbience        = false -- Disabled distance sirens, distance car alarms, etc
+Config.TimeUntilAFKKick       = 1800  -- The amount of seconds it takes for you to stand AFK and get kicked
 
-Config.IgnoreGroupsForAFK = { -- The groups to ignore when checking for AFK activity
+Config.IgnoreGroupsForAFK     = {     -- The groups to ignore when checking for AFK activity
     ['mod'] = true,
     ['admin'] = true,
     ['god'] = true
 }
 
-Config.Disable = {
-    disableHudComponents = {1, 2, 3, 4, 7, 9, 13, 14, 19, 20, 21, 22}, -- Hud Components: https://docs.fivem.net/natives/?_0x6806C51AD12B83B8
-    disableControls = {37}, -- Controls: https://docs.fivem.net/docs/game-references/controls/
-    displayAmmo = true -- false disables ammo display
+Config.Disable                = {
+    disableHudComponents = { 1, 2, 3, 4, 7, 9, 13, 14, 19, 20, 21, 22 }, -- Hud Components: https://docs.fivem.net/natives/?_0x6806C51AD12B83B8
+    disableControls = { 37 },                                            -- Controls: https://docs.fivem.net/docs/game-references/controls/
+    displayAmmo = true                                                   -- false disables ammo display
 }
 
-Config.Density = {
+Config.Density                = {
     ['parked'] = 0.8,
     ['vehicle'] = 0.8,
     ['multiplier'] = 0.8,
@@ -31,26 +31,26 @@ Config.Density = {
     ['scenario'] = 0.8,
 }
 
-ConsumablesEat = {
+ConsumablesEat                = {
     ['sandwich'] = math.random(35, 54),
     ['tosti'] = math.random(40, 50),
     ['twerks_candy'] = math.random(35, 54),
     ['snikkel_candy'] = math.random(40, 50),
 }
 
-ConsumablesDrink = {
+ConsumablesDrink              = {
     ['water_bottle'] = math.random(35, 54),
     ['kurkakola'] = math.random(35, 54),
     ['coffee'] = math.random(40, 50),
 }
 
-ConsumablesAlcohol = {
+ConsumablesAlcohol            = {
     ['whiskey'] = math.random(20, 30),
     ['beer'] = math.random(30, 40),
     ['vodka'] = math.random(20, 40),
 }
 
-Config.BlacklistedScenarios = {
+Config.BlacklistedScenarios   = {
     ['TYPES'] = {
         'WORLD_VEHICLE_ATTRACTOR',
         'WORLD_VEHICLE_AMBULANCE',
@@ -115,7 +115,7 @@ Config.BlacklistedScenarios = {
         "AIRTUG",
         "RIPLEY",
         "SUNTRAP",
-	"BLIMP",
+        "BLIMP",
     },
     ['GROUPS'] = {
         2017590552,
@@ -126,7 +126,7 @@ Config.BlacklistedScenarios = {
 }
 
 -- these vehicles will always be deleted once anything tries to create them.
-Config.BlacklistedVehs = {
+Config.BlacklistedVehs        = {
     [`SHAMAL`] = true,
     [`LUXOR`] = true,
     [`LUXOR2`] = true,
@@ -174,7 +174,7 @@ Config.BlacklistedVehs = {
     [`deluxo`] = true,
 }
 
-Config.BlacklistedPeds = {
+Config.BlacklistedPeds        = {
     [`s_m_y_ranger_01`] = true,
     [`s_m_y_sheriff_01`] = true,
     [`s_m_y_cop_01`] = true,
@@ -183,7 +183,7 @@ Config.BlacklistedPeds = {
     [`s_m_y_hwaycop_01`] = true,
 }
 
-Config.Teleports = {
+Config.Teleports              = {
     --Elevator @ labs
     [1] = {
         [1] = {
@@ -211,4 +211,23 @@ Config.Teleports = {
             drawText = '[E] Leave'
         },
     },
+}
+
+-- Recoil Weapon
+
+Weapons                       = {}
+
+Weapons.List                  = {
+    ['WEAPON_REVOLVER_MK2'] = {
+        damage = 0.3,           -- If you want to use original weapon damage set it to false
+        recoil = 1.0,           -- Here is the recoil
+        shake = 0.8,            -- Here is the shake cam effect when shooting a gun
+        disableHeadshot = true, -- Here if you want to disable or enable headshot to others player
+    },
+    ['WEAPON_CARBINERIFLE'] = {
+        damage = 0.3,
+        recoil = 0.3,
+        shake = 0.09,
+        disableHeadshot = true,
+    }
 }
