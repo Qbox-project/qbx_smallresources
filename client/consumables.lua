@@ -1,5 +1,5 @@
 -- Variables
-local alcoholCount, parachuteEquipped, currentVest, currentVestTexture, healing, smokingWeed, relieveCount = 0, false, nil, nil, false, false, 0
+local alcoholCount, parachuteEquipped, healing, smokingWeed, relieveCount = 0, false, nil, nil, false
 
 -- Functions
 
@@ -441,9 +441,8 @@ RegisterNetEvent('consumables:client:UseArmor', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['armor'], 'remove')
-        TriggerServerEvent('hospital:server:SetArmor', 75)
         TriggerServerEvent('consumables:server:useArmor')
+        lib.callback('qbx_medical:server:setArmor', false, false, 75)
         SetPedArmour(cache.ped, 75)
     end
 end)
@@ -462,46 +461,9 @@ RegisterNetEvent('consumables:client:UseHeavyArmor', function()
             combat = true
         }
     }) then -- if completed
-        if QBX.PlayerData.charinfo.gender == 0 then
-            currentVest = GetPedDrawableVariation(cache.ped, 9)
-            currentVestTexture = GetPedTextureVariation(cache.ped, 9)
-            if GetPedDrawableVariation(cache.ped, 9) == 7 then
-                SetPedComponentVariation(cache.ped, 9, 19, GetPedTextureVariation(cache.ped, 9), 2)
-            else
-                SetPedComponentVariation(cache.ped, 9, 5, 2, 2) -- Blue
-            end
-        else
-            currentVest = GetPedDrawableVariation(cache.ped, 30)
-            currentVestTexture = GetPedTextureVariation(cache.ped, 30)
-            SetPedComponentVariation(cache.ped, 9, 30, 0, 2)
-        end
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'remove')
         TriggerServerEvent('consumables:server:useHeavyArmor')
+        lib.callback('qbx_medical:server:setArmor', false, false, 100)
         SetPedArmour(cache.ped, 100)
-    end
-end)
-
-RegisterNetEvent('consumables:client:ResetArmor', function()
-    if currentVest ~= nil and currentVestTexture ~= nil then
-        if lib.progressBar({
-            duration = 2500,
-            label = 'Removing the body armour...',
-            useWhileDead = false,
-            canCancel = true,
-            disable = {
-                move = false,
-                car = false,
-                mouse = false,
-                combat = true
-            }
-        }) then -- if completed
-            SetPedComponentVariation(cache.ped, 9, currentVest, currentVestTexture, 2)
-            SetPedArmour(cache.ped, 0)
-            TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['heavyarmor'], 'add')
-            TriggerServerEvent('consumables:server:resetArmor')
-        end
-    else
-        exports.qbx_core:Notify('You\'re not wearing a vest...', 'error')
     end
 end)
 

@@ -69,17 +69,6 @@ exports.qbx_core:CreateUseableItem('heavyarmor', function(source)
     TriggerClientEvent('consumables:client:UseHeavyArmor', source)
 end)
 
-lib.addCommand('resetvest', {
-    help = 'Resets Vest (Police Only)',
-}, function(source)
-    local Player = exports.qbx_core:GetPlayer(source)
-    if Player.PlayerData.job.name == 'police' then
-        TriggerClientEvent('consumables:client:ResetArmor', source)
-    else
-        TriggerClientEvent('QBCore:Notify', source,  'For Police Officer Only', 'error')
-    end
-end)
-
 exports.qbx_core:CreateUseableItem('parachute', function(source, item)
     local player = exports.qbx_core:GetPlayer(source)
 	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
@@ -122,20 +111,12 @@ end)
 
 -- Events for adding and removing specific items to fix some exploits
 
-RegisterNetEvent('consumables:server:resetArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.AddItem('heavyarmor', 1)
-end)
-
 RegisterNetEvent('consumables:server:useHeavyArmor', function()
     local player = exports.qbx_core:GetPlayer(source)
 
     if not player then return end
 
-    player.Functions.RemoveItem('heavyarmor', 1)
+    exports.ox_inventory:RemoveItem(source, 'heavyarmor', 1)
 end)
 
 RegisterNetEvent('consumables:server:useArmor', function()
@@ -143,7 +124,7 @@ RegisterNetEvent('consumables:server:useArmor', function()
 
     if not player then return end
 
-    player.Functions.RemoveItem('armor', 1)
+    exports.ox_inventory:RemoveItem(source, 'armor', 1)
 end)
 
 RegisterNetEvent('consumables:server:useMeth', function()
