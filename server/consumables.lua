@@ -59,36 +59,6 @@ exports.qbx_core:CreateUseableItem('meth', function(source)
     TriggerClientEvent('consumables:client:meth', source)
 end)
 
------------ / Tools
-
-exports.qbx_core:CreateUseableItem('armor', function(source)
-    TriggerClientEvent('consumables:client:UseArmor', source)
-end)
-
-exports.qbx_core:CreateUseableItem('heavyarmor', function(source)
-    TriggerClientEvent('consumables:client:UseHeavyArmor', source)
-end)
-
-exports.qbx_core:CreateUseableItem('parachute', function(source, item)
-    local player = exports.qbx_core:GetPlayer(source)
-	if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
-    TriggerClientEvent('consumables:client:UseParachute', source)
-end)
-
-lib.addCommand('resetparachute', {
-    help = 'Resets Parachute',
-}, function(source)
-	TriggerClientEvent('consumables:client:ResetParachute', source)
-end)
-
-RegisterNetEvent('qb-smallpenis:server:AddParachute', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.AddItem('parachute', 1)
-end)
-
 ----------- / Lockpicking
 
 exports.qbx_core:CreateUseableItem('lockpick', function(source)
@@ -99,32 +69,6 @@ end)
 exports.qbx_core:CreateUseableItem('advancedlockpick', function(source)
     TriggerClientEvent('lockpicks:UseLockpick', source, true)
     TriggerEvent('lockpicks:UseLockpick', source, true)
-end)
-
------------ / Unused
-
--- exports.qbx_core:CreateUseableItem('smoketrailred', function(source, item)
---     local player = exports.qbx_core:GetPlayer(source)
--- 	   if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
---     TriggerClientEvent('consumables:client:UseRedSmoke', source)
--- end)
-
--- Events for adding and removing specific items to fix some exploits
-
-RegisterNetEvent('consumables:server:useHeavyArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    exports.ox_inventory:RemoveItem(source, 'heavyarmor', 1)
-end)
-
-RegisterNetEvent('consumables:server:useArmor', function()
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    exports.ox_inventory:RemoveItem(source, 'armor', 1)
 end)
 
 RegisterNetEvent('consumables:server:useMeth', function()

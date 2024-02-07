@@ -1,13 +1,7 @@
 -- Variables
-local alcoholCount, parachuteEquipped, healing, smokingWeed, relieveCount = 0, false, nil, nil, false
+local alcoholCount, healing, smokingWeed, relieveCount = 0, false, false, 0
 
 -- Functions
-
-local function equipParachuteAnim()
-    local hasLoaded = lib.requestAnimDict('clothingshirt')
-    if not hasLoaded then return end
-    TaskPlayAnim(cache.ped, 'clothingshirt', 'try_shirt_positive_d', 8.0, 1.0, -1, 49, 0, false, false, false)
-end
 
 local function healOxy()
     if not healing then
@@ -371,99 +365,6 @@ RegisterNetEvent('consumables:client:UseJoint', function()
         exports.scully_emotemenu:playEmoteByCommand('joint')
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         smokeWeed()
-    end
-end)
-
-RegisterNetEvent('consumables:client:UseParachute', function()
-    equipParachuteAnim()
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on parachute...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['parachute'], 'remove')
-        GiveWeaponToPed(cache.ped, `GADGET_PARACHUTE`, 1, false, false)
-        local parachuteData = {
-            outfitData = {['bag'] = {item = 7, texture = 0}} -- Adding Parachute Clothing
-        }
-        TriggerEvent('qb-clothing:client:loadOutfit', parachuteData)
-        parachuteEquipped = true
-        TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
-    end
-end)
-
-RegisterNetEvent('consumables:client:ResetParachute', function()
-    if parachuteEquipped then
-        equipParachuteAnim()
-        if lib.progressBar({
-            duration = 40000,
-            label = 'Packing parachute...',
-            useWhileDead = false,
-            canCancel = true,
-            disable = {
-                move = false,
-                car = false,
-                mouse = false,
-                combat = true
-            }
-        }) then -- if completed
-            local parachuteRemoveData = {
-                outfitData = {['bag'] = {item = 0, texture = 0}} -- Removing Parachute Clothing
-            }
-            TriggerEvent('qb-clothing:client:loadOutfit', parachuteRemoveData)
-            TaskPlayAnim(cache.ped, 'clothingshirt', 'exit', 8.0, 1.0, -1, 49, 0, false, false, false)
-            TriggerServerEvent('qb-smallpenis:server:AddParachute')
-            parachuteEquipped = false
-        end
-    else
-        exports.qbx_core:Notify('You don\'t have a parachute...', 'error')
-    end
-end)
-
-RegisterNetEvent('consumables:client:UseArmor', function()
-    if GetPedArmour(cache.ped) >= 75 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on the body armour...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useArmor')
-        lib.callback('qbx_medical:server:setArmor', false, false, 75)
-        SetPedArmour(cache.ped, 75)
-    end
-end)
-
-RegisterNetEvent('consumables:client:UseHeavyArmor', function()
-    if GetPedArmour(cache.ped) == 100 then exports.qbx_core:Notify('You already have enough armor on!', 'error') return end
-    if lib.progressBar({
-        duration = 5000,
-        label = 'Putting on body armor...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        }
-    }) then -- if completed
-        TriggerServerEvent('consumables:server:useHeavyArmor')
-        lib.callback('qbx_medical:server:setArmor', false, false, 100)
-        SetPedArmour(cache.ped, 100)
     end
 end)
 
