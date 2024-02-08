@@ -57,25 +57,19 @@ exports.qbx_core:CreateUseableItem('advancedlockpick', function(source)
     TriggerEvent('lockpicks:UseLockpick', source, true)
 end)
 
-RegisterNetEvent('consumables:server:addThirst', function(amount)
+lib.callback.register('consumables:server:addSustenance', function(source, needType, amount)
     local player = exports.qbx_core:GetPlayer(source)
     if not player then return end
 
-    player.Functions.SetMetaData('thirst', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, amount)
-end)
+    local sustenance = player.PlayerData.metadata[needType] + amount
+    player.Functions.SetMetaData(needType, sustenance)
 
-RegisterNetEvent('consumables:server:addHunger', function(amount)
-    local player = exports.qbx_core:GetPlayer(source)
-    if not player then return end
-
-    player.Functions.SetMetaData('hunger', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, player.PlayerData.metadata.thirst)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata[needType], sustenance)
 end)
 
 lib.callback.register('consumables:server:usedItem', function(source, item)
     local player = exports.qbx_core:GetPlayer(source)
-    if not player or not item then return end
+    if not player then return end
 
     return exports.ox_inventory:RemoveItem(source, item, 1)
 end)

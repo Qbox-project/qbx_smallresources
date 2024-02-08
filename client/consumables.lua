@@ -170,7 +170,7 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
         local used = lib.callback.await('consumables:server:usedItem', false, itemName)
         if not used then return end
 
-        TriggerServerEvent('consumables:server:addHunger', QBX.PlayerData.metadata.hunger + ConsumablesEat[itemName])
+        lib.callback('consumables:server:addSustenance', false, false, 'hunger', ConsumablesEat[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
@@ -206,7 +206,7 @@ RegisterNetEvent('consumables:client:Drink', function(itemName)
         local used = lib.callback.await('consumables:server:usedItem', false, itemName)
         if not used then return end
 
-        TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesDrink[itemName])
+        lib.callback('consumables:server:addSustenance', false, false, 'thirst', ConsumablesDrink[itemName])
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
     end
