@@ -1,9 +1,12 @@
 ----------- / alcohol
 for alcohol, params in pairs(ConsumablesAlcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', src, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.name)
         if not drank then return end
-        if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
@@ -23,9 +26,12 @@ end
 ----------- / Non-Alcoholic Drinks
 for drink, params in pairs(ConsumablesDrink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
-        local drank = lib.callback.await('consumables:client:Drink', src, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+
+        local drank = lib.callback.await('consumables:client:Drink', source, item.name)
         if not drank then return end
-        if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
@@ -45,9 +51,12 @@ end
 ----------- / Food
 for food, params in pairs(ConsumablesEat) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
-        local ate = lib.callback.await('consumables:client:Drink', src, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+        
+        local ate = lib.callback.await('consumables:client:Drink', source, item.name)
         if not ate then return end
-        if not player.Functions.RemoveItem(item.name, 1, item.slot) then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
         player.Functions.SetMetaData('hunger', sustenance)
