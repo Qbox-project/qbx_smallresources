@@ -13,7 +13,7 @@ local function healOxy()
     local count = 9
     while count > 0 do
         Wait(1000)
-        count = count - 1
+        count -= 1
         SetEntityHealth(cache.ped, GetEntityHealth(cache.ped) + 6)
     end
     healing = false
@@ -39,7 +39,7 @@ local function methBagEffect()
         if math.random(5, 100) < 10 then
             RestorePlayerStamina(cache.playerId, 1.0)
         end
-        startStamina = startStamina - 1
+        startStamina -= 1
         if math.random(5, 100) < 51 then
             trevorEffect()
         end
@@ -52,7 +52,7 @@ local function ecstasyEffect()
     SetFlash(0, 0, 500, 7000, 500)
     while startStamina > 0 do
         Wait(1000)
-        startStamina = startStamina - 1
+        startStamina -= 1
         RestorePlayerStamina(cache.playerId, 1.0)
         if math.random(1, 100) < 51 then
             SetFlash(0, 0, 500, 7000, 500)
@@ -84,7 +84,7 @@ local function crackBaggyEffect()
         if math.random(1, 100) < 10 then
             RestorePlayerStamina(cache.playerId, 1.0)
         end
-        startStamina = startStamina - 1
+        startStamina -= 1
         if math.random(1, 100) < 60 and IsPedRunning(cache.ped) then
             SetPedToRagdoll(cache.ped, math.random(1000, 2000), math.random(1000, 2000), 3, false, false, false)
         end
@@ -107,7 +107,7 @@ local function cokeBaggyEffect()
         if math.random(1, 100) < 20 then
             RestorePlayerStamina(cache.playerId, 1.0)
         end
-        startStamina = startStamina - 1
+        startStamina -= 1
         if math.random(1, 100) < 10 and IsPedRunning(cache.ped) then
             SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
         end
@@ -127,7 +127,7 @@ local function smokeWeed()
         while smokingWeed do
             Wait(10000)
             TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
-            relieveCount = relieveCount + 1
+            relieveCount += 1
             if relieveCount == 6 then
                 exports.scully_emotemenu:cancelEmote()
                 if smokingWeed then
@@ -241,9 +241,9 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
         local used = lib.callback.await('consumables:server:usedItem', false, itemName)
         if not used then return end
 
-        TriggerServerEvent('consumables:server:addThirst', {name = itemName,amount = QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName]})
+        TriggerServerEvent('consumables:server:addThirst', {name = itemName, amount = QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName]})
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
-        alcoholCount = alcoholCount + 1
+        alcoholCount += 1
         if alcoholCount > 1 and alcoholCount < 4 then
             TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
         elseif alcoholCount >= 4 then
@@ -425,7 +425,7 @@ CreateThread(function()
         Wait(10)
         if alcoholCount > 0 then
             Wait(1000 * 60 * 15)
-            alcoholCount = alcoholCount - 1
+            alcoholCount -= 1
         else
             Wait(2000)
         end
