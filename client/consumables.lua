@@ -20,11 +20,11 @@ local function healOxy()
 end
 
 local function trevorEffect()
-    AnimpostfxPlay('DrugsTrevorClownsFightIn', 3.0, 0)
+    AnimpostfxPlay('DrugsTrevorClownsFightIn', 3.0, false)
     Wait(3000)
-    AnimpostfxPlay('DrugsTrevorClownsFight', 3.0, 0)
+    AnimpostfxPlay('DrugsTrevorClownsFight', 3.0, false)
     Wait(3000)
-	AnimpostfxPlay('DrugsTrevorClownsFightOut', 3.0, 0)
+	AnimpostfxPlay('DrugsTrevorClownsFightOut', 3.0, false)
 	AnimpostfxStop('DrugsTrevorClownsFight')
 	AnimpostfxStop('DrugsTrevorClownsFightIn')
 	AnimpostfxStop('DrugsTrevorClownsFightOut')
@@ -39,7 +39,7 @@ local function methBagEffect()
         if math.random(5, 100) < 10 then
             RestorePlayerStamina(cache.playerId, 1.0)
         end
-        startStamina = startStamina - 1
+        startStamina -= 1
         if math.random(5, 100) < 51 then
             trevorEffect()
         end
@@ -65,11 +65,11 @@ local function ecstasyEffect()
 end
 
 local function alienEffect()
-    AnimpostfxPlay('DrugsMichaelAliensFightIn', 3.0, 0)
+    AnimpostfxPlay('DrugsMichaelAliensFightIn', 3.0, false)
     Wait(math.random(5000, 8000))
-    AnimpostfxPlay('DrugsMichaelAliensFight', 3.0, 0)
+    AnimpostfxPlay('DrugsMichaelAliensFight', 3.0, false)
     Wait(math.random(5000, 8000))
-    AnimpostfxPlay('DrugsMichaelAliensFightOut', 3.0, 0)
+    AnimpostfxPlay('DrugsMichaelAliensFightOut', 3.0, false)
     AnimpostfxStop('DrugsMichaelAliensFightIn')
     AnimpostfxStop('DrugsMichaelAliensFight')
     AnimpostfxStop('DrugsMichaelAliensFightOut')
@@ -142,7 +142,6 @@ end
 -- Events
 
 RegisterNetEvent('consumables:client:Eat', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('eat')
     if lib.progressBar({
         duration = 5000,
         label = 'Eating...',
@@ -153,17 +152,32 @@ RegisterNetEvent('consumables:client:Eat', function(itemName)
             car = false,
             mouse = false,
             combat = true
+        },
+        anim = {
+            clip = 'mp_player_int_eat_burger',
+            dict = 'mp_player_inteat@burger',
+            flag = 49
+        },
+        prop = {
+            {
+                model = 'prop_cs_burger_01',
+                bone = 18905,
+                pos = {x = 0.13, y = 0.05, z = 0.02},
+                rot = {x = -50.0, y = 16.0, z = 60.0}
+            }
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addHunger', QBX.PlayerData.metadata.hunger + ConsumablesEat[itemName])
+        local used = lib.callback.await('consumables:server:usedItem', false, itemName)
+        if not used then return end
+
+        lib.callback('consumables:server:addSustenance', false, false, 'hunger', ConsumablesEat[itemName])
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
+    else -- if canceled
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:Drink', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('drink')
     if lib.progressBar({
         duration = 5000,
         label = 'Drinking...',
@@ -174,16 +188,31 @@ RegisterNetEvent('consumables:client:Drink', function(itemName)
             car = false,
             mouse = false,
             combat = true
+        },
+        anim = {
+            clip = 'loop_bottle',
+            dict = 'mp_player_intdrink',
+            flag = 49
+        },
+        prop = {
+            {
+                model = 'prop_ld_flow_bottle',
+                bone = 18905,
+                pos = {x = 0.12, y = 0.008, z = 0.03},
+                rot = {x = 240.0, y = -60.0, z = 0.0}
+            }
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        exports.scully_emotemenu:cancelEmote()
-        TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesDrink[itemName])
+        local used = lib.callback.await('consumables:server:usedItem', false, itemName)
+        if not used then return end
+
+        lib.callback('consumables:server:addSustenance', false, false, 'thirst', ConsumablesDrink[itemName])
+    else -- if canceled
+        exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
-    exports.scully_emotemenu:playEmoteByCommand('beer7')
     if lib.progressBar({
         duration = math.random(3000, 6000),
         label = 'Drinking liquor...',
@@ -194,12 +223,25 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
             car = false,
             mouse = false,
             combat = true
+        },
+        anim = {
+            clip = 'loop_bottle',
+            dict = 'mp_player_intdrink',
+            flag = 49
+        },
+        prop = {
+            {
+                model = 'prop_amb_beer_bottle',
+                bone = 18905,
+                pos = {x = 0.12, y = 0.008, z = 0.03},
+                rot = {x = 240.0, y = -60.0, z = 0.0}
+            }
         }
     }) then -- if completed
-        exports.scully_emotemenu:cancelEmote()
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()[itemName], 'remove')
-        TriggerServerEvent('consumables:server:drinkAlcohol', itemName)
-        TriggerServerEvent('consumables:server:addThirst', QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName])
+        local used = lib.callback.await('consumables:server:usedItem', false, itemName)
+        if not used then return end
+
+        TriggerServerEvent('consumables:server:addThirst', {name = itemName, amount = QBX.PlayerData.metadata.thirst + ConsumablesAlcohol[itemName]})
         TriggerServerEvent('hud:server:RelieveStress', math.random(2, 4))
         alcoholCount += 1
         if alcoholCount > 1 and alcoholCount < 4 then
@@ -208,7 +250,6 @@ RegisterNetEvent('consumables:client:DrinkAlcohol', function(itemName)
             TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 200)
         end
     else -- if canceled
-        exports.scully_emotemenu:cancelEmote()
         exports.qbx_core:Notify('Canceled...', 'error')
     end
 end)
@@ -231,8 +272,9 @@ RegisterNetEvent('consumables:client:Cokebaggy', function()
             flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useCokeBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['cokebaggy'], 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'cokebaggy')
+        if not used then return end
+
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
         cokeBaggyEffect()
     else -- if canceled
@@ -258,8 +300,9 @@ RegisterNetEvent('consumables:client:Crackbaggy', function()
             flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useCrackBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['crack_baggy'], 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'crack_baggy')
+        if not used then return end
+
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
         crackBaggyEffect()
     else -- if canceled
@@ -285,8 +328,9 @@ RegisterNetEvent('consumables:client:EcstasyBaggy', function()
             flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useXTCBaggy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items().xtcbaggy, 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'xtcbaggy')
+        if not used then return end
+
         ecstasyEffect()
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
@@ -311,8 +355,9 @@ RegisterNetEvent('consumables:client:oxy', function()
             flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useOxy')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['oxy'], 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'oxy')
+        if not used then return end
+
         ClearPedBloodDamage(cache.ped)
 		healOxy()
     else -- if canceled
@@ -338,8 +383,9 @@ RegisterNetEvent('consumables:client:meth', function()
             flag = 49
         }
     }) then -- if completed
-        TriggerServerEvent('consumables:server:useMeth')
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['meth'], 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'meth')
+        if not used then return end
+
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         methBagEffect()
@@ -361,11 +407,15 @@ RegisterNetEvent('consumables:client:UseJoint', function()
             combat = true
         }
     }) then -- if completed
-        TriggerEvent('inventory:client:ItemBox', exports.ox_inventory:Items()['joint'], 'remove')
+        local used = lib.callback.await('consumables:server:usedItem', false, 'joint')
+        if not used then return end
+
         exports.scully_emotemenu:playEmoteByCommand('joint')
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         smokeWeed()
-    end
+    else -- if canceled
+        exports.qbx_core:Notify('Canceled...', 'error')
+	end
 end)
 
 --Threads
