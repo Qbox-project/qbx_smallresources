@@ -45,7 +45,7 @@ CreateThread(function()
     end
 end)
 
-local function addDisabedHudComponents(hudComponents)
+local function addDisableHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
     if hudComponentsType == 'number' then
         disableHudComponents[#disableHudComponents+1] = hudComponents
@@ -56,9 +56,9 @@ local function addDisabedHudComponents(hudComponents)
     end
 end
 
-exports('addDisableHudComponents', addDisabedHudComponents)
+exports('addDisableHudComponents', addDisableHudComponents)
 
-local function removeDisabledHudComponents(hudComponents)
+local function removeDisableHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
     if hudComponentsType == 'number' then
         for i = 1, #disableHudComponents do
@@ -78,7 +78,7 @@ local function removeDisabledHudComponents(hudComponents)
     end
 end
 
-exports('removeDisableHudComponents', removeDisabledHudComponents)
+exports('removeDisableHudComponents', removeDisableHudComponents)
 
 local function getDisableHudComponents()
     return disableHudComponents
