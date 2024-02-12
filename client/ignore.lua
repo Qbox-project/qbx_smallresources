@@ -1,12 +1,14 @@
+local config = require 'config.client'
+
 CreateThread(function()
 	while true do
-		for _, sctyp in next, Config.BlacklistedScenarios['TYPES'] do
+		for _, sctyp in next, config.blacklisted.scenarioTypes do
 			SetScenarioTypeEnabled(sctyp, false)
 		end
-		for _, scmdl in next, Config.BlacklistedScenarios['SUPPRESSED'] do
+		for _, scmdl in next, config.blacklisted.suppressedModels do
 			SetVehicleModelIsSuppressed(joaat(scmdl), true)
 		end
-		for _, scgrp in next, Config.BlacklistedScenarios['GROUPS'] do
+		for _, scgrp in next, config.blacklisted.scenarioGroups do
 			SetScenarioGroupEnabled(scgrp, false)
 		end
 		Wait(10000)
@@ -20,7 +22,7 @@ AddEventHandler('populationPedCreating', function(x, y, z)
 end)
 
 CreateThread(function() -- all these should only need to be called once
-	if Config.DisableAmbience then
+	if config.disable.ambience then
 		StartAudioScene('CHARACTER_CHANGE_IN_SKY_SCENE')
 	end
 	SetAudioFlag('PoliceScannerDisabled', true)
@@ -60,7 +62,7 @@ CreateThread(function()
 	SetMaxWantedLevel(0)
 end)
 
-if Config.IdleCamera then --Disable Idle Cinamatic Cam
+if config.disable.idleCamera then
 	DisableIdleCamera(true)
 end
 

@@ -1,3 +1,5 @@
+local config = require 'config.client'
+
 local Vehicle = {
     Coords = nil,
     Vehicle = nil,
@@ -45,7 +47,7 @@ CreateThread(function()
             local vehClass = GetVehicleClass(Vehicle.Vehicle)
             sleep = 0
 
-            if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded and GetVehicleEngineHealth(Vehicle.Vehicle) >= 0 then
+            if IsVehicleSeatFree(Vehicle.Vehicle, -1) and GetVehicleEngineHealth(Vehicle.Vehicle) <= config.damageNeeded and GetVehicleEngineHealth(Vehicle.Vehicle) >= 0 then
                 if vehClass ~= 13 or vehClass ~= 14 or vehClass ~= 15 or vehClass ~= 16 then
                     qbx.drawText3d({ text = 'Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle', coords = Vehicle.Coords})
                 end
@@ -53,7 +55,7 @@ CreateThread(function()
 
             if IsControlPressed(0, 21) and IsVehicleSeatFree(Vehicle.Vehicle, -1) and
                 not IsEntityAttachedToEntity(cache.ped, Vehicle.Vehicle) and IsControlJustPressed(0, 38) and
-                GetVehicleEngineHealth(Vehicle.Vehicle) <= Config.DamageNeeded then
+                GetVehicleEngineHealth(Vehicle.Vehicle) <= config.damageNeeded then
                 NetworkRequestControlOfEntity(Vehicle.Vehicle)
                 if Vehicle.IsInFront then
                     AttachEntityToEntity(cache.ped, Vehicle.Vehicle, GetPedBoneIndex(cache.ped, 6286), 0.0,

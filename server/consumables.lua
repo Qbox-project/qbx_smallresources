@@ -1,5 +1,6 @@
------------ / alcohol
-for alcohol, params in pairs(Consumables.alcohol) do
+local sharedConfig = require 'config.shared'
+
+for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
@@ -10,7 +11,7 @@ for alcohol, params in pairs(Consumables.alcohol) do
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
-        
+
         if not params.stressRelief then
             params.stressRelief = {
                 min = 1,
@@ -23,8 +24,7 @@ for alcohol, params in pairs(Consumables.alcohol) do
     end)
 end
 
------------ / Non-Alcoholic Drinks
-for drink, params in pairs(Consumables.drink) do
+for drink, params in pairs(sharedConfig.consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
@@ -35,7 +35,7 @@ for drink, params in pairs(Consumables.drink) do
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
-        
+
         if not params.stressRelief then
             params.stressRelief = {
                 min = 1,
@@ -48,12 +48,11 @@ for drink, params in pairs(Consumables.drink) do
     end)
 end
 
------------ / Food
-for food, params in pairs(Consumables.food) do
+for food, params in pairs(sharedConfig.consumables.food) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
-        
+
         local ate = lib.callback.await('consumables:client:Drink', source, item.name)
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
@@ -72,8 +71,6 @@ for food, params in pairs(Consumables.food) do
         TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
     end)
 end
-
------------ / Drug
 
 exports.qbx_core:CreateUseableItem('joint', function(source)
     TriggerClientEvent('consumables:client:UseJoint', source)
@@ -98,8 +95,6 @@ end)
 exports.qbx_core:CreateUseableItem('meth', function(source)
     TriggerClientEvent('consumables:client:meth', source)
 end)
-
------------ / Lockpicking
 
 exports.qbx_core:CreateUseableItem('lockpick', function(source)
     TriggerClientEvent('lockpicks:UseLockpick', source, false)

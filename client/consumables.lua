@@ -1,7 +1,5 @@
--- Variables
+local sharedConfig = require 'config.shared'
 local alcoholCount, healing, smokingWeed, relieveCount = 0, false, false, 0
-
--- Functions
 
 local function healOxy()
     if not healing then
@@ -139,8 +137,6 @@ local function smokeWeed()
     end)
 end
 
--- Events
-
 lib.callback.register('consumables:client:Eat', function(itemName)
     if lib.progressBar({
         duration = 5000,
@@ -153,12 +149,12 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = Consumables.food[itemName].anim or {
+        anim = sharedConfig.consumables.food[itemName].anim or {
             clip = 'mp_player_int_eat_burger',
             dict = 'mp_player_inteat@burger',
             flag = 49
         },
-        prop = Consumables.food[itemName].anim.prop or {
+        prop = sharedConfig.consumables.food[itemName].anim.prop or {
             {
                 model = 'prop_cs_burger_01',
                 bone = 18905,
@@ -186,12 +182,12 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = Consumables.drink[itemName].anim or {
+        anim = sharedConfig.consumables.drink[itemName].anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = Consumables.drink[itemName].prop or {
+        prop = sharedConfig.consumables.drink[itemName].prop or {
             {
                 model = 'prop_ld_flow_bottle',
                 bone = 18905,
@@ -219,12 +215,12 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = Consumables.alcohol[itemName].anim or {
+        anim = sharedConfig.consumables.alcohol[itemName].anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = Consumables.alcohol[itemName].prop or {
+        prop = sharedConfig.consumables.alcohol[itemName].prop or {
             {
                 model = 'prop_amb_beer_bottle',
                 bone = 18905,
@@ -233,7 +229,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             }
         }
     }) then -- if completed
-        alcoholCount += Consumables.alcohol[itemName].alcoholLevel or 1
+        alcoholCount += sharedConfig.consumables.alcohol[itemName].alcoholLevel or 1
         if alcoholCount > 1 and alcoholCount < 4 then
             TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
         elseif alcoholCount >= 4 then
@@ -409,8 +405,6 @@ RegisterNetEvent('consumables:client:UseJoint', function()
         exports.qbx_core:Notify('Canceled...', 'error')
 	end
 end)
-
---Threads
 
 CreateThread(function()
     while true do
