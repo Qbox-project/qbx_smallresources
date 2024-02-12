@@ -1,3 +1,5 @@
+local config = require 'config.server'
+
 local loggedInPlayers = {}
 local checkUser = {}
 local previousPos = {}
@@ -17,7 +19,7 @@ local function updateCheckUser(source)
     local permissions = exports.qbx_core:GetPermission(source)
 
     for k in pairs(permissions) do
-        if Config.IgnoreGroupsForAFK[k] then
+        if config.ignoreGroupsForAFK[k] then
             checkUser[source] = false
             return
         end
@@ -59,7 +61,7 @@ CreateThread(function()
                 local playerPed = GetPlayerPed(v)
                 local currentPos = GetEntityCoords(playerPed)
                 if not time[v] then
-                    time[v] = Config.TimeUntilAFKKick
+                    time[v] = config.timeUntilAFKKick
                 end
 
                 if previousPos[v] and currentPos == previousPos[v] then
@@ -75,7 +77,7 @@ CreateThread(function()
                         DropPlayer(v --[[@as string]], 'You have been kicked for being AFK')
                     end
                 else
-                    time[v] = Config.TimeUntilAFKKick
+                    time[v] = config.timeUntilAFKKick
                 end
 
                 previousPos[v] = currentPos

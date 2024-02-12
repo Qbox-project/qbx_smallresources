@@ -1,22 +1,23 @@
-local disableHudComponents = Config.Disable.disableHudComponents
-local disableControls = Config.Disable.disableControls
-local displayAmmo = Config.Disable.displayAmmo
+local config = require 'config.client'
+local disableHudComponents = config.disable.hudComponents
+local disableControls = config.disable.controls
+local displayAmmo = config.disable.displayAmmo
 
-local function DecorSet(Type, Value)
-    if Type == 'parked' then
-        Config.Density['parked'] = Value
-    elseif Type == 'vehicle' then
-        Config.Density['vehicle'] = Value
-    elseif Type == 'multiplier' then
-        Config.Density['multiplier'] = Value
-    elseif Type == 'peds' then
-        Config.Density['peds'] = Value
-    elseif Type == 'scenario' then
-        Config.Density['scenario'] = Value
+local function decorSet(type, value)
+    if type == 'parked' then
+        config.density.parked = value
+    elseif type == 'vehicle' then
+        config.density.vehicle = value
+    elseif type == 'multiplier' then
+        config.density.multiplier = value
+    elseif type == 'peds' then
+        config.density.peds = value
+    elseif type == 'scenario' then
+        config.density.scenario = value
     end
 end
 
-exports('DecorSet', DecorSet)
+exports('DecorSet', decorSet)
 
 CreateThread(function()
     while true do
@@ -32,19 +33,19 @@ CreateThread(function()
         end
 
         DisplayAmmoThisFrame(displayAmmo)
-        
+
         -- Density
 
-        SetParkedVehicleDensityMultiplierThisFrame(Config.Density['parked'])
-        SetVehicleDensityMultiplierThisFrame(Config.Density['vehicle'])
-        SetRandomVehicleDensityMultiplierThisFrame(Config.Density['multiplier'])
-        SetPedDensityMultiplierThisFrame(Config.Density['peds'])
-        SetScenarioPedDensityMultiplierThisFrame(Config.Density['scenario'], Config.Density['scenario']) -- Walking NPC Density
+        SetParkedVehicleDensityMultiplierThisFrame(config.density.parked)
+        SetVehicleDensityMultiplierThisFrame(config.density.vehicle)
+        SetRandomVehicleDensityMultiplierThisFrame(config.density.multiplier)
+        SetPedDensityMultiplierThisFrame(config.density.peds)
+        SetScenarioPedDensityMultiplierThisFrame(config.density.scenario, config.density.scenario) -- Walking NPC Density
         Wait(0)
     end
 end)
 
-exports('addDisableHudComponents', function(hudComponents)
+local function addDisabedHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
     if hudComponentsType == 'number' then
         disableHudComponents[#disableHudComponents+1] = hudComponents
@@ -53,9 +54,11 @@ exports('addDisableHudComponents', function(hudComponents)
             disableHudComponents[#disableHudComponents+1] = hudComponents[i]
         end
     end
-end)
+end
 
-exports('removeDisableHudComponents', function(hudComponents)
+exports('addDisableHudComponents', addDisabedHudComponents)
+
+local function removeDisabledHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
     if hudComponentsType == 'number' then
         for i = 1, #disableHudComponents do
@@ -73,11 +76,17 @@ exports('removeDisableHudComponents', function(hudComponents)
             end
         end
     end
-end)
+end
 
-exports('getDisableHudComponents', function() return disableHudComponents end)
+exports('removeDisableHudComponents', removeDisabledHudComponents)
 
-exports('addDisableControls', function(controls)
+local function getDisableHudComponents()
+    return disableHudComponents
+end
+
+exports('getDisableHudComponents', getDisableHudComponents)
+
+local function addDisableControls(controls)
     local controlsType = type(controls)
     if controlsType == 'number' then
         disableControls[#disableControls+1] = controls
@@ -86,9 +95,11 @@ exports('addDisableControls', function(controls)
             disableControls[#disableControls+1] = controls[i]
         end
     end
-end)
+end
 
-exports('removeDisableControls', function(controls)
+exports('addDisableControls', addDisableControls)
+
+local function removeDisableControls(controls)
     local controlsType = type(controls)
     if controlsType == 'number' then
         for i = 1, #disableControls do
@@ -106,10 +117,24 @@ exports('removeDisableControls', function(controls)
             end
         end
     end
-end)
+end
 
-exports('getDisableControls', function() return disableControls end)
+exports('removeDisableControls', removeDisableControls)
 
-exports('setDisplayAmmo', function(bool) displayAmmo = bool end)
+local function getDisableControls()
+    return disableControls
+end
 
-exports('getDisplayAmmo', function() return displayAmmo end)
+exports('getDisableControls', getDisableControls)
+
+local function setDisplayAmmo(bool)
+    displayAmmo = bool
+end
+
+exports('setDisplayAmmo', setDisplayAmmo)
+
+local function getDisplayAmmo()
+    return displayAmmo
+end
+
+exports('getDisplayAmmo', getDisplayAmmo)
