@@ -154,7 +154,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             dict = 'mp_player_inteat@burger',
             flag = 49
         },
-        prop = sharedConfig.consumables.food[itemName].anim.prop or {
+        prop = sharedConfig.consumables.food[itemName].prop or {
             {
                 model = 'prop_cs_burger_01',
                 bone = 18905,
