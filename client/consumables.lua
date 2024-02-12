@@ -153,12 +153,12 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = ConsumablesEat[itemName].anim or {
+        anim = Consumables.food[itemName].anim or {
             clip = 'mp_player_int_eat_burger',
             dict = 'mp_player_inteat@burger',
             flag = 49
         },
-        prop = ConsumablesEat[itemName].anim.prop or {
+        prop = Consumables.food[itemName].anim.prop or {
             {
                 model = 'prop_cs_burger_01',
                 bone = 18905,
@@ -186,12 +186,12 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = ConsumablesDrink[itemName].anim or {
+        anim = Consumables.drink[itemName].anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = ConsumablesDrink[itemName].prop or {
+        prop = Consumables.drink[itemName].prop or {
             {
                 model = 'prop_ld_flow_bottle',
                 bone = 18905,
@@ -219,12 +219,12 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = ConsumablesAlcohol[itemName].anim or {
+        anim = Consumables.alcohol[itemName].anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = ConsumablesAlcohol[itemName].prop or {
+        prop = Consumables.alcohol[itemName].prop or {
             {
                 model = 'prop_amb_beer_bottle',
                 bone = 18905,
@@ -233,7 +233,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             }
         }
     }) then -- if completed
-        alcoholCount += ConsumablesAlcohol[itemName].alcoholLevel or 1
+        alcoholCount += Consumables.alcohol[itemName].alcoholLevel or 1
         if alcoholCount > 1 and alcoholCount < 4 then
             TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
         elseif alcoholCount >= 4 then

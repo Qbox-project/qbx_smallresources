@@ -50,122 +50,118 @@ Config.Density = {
 ---@field max number
 
 ---@meta
----@class consumeables
+---@class consumable
 ---@field min number
 ---@field max number
 ---@field anim anim?
 ---@field prop table?
 ---@field stressRelief table?
 
----@class ConsumablesEat : consumeables
+---@meta
+---@class consumableAlcohol : consumable
 
----@type ConsumablesEat
-ConsumablesEat = {
-    ['sandwich'] = {
-        min = 35,
-        max = 54,
-        stressRelief = {
-            min = 1,
-            max = 4
+Consumables = {
+    ---@type table<string, consumable>
+    food = {
+        sandwich = {
+            min = 35,
+            max = 54,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+        },
+        tosti = {
+            min = 40,
+            max = 50,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+        },
+        twerks_candy = {
+            min = 35,
+            max = 54,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+        },
+        snikkel_candy = {
+            min = 40,
+            max = 50,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
         },
     },
-    ['tosti'] = {
-        min = 40,
-        max = 50,
-        stressRelief = {
-            min = 1,
-            max = 4
+    ---@type table<string, consumable>
+    drink = {
+        water_bottle = {
+            min = 35,
+            max = 54,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+        },
+        kurkakola = {
+            min = 35,
+            max = 54,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+        },
+        coffee = {
+            min = 40,
+            max = 50,
+            anim = {
+                clip = 'idle_c',
+                dict = 'amb@world_human_drinking@coffee@male@idle_a',
+                flag = 49
+            },
+            prop = {
+                model = 'p_amb_coffeecup_01',
+                bone = 28422,
+                pos = {x = 0.0, y = 0.0, z = 0.0},
+                rot = {x = 0.0, y = 0.0, z = 0.0}
+            },
+            stressRelief = {
+                min = -10,
+                max = -1
+            },
         },
     },
-    ['twerks_candy'] = {
-        min = 35,
-        max = 54,
-        stressRelief = {
-            min = 1,
-            max = 4
+    ---@type table<string, consumableAlcohol>
+    alcohol = {
+        whiskey = {
+            min = 20,
+            max = 30,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
         },
-    },
-    ['snikkel_candy'] = {
-        min = 40,
-        max = 50,
-        stressRelief = {
-            min = 1,
-            max = 4
+        beer = {
+            min = 30,
+            max = 40,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
+            alcoholLevel = 0.25
         },
-    },
-}
-
----@class ConsumablesDrink : consumeables
-
----@type ConsumablesDrink
-ConsumablesDrink = {
-    ['water_bottle'] = {
-        min = 35,
-        max = 54,
-        stressRelief = {
-            min = 1,
-            max = 4
+        vodka = {
+            min = 20,
+            max = 40,
+            stressRelief = {
+                min = 1,
+                max = 4
+            },
         },
-    },
-    ['kurkakola'] = {
-        min = 35,
-        max = 54,
-        stressRelief = {
-            min = 1,
-            max = 4
-        },
-    },
-    ['coffee'] = {
-        min = 40,
-        max = 50,
-        anim = {
-            clip = 'idle_c',
-            dict = 'amb@world_human_drinking@coffee@male@idle_a',
-            flag = 49
-        },
-        prop = {
-            model = 'p_amb_coffeecup_01',
-            bone = 28422,
-            pos = {x = 0.0, y = 0.0, z = 0.0},
-            rot = {x = 0.0, y = 0.0, z = 0.0}
-        },
-        stressRelief = {
-            min = -10,
-            max = -1
-        },
-    },
-}
-
----@class ConsumablesAlcohol : consumeables
-    ---@field alcoholLevel? number
-
----@type ConsumablesAlcohol
-ConsumablesAlcohol = {
-    ['whiskey'] = {
-        min = 20,
-        max = 30,
-        stressRelief = {
-            min = 1,
-            max = 4
-        },
-    },
-    ['beer'] = {
-        min = 30,
-        max = 40,
-        stressRelief = {
-            min = 1,
-            max = 4
-        },
-        alcoholLevel = 0.25
-    },
-    ['vodka'] = {
-        min = 20,
-        max = 40,
-        stressRelief = {
-            min = 1,
-            max = 4
-        },
-    },
+    }
 }
 
 Config.BlacklistedScenarios = {

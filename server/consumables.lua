@@ -1,5 +1,5 @@
 ----------- / alcohol
-for alcohol, params in pairs(ConsumablesAlcohol) do
+for alcohol, params in pairs(Consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
@@ -24,7 +24,7 @@ for alcohol, params in pairs(ConsumablesAlcohol) do
 end
 
 ----------- / Non-Alcoholic Drinks
-for drink, params in pairs(ConsumablesDrink) do
+for drink, params in pairs(Consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
@@ -49,7 +49,7 @@ for drink, params in pairs(ConsumablesDrink) do
 end
 
 ----------- / Food
-for food, params in pairs(ConsumablesEat) do
+for food, params in pairs(Consumables.food) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
