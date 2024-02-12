@@ -1,24 +1,19 @@
 return {
-
-    ---@meta
     ---@class anim
     ---@field clip string
     ---@field dict string
     ---@field flag number
 
-    ---@meta
     ---@class prop
     ---@field model string
     ---@field bone number
     ---@field pos vector3
     ---@field rot vector3
 
-    ---@meta
     ---@class stressRelief
     ---@field min number
     ---@field max number
 
-    ---@meta
     ---@class consumable
     ---@field min number
     ---@field max number
@@ -26,8 +21,8 @@ return {
     ---@field prop table?
     ---@field stressRelief table?
 
-    ---@meta
     ---@class consumableAlcohol : consumable
+    ---@field alcoholLevel number?
 
     consumables = {
 
