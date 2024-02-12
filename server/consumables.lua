@@ -1,21 +1,75 @@
 ----------- / alcohol
-for alcohol in pairs(ConsumablesAlcohol) do
+for alcohol, params in pairs(Consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
-        TriggerClientEvent('consumables:client:DrinkAlcohol', source, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.name)
+        if not drank then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+
+        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
+        player.Functions.SetMetaData('thirst', sustenance)
+        
+        if not params.stressRelief then
+            params.stressRelief = {
+                min = 1,
+                max = 4
+            }
+        end
+        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
+
+        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
     end)
 end
 
 ----------- / Non-Alcoholic Drinks
-for drink in pairs(ConsumablesDrink) do
+for drink, params in pairs(Consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
-        TriggerClientEvent('consumables:client:Drink', source, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+
+        local drank = lib.callback.await('consumables:client:Drink', source, item.name)
+        if not drank then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+
+        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
+        player.Functions.SetMetaData('thirst', sustenance)
+        
+        if not params.stressRelief then
+            params.stressRelief = {
+                min = 1,
+                max = 4
+            }
+        end
+        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
+
+        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
     end)
 end
 
 ----------- / Food
-for food in pairs(ConsumablesEat) do
+for food, params in pairs(Consumables.food) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
-        TriggerClientEvent('consumables:client:Eat', source, item.name)
+        local player = exports.qbx_core:GetPlayer(source)
+        if not player then return end
+        
+        local ate = lib.callback.await('consumables:client:Drink', source, item.name)
+        if not ate then return end
+        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+
+        local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
+        player.Functions.SetMetaData('hunger', sustenance)
+
+        if not params.stressRelief then
+            params.stressRelief = {
+                min = 1,
+                max = 4
+            }
+        end
+        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
+
+        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
     end)
 end
 
@@ -55,16 +109,6 @@ end)
 exports.qbx_core:CreateUseableItem('advancedlockpick', function(source)
     TriggerClientEvent('lockpicks:UseLockpick', source, true)
     TriggerEvent('lockpicks:UseLockpick', source, true)
-end)
-
-lib.callback.register('consumables:server:addSustenance', function(source, needType, amount)
-    local player = exports.qbx_core:GetPlayer(source)
-    if not player then return end
-
-    local sustenance = player.PlayerData.metadata[needType] + amount
-    player.Functions.SetMetaData(needType, sustenance)
-
-    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata[needType], sustenance)
 end)
 
 lib.callback.register('consumables:server:usedItem', function(source, item)
