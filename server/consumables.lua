@@ -53,7 +53,7 @@ for food, params in pairs(sharedConfig.consumables.food) do
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local ate = lib.callback.await('consumables:client:Drink', source, item.name)
+        local ate = lib.callback.await('consumables:client:Eat', source, item.name)
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
