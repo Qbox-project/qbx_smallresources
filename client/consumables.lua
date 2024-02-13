@@ -141,7 +141,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
     local item = sharedConfig.consumables.food[itemName]
     if lib.progressBar({
         duration = 5000,
-        label = 'Eating...',
+        label = locale('progress.eating'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -167,7 +167,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
         TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -176,7 +176,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
     local item = sharedConfig.consumables.drink[itemName]
     if lib.progressBar({
         duration = 5000,
-        label = 'Drinking...',
+        label = locale('progress.drinking'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -202,7 +202,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
         TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -211,7 +211,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
     local item = sharedConfig.consumables.alcohol[itemName]
     if lib.progressBar({
         duration = math.random(3000, 6000),
-        label = 'Drinking liquor...',
+        label = locale('progress.drinking_liquor'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -243,7 +243,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
         end
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -251,7 +251,7 @@ end)
 RegisterNetEvent('consumables:client:Cokebaggy', function()
     if lib.progressBar({
         duration = math.random(5000, 8000),
-        label = 'Quick sniff...',
+        label = locale('progress.popping_pills'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -272,14 +272,14 @@ RegisterNetEvent('consumables:client:Cokebaggy', function()
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
         cokeBaggyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:Crackbaggy', function()
     if lib.progressBar({
         duration = math.random(7000, 10000),
-        label = 'Smoking crack...',
+        label = locale('progress.smoking_crack'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -300,14 +300,14 @@ RegisterNetEvent('consumables:client:Crackbaggy', function()
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
         crackBaggyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:EcstasyBaggy', function()
     if lib.progressBar({
         duration = 3000,
-        label = 'Popping pills...',
+        label = locale('progress.popping_pills'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -327,14 +327,14 @@ RegisterNetEvent('consumables:client:EcstasyBaggy', function()
 
         ecstasyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:oxy', function()
     if lib.progressBar({
         duration = 2000,
-        label = 'Healing...',
+        label = locale('progress.healing'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -355,14 +355,14 @@ RegisterNetEvent('consumables:client:oxy', function()
         ClearPedBloodDamage(cache.ped)
 		healOxy()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
 RegisterNetEvent('consumables:client:meth', function()
     if lib.progressBar({
         duration = 1500,
-        label = 'Smoking meth...',
+        label = locale('progress.smoking_meth'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -384,14 +384,14 @@ RegisterNetEvent('consumables:client:meth', function()
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         methBagEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
 	end
 end)
 
 RegisterNetEvent('consumables:client:UseJoint', function()
     if lib.progressBar({
         duration = 1500,
-        label = 'Lighting joint...',
+        label = locale('progress.lighting_joint'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -408,7 +408,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         smokeWeed()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
 	end
 end)
 
