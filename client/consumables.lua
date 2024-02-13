@@ -141,7 +141,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
     local item = sharedConfig.consumables.food[itemName]
     if lib.progressBar({
         duration = 5000,
-        label = 'Eating...',
+        label = locale('progress.eating'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -176,7 +176,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
     local item = sharedConfig.consumables.drink[itemName]
     if lib.progressBar({
         duration = 5000,
-        label = 'Drinking...',
+        label = locale('progress.drinking'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -211,7 +211,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
     local item = sharedConfig.consumables.alcohol[itemName]
     if lib.progressBar({
         duration = math.random(3000, 6000),
-        label = 'Drinking liquor...',
+        label = locale('progress.drinking_liquor'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -251,7 +251,7 @@ end)
 RegisterNetEvent('consumables:client:Cokebaggy', function()
     if lib.progressBar({
         duration = math.random(5000, 8000),
-        label = 'Quick sniff...',
+        label = locale('progress.popping_pills'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -279,7 +279,7 @@ end)
 RegisterNetEvent('consumables:client:Crackbaggy', function()
     if lib.progressBar({
         duration = math.random(7000, 10000),
-        label = 'Smoking crack...',
+        label = locale('progress.smoking_crack'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -307,7 +307,7 @@ end)
 RegisterNetEvent('consumables:client:EcstasyBaggy', function()
     if lib.progressBar({
         duration = 3000,
-        label = 'Popping pills...',
+        label = locale('progress.popping_pills'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -334,7 +334,7 @@ end)
 RegisterNetEvent('consumables:client:oxy', function()
     if lib.progressBar({
         duration = 2000,
-        label = 'Healing...',
+        label = locale('progress.healing'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -362,7 +362,7 @@ end)
 RegisterNetEvent('consumables:client:meth', function()
     if lib.progressBar({
         duration = 1500,
-        label = 'Smoking meth...',
+        label = locale('progress.smoking_meth'),
         useWhileDead = false,
         canCancel = true,
         disable = {
@@ -391,7 +391,7 @@ end)
 RegisterNetEvent('consumables:client:UseJoint', function()
     if lib.progressBar({
         duration = 1500,
-        label = 'Lighting joint...',
+        label = locale('progress.lighting_joint'),
         useWhileDead = false,
         canCancel = true,
         disable = {
