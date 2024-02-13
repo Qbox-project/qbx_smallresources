@@ -12,14 +12,6 @@ for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
 
-        if not params.stressRelief then
-            params.stressRelief = {
-                min = 1,
-                max = 4
-            }
-        end
-        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
-
         TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
     end)
 end
@@ -36,14 +28,6 @@ for drink, params in pairs(sharedConfig.consumables.drink) do
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
 
-        if not params.stressRelief then
-            params.stressRelief = {
-                min = 1,
-                max = 4
-            }
-        end
-        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
-
         TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
     end)
 end
@@ -59,14 +43,6 @@ for food, params in pairs(sharedConfig.consumables.food) do
 
         local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
         player.Functions.SetMetaData('hunger', sustenance)
-
-        if not params.stressRelief then
-            params.stressRelief = {
-                min = 1,
-                max = 4
-            }
-        end
-        TriggerEvent('hud:server:RelieveStress', source, math.random(params.stressRelief.min, params.stressRelief.max))
 
         TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
     end)

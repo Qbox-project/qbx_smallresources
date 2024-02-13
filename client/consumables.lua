@@ -138,6 +138,7 @@ local function smokeWeed()
 end
 
 lib.callback.register('consumables:client:Eat', function(itemName)
+    local item = sharedConfig.consumables.food[itemName]
     if lib.progressBar({
         duration = 5000,
         label = 'Eating...',
@@ -149,12 +150,12 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = sharedConfig.consumables.food[itemName].anim or {
+        anim = item.anim or {
             clip = 'mp_player_int_eat_burger',
             dict = 'mp_player_inteat@burger',
             flag = 49
         },
-        prop = sharedConfig.consumables.food[itemName].prop or {
+        prop = item.prop or {
             {
                 model = 'prop_cs_burger_01',
                 bone = 18905,
@@ -163,6 +164,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             }
         }
     }) then -- if completed
+        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
@@ -171,6 +173,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
 end)
 
 lib.callback.register('consumables:client:Drink', function(itemName)
+    local item = sharedConfig.consumables.drink[itemName]
     if lib.progressBar({
         duration = 5000,
         label = 'Drinking...',
@@ -182,12 +185,12 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = sharedConfig.consumables.drink[itemName].anim or {
+        anim = item.anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = sharedConfig.consumables.drink[itemName].prop or {
+        prop = item.prop or {
             {
                 model = 'prop_ld_flow_bottle',
                 bone = 18905,
@@ -196,6 +199,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             }
         }
     }) then -- if completed
+        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
@@ -204,6 +208,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
 end)
 
 lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
+    local item = sharedConfig.consumables.alcohol[itemName]
     if lib.progressBar({
         duration = math.random(3000, 6000),
         label = 'Drinking liquor...',
@@ -215,12 +220,12 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = sharedConfig.consumables.alcohol[itemName].anim or {
+        anim = item.anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = sharedConfig.consumables.alcohol[itemName].prop or {
+        prop = item.prop or {
             {
                 model = 'prop_amb_beer_bottle',
                 bone = 18905,
@@ -229,7 +234,8 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
             }
         }
     }) then -- if completed
-        alcoholCount += sharedConfig.consumables.alcohol[itemName].alcoholLevel or 1
+        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
+        alcoholCount += item.alcoholLevel or 1
         if alcoholCount > 1 and alcoholCount < 4 then
             TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
         elseif alcoholCount >= 4 then
