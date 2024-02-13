@@ -11,7 +11,7 @@
       "started_recording":"Started Recording!",
       "saved_recording":"Saved Recording!"
    },
-   "info":{
+   "progress":{
       "eating":"Eating..",
       "drinking":"Drinking..",
       "drinking_liquor":"Drinking liquor..",
@@ -20,7 +20,9 @@
       "popping_pills":"Popping pills..",
       "healing":"Healing..",
       "smoking_meth":"Smoking meth..",
-      "lighting_joint":"Lighting joint..",
+      "lighting_joint":"Lighting joint.."
+   },
+   "info":{
       "minutes":"minutes",
       "seconds":"seconds.."
    }
