@@ -5,6 +5,8 @@ description 'Collection of small scripts'
 repository 'https://github.com/Qbox-project/qbx_smallresources'
 version '1.1.0'
 
+ox_lib 'locale'
+
 shared_scripts {
 	'@ox_lib/init.lua',
 	'@qbx_core/modules/lib.lua',
@@ -18,8 +20,9 @@ client_scripts {
 server_script 'server/*.lua'
 
 files {
-    'config/client.lua',
-    'config/shared.lua'
+	'locales/*.json',
+	'config/client.lua',
+	'config/shared.lua'
 }
 
 lua54 'yes'
