@@ -15,7 +15,7 @@ return {
         hudComponents = {1, 2, 3, 4, 7, 9, 13, 14, 19, 20, 21, 22},
 
         -- https://docs.fivem.net/docs/game-references/controls/
-        disableControls = {37},
+        controls = {37},
 
         -- False disables ammo display
         displayAmmo = true,
