@@ -14,7 +14,7 @@ if not shouldAllow then return end
 
 RegisterCommand('record', function()
     StartRecording(1)
-    TriggerEvent('QBCore:Notify', 'Started Recording!', 'success')
+    exports.qbx_core:Notify(locale('success.started_recording'), 'success')
 end, false)
 
 RegisterCommand('clip', function()
@@ -23,16 +23,16 @@ end, false)
 
 RegisterCommand('saveclip', function()
     StopRecordingAndSaveClip()
-    TriggerEvent('QBCore:Notify', 'Saved Recording!', 'success')
+    exports.qbx_core:Notify(locale('success.saved_recording'), 'success')
 end, false)
 
 RegisterCommand('delclip', function()
     StopRecordingAndDiscardClip()
-    TriggerEvent('QBCore:Notify', 'Deleted Recording!', 'error')
+    exports.qbx_core:Notify(locale('error.deleted_recording'), 'error')
 end, false)
 
 RegisterCommand('editor', function()
     NetworkSessionLeaveSinglePlayer()
     ActivateRockstarEditor()
-    TriggerEvent('QBCore:Notify', 'Later aligator!', 'error')
+    exports.qbx_core:Notify(locale('error.later_aligator'), 'error')
 end, false)
