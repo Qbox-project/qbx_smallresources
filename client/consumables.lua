@@ -167,7 +167,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
         TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -202,7 +202,7 @@ lib.callback.register('consumables:client:Drink', function(itemName)
         TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -243,7 +243,7 @@ lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
         end
         return true
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
         return false
     end
 end)
@@ -272,7 +272,7 @@ RegisterNetEvent('consumables:client:Cokebaggy', function()
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 200)
         cokeBaggyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
@@ -300,7 +300,7 @@ RegisterNetEvent('consumables:client:Crackbaggy', function()
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
         crackBaggyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
@@ -327,7 +327,7 @@ RegisterNetEvent('consumables:client:EcstasyBaggy', function()
 
         ecstasyEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
@@ -355,7 +355,7 @@ RegisterNetEvent('consumables:client:oxy', function()
         ClearPedBloodDamage(cache.ped)
 		healOxy()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
 end)
 
@@ -384,7 +384,7 @@ RegisterNetEvent('consumables:client:meth', function()
 		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         methBagEffect()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
 	end
 end)
 
@@ -408,7 +408,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
         TriggerEvent('evidence:client:SetStatus', 'weedsmell', 300)
         smokeWeed()
     else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
+        exports.qbx_core:Notify(locale('error.canceled'), 'error')
 	end
 end)
 
