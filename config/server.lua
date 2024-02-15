@@ -5,8 +5,8 @@ return {
 
     -- The groups to ignore when checking for AFK activity
     ignoreGroupsForAFK = {
-        'group.mod',
-        'group.admin',
+        ['mod'] = true,
+        ['admin'] = true,
     },
 
     blacklisted = {
