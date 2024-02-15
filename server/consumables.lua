@@ -11,6 +11,7 @@ for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
+        Player(source).state:set('alcohol', (Player(source).state.alcohol or 0) + params.alcoholLevel, true)
 
         TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
     end)
