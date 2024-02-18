@@ -1,29 +1,11 @@
 local sharedConfig = require 'config.shared'
 
-for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
-    exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
-        local player = exports.qbx_core:GetPlayer(source)
-        if not player then return end
-
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.name)
-        if not drank then return end
-        if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-
-        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
-        player.Functions.SetMetaData('thirst', sustenance)
-        local playerState = Player(source).state
-        playerState:set('alcohol', (playerState.alcohol or 0) + params.alcoholLevel, true)
-
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
-    end)
-end
-
 for drink, params in pairs(sharedConfig.consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local drank = lib.callback.await('consumables:client:Drink', source, item.name)
+        local drank = lib.callback.await('consumables:client:Drink', source, item.name, {anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
@@ -39,7 +21,7 @@ for food, params in pairs(sharedConfig.consumables.food) do
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local ate = lib.callback.await('consumables:client:Eat', source, item.name)
+        local ate = lib.callback.await('consumables:client:Eat', source, item.name, {anim = params.anim, prop = params.prop, stressRelief = params.stressRelief})
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 

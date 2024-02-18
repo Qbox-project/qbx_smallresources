@@ -1,5 +1,5 @@
 local sharedConfig = require 'config.shared'
-local alcoholCount, healing, smokingWeed, relieveCount = 0, false, false, 0
+local healing, smokingWeed, relieveCount = false, false, 0
 
 local function healOxy()
     if not healing then
@@ -137,8 +137,7 @@ local function smokeWeed()
     end)
 end
 
-lib.callback.register('consumables:client:Eat', function(itemName)
-    local item = sharedConfig.consumables.food[itemName]
+lib.callback.register('consumables:client:Eat', function(itemName, itemParams)
     if lib.progressBar({
         duration = 5000,
         label = 'Eating...',
@@ -150,12 +149,12 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = item.anim or {
+        anim = itemParams.anim or {
             clip = 'mp_player_int_eat_burger',
             dict = 'mp_player_inteat@burger',
             flag = 49
         },
-        prop = item.prop or {
+        prop = itemParams.prop or {
             {
                 model = 'prop_cs_burger_01',
                 bone = 18905,
@@ -164,7 +163,9 @@ lib.callback.register('consumables:client:Eat', function(itemName)
             }
         }
     }) then -- if completed
-        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
+        if itemParams.stressRelief then
+            TriggerServerEvent('hud:server:RelieveStress', math.random(itemParams.stressRelief.min, itemParams.stressRelief.max))
+        end
         return true
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
@@ -172,8 +173,7 @@ lib.callback.register('consumables:client:Eat', function(itemName)
     end
 end)
 
-lib.callback.register('consumables:client:Drink', function(itemName)
-    local item = sharedConfig.consumables.drink[itemName]
+lib.callback.register('consumables:client:Drink', function(itemName, itemParams)
     if lib.progressBar({
         duration = 5000,
         label = 'Drinking...',
@@ -185,12 +185,12 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             mouse = false,
             combat = true
         },
-        anim = item.anim or {
+        anim = itemParams.anim or {
             clip = 'loop_bottle',
             dict = 'mp_player_intdrink',
             flag = 49
         },
-        prop = item.prop or {
+        prop = itemParams.prop or {
             {
                 model = 'prop_ld_flow_bottle',
                 bone = 18905,
@@ -199,47 +199,8 @@ lib.callback.register('consumables:client:Drink', function(itemName)
             }
         }
     }) then -- if completed
-        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
-        return true
-    else -- if canceled
-        exports.qbx_core:Notify('Canceled...', 'error')
-        return false
-    end
-end)
-
-lib.callback.register('consumables:client:DrinkAlcohol', function(itemName)
-    local item = sharedConfig.consumables.alcohol[itemName]
-    if lib.progressBar({
-        duration = math.random(3000, 6000),
-        label = 'Drinking liquor...',
-        useWhileDead = false,
-        canCancel = true,
-        disable = {
-            move = false,
-            car = false,
-            mouse = false,
-            combat = true
-        },
-        anim = item.anim or {
-            clip = 'loop_bottle',
-            dict = 'mp_player_intdrink',
-            flag = 49
-        },
-        prop = item.prop or {
-            {
-                model = 'prop_amb_beer_bottle',
-                bone = 18905,
-                pos = {x = 0.12, y = 0.008, z = 0.03},
-                rot = {x = 240.0, y = -60.0, z = 0.0}
-            }
-        }
-    }) then -- if completed
-        TriggerServerEvent('hud:server:RelieveStress', math.random(item.stressRelief.min, item.stressRelief.max))
-        alcoholCount += item.alcoholLevel or 1
-        if alcoholCount > 1 and alcoholCount < 4 then
-            TriggerEvent('evidence:client:SetStatus', 'alcohol', 200)
-        elseif alcoholCount >= 4 then
-            TriggerEvent('evidence:client:SetStatus', 'heavyalcohol', 200)
+        if itemParams.stressRelief then
+            TriggerServerEvent('hud:server:RelieveStress', math.random(itemParams.stressRelief.min, itemParams.stressRelief.max))
         end
         return true
     else -- if canceled
@@ -410,16 +371,4 @@ RegisterNetEvent('consumables:client:UseJoint', function()
     else -- if canceled
         exports.qbx_core:Notify('Canceled...', 'error')
 	end
-end)
-
-CreateThread(function()
-    while true do
-        Wait(10)
-        if alcoholCount > 0 then
-            Wait(1000 * 60 * 15)
-            alcoholCount -= 1
-        else
-            Wait(2000)
-        end
-    end
 end)
