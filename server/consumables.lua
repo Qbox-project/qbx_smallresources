@@ -12,7 +12,7 @@ for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
 
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
+        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
     end)
 end
 
@@ -28,7 +28,7 @@ for drink, params in pairs(sharedConfig.consumables.drink) do
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
         player.Functions.SetMetaData('thirst', sustenance)
 
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.thirst, sustenance)
+        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
     end)
 end
 
@@ -44,7 +44,7 @@ for food, params in pairs(sharedConfig.consumables.food) do
         local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
         player.Functions.SetMetaData('hunger', sustenance)
 
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
+        TriggerClientEvent('hud:client:UpdateNeeds', source, sustenance, player.PlayerData.metadata.thirst)
     end)
 end
 
