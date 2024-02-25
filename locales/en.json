@@ -1,0 +1,29 @@
+{
+   "error": {
+      "canceled": "Canceled..",
+      "cruise_control_disabled": "Cruise control disabled",
+      "cruise_control_unavailable": "Cruise control unavailable",
+      "deleted_recording": "Deleted Recording!",
+      "later_aligator": "Later aligator!"
+   },
+   "success": {
+      "cruise_control_enabled": "Cruise control enabled",
+      "started_recording": "Started Recording!",
+      "saved_recording": "Saved Recording!"
+   },
+   "progress": {
+      "eating": "Eating..",
+      "drinking": "Drinking..",
+      "drinking_liquor": "Drinking liquor..",
+      "quick_sniff": "Quick sniff..",
+      "smoking_crack": "Smoking crack..",
+      "popping_pills": "Popping pills..",
+      "healing": "Healing..",
+      "smoking_meth": "Smoking meth..",
+      "lighting_joint": "Lighting joint.."
+   },
+   "info": {
+      "minutes": "minutes",
+      "seconds": "seconds.."
+   }
+}
