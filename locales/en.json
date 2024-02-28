@@ -11,6 +11,12 @@
       "started_recording": "Started Recording!",
       "saved_recording": "Saved Recording!"
    },
+   "drawtext": {
+      "take_elevator_up": "[E] Take Elevator Up",
+      "take_elevator_down": "[E] Take Elevator Down",
+      "enter": "[E] Enter",
+      "leave": "[E] Leave"
+   },
    "progress": {
       "eating": "Eating..",
       "drinking": "Drinking..",
