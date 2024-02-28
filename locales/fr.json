@@ -1,29 +1,35 @@
 {
-    "error": {
-       "canceled": "Annulé..",
-       "cruise_control_disabled": "Régulateur de vitesse désactivé.",
-       "cruise_control_unavailable": "Régulateur de vitesse indisponible.",
-       "deleted_recording": "Enregistrement supprimé.",
-       "later_aligator": "A plus, sous l'bus!"
-    },
-    "success": {
-       "cruise_control_enabled": "Régulateur de vitesse activé.",
-       "started_recording": "Enregistrement démarré.",
-       "saved_recording": "Enregistrement sauvegardé."
-    },
-    "progress": {
-       "eating": "Mange...",
-       "drinking": "Bois...",
-       "drinking_liquor": "Bois de l'alcool...",
-       "quick_sniff": "Sniff...",
-       "smoking_crack": "Fume du crack...",
-       "popping_pills": "Prend des pilules...",
-       "healing": "Se soigne...",
-       "smoking_meth": "Fume de la meth...",
-       "lighting_joint": "Roule un joint..."
-    },
-    "info": {
-       "minutes": "minutes",
-       "seconds": "secondes"
-    }
- }
+	"error": {
+		"canceled": "Annulé..",
+		"cruise_control_disabled": "Régulateur de vitesse désactivé.",
+		"cruise_control_unavailable": "Régulateur de vitesse indisponible.",
+		"deleted_recording": "Enregistrement supprimé.",
+		"later_aligator": "A plus, sous l'bus!"
+	},
+	"success": {
+		"cruise_control_enabled": "Régulateur de vitesse activé.",
+		"started_recording": "Enregistrement démarré.",
+		"saved_recording": "Enregistrement sauvegardé."
+	},
+	"drawtext": {
+		"take_elevator_up": "[E] Monter avec l'ascenseur",
+		"take_elevator_down": "[E] Descendre avec l'ascenseur",
+		"enter": "[E] Entrer",
+		"leave": "[E] Quiter"
+	},
+	"progress": {
+		"eating": "Mange...",
+		"drinking": "Bois...",
+		"drinking_liquor": "Bois de l'alcool...",
+		"quick_sniff": "Sniff...",
+		"smoking_crack": "Fume du crack...",
+		"popping_pills": "Prend des pilules...",
+		"healing": "Se soigne...",
+		"smoking_meth": "Fume de la meth...",
+		"lighting_joint": "Roule un joint..."
+	},
+	"info": {
+		"minutes": "minutes",
+		"seconds": "secondes"
+	}
+}
