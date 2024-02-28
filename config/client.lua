@@ -72,12 +72,12 @@ return {
             [1] = {
                 coords = vec4(3540.74, 3675.59, 20.99, 167.5),
                 allowVehicle = false,
-                drawText = '[E] Take Elevator Up'
+                drawText = locale('drawtext.take_elevator_up')
             },
             [2] = {
                 coords = vec4(3540.74, 3675.59, 28.11, 172.5),
                 allowVehicle = false,
-                drawText = '[E] Take Elevator Down'
+                drawText = locale('drawtext.take_elevator_down')
             },
         },
 
@@ -86,12 +86,12 @@ return {
             [1] = {
                 coords = vec4(909.49, -1589.22, 30.51, 92.24),
                 ['AllowVehicle'] = false,
-                drawText = '[E] Enter Coke Processing'
+                drawText = locale('drawtext.enter')
             },
             [2] = {
                 coords = vec4(1088.81, -3187.57, -38.99, 181.7),
                 ['AllowVehicle'] = false,
-                drawText = '[E] Leave'
+                drawText = locale('drawtext.leave')
             },
         },
     }
