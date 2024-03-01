@@ -3,21 +3,58 @@ local disableHudComponents = config.disable.hudComponents
 local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
 
-local function decorSet(type, value)
-    if type == 'parked' then
-        config.density.parked = value
-    elseif type == 'vehicle' then
-        config.density.vehicle = value
-    elseif type == 'multiplier' then
-        config.density.multiplier = value
-    elseif type == 'peds' then
-        config.density.peds = value
-    elseif type == 'scenario' then
-        config.density.scenario = value
-    end
+DecorRegister("ScriptedPed", 2)
+local densityReasons = {}
+local currentDensity = 0.8
+local pedDensity = 1.0
+local vehicleIsSpeeding = false
+local isDriverSeatEmpty = false
+local populationDensity = 0.8
+
+local function setDensityReason(pReason, pPriority)
+    densityReasons[pReason] = {
+        reason = pReason,
+        priority = pPriority,
+        level = -1,
+        active = false
+    }
 end
 
-exports('DecorSet', decorSet)
+exports("setDensityReason", setDensityReason)
+
+local function setDensity(pReason, pLevel)
+    if not densityReasons[pReason] then return end
+
+    densityReasons[pReason]["level"] = pLevel
+    local level = populationDensity
+    local priority
+
+    for _, reason in pairs(densityReasons) do
+        if reason.level ~= -1 and (not priority or priority < reason.priority) then
+            priority = reason.priority
+            level = reason.level
+        end
+    end
+
+    lib.print.warn("density", level)
+    currentDensity = level + 0.0
+end
+
+exports("setDensity", setDensity)
+
+CreateThread(function()
+    while true do
+        local pedDensity = currentDensity == 0.0 and 0.0 or 1.0
+        local vehDensity = vehicleIsSpeeding and (isDriverSeatEmpty and 0.1 or 0.0) or currentDensity
+
+        SetParkedVehicleDensityMultiplierThisFrame(pedDensity)
+        SetVehicleDensityMultiplierThisFrame(vehDensity)
+        SetRandomVehicleDensityMultiplierThisFrame(vehDensity)
+        SetPedDensityMultiplierThisFrame(pedDensity)
+        SetScenarioPedDensityMultiplierThisFrame(pedDensity, pedDensity)
+        Wait(0)
+    end
+end)
 
 CreateThread(function()
     while true do
@@ -33,15 +70,6 @@ CreateThread(function()
         end
 
         DisplayAmmoThisFrame(displayAmmo)
-
-        -- Density
-
-        SetParkedVehicleDensityMultiplierThisFrame(config.density.parked)
-        SetVehicleDensityMultiplierThisFrame(config.density.vehicle)
-        SetRandomVehicleDensityMultiplierThisFrame(config.density.multiplier)
-        SetPedDensityMultiplierThisFrame(config.density.peds)
-        SetScenarioPedDensityMultiplierThisFrame(config.density.scenario, config.density.scenario) -- Walking NPC Density
-        Wait(0)
     end
 end)
 
