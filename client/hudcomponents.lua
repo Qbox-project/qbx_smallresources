@@ -10,50 +10,49 @@ local pedDensity = 1.0
 local vehicleIsSpeeding = false
 local isDriverSeatEmpty = false
 local populationDensity = 0.8
+local disabledDensity = false
 
-local function setDensityReason(pReason, pPriority)
-    densityReasons[pReason] = {
-        reason = pReason,
-        priority = pPriority,
-        level = -1,
-        active = false
-    }
+local function registerDensityReason(pReason, pPriority)
+  densityReasons[pReason] = { reason = pReason, priority = pPriority, level = -1, active = false }
 end
 
-exports("setDensityReason", setDensityReason)
+exports('registerDensityReason', registerDensityReason)
 
 local function setDensity(pReason, pLevel)
-    if not densityReasons[pReason] then return end
+  if not densityReasons[pReason] then return end
 
-    densityReasons[pReason]["level"] = pLevel
-    local level = populationDensity
-    local priority
+  densityReasons[pReason]['level'] = pLevel
 
-    for _, reason in pairs(densityReasons) do
-        if reason.level ~= -1 and (not priority or priority < reason.priority) then
-            priority = reason.priority
-            level = reason.level
-        end
+  local level = populationDensity
+  local priority
+
+  for _, reason in pairs(densityReasons) do
+    if reason.level ~= -1 and (not priority or priority < reason.priority) then
+      priority = reason.priority
+      level = reason.level
     end
+  end
 
-    lib.print.warn("density", level)
-    currentDensity = level + 0.0
+  lib.print.warn("density", level)
+
+  density = level + 0.0
 end
 
-exports("setDensity", setDensity)
+exports('setDensity', setDensity)
 
 CreateThread(function()
-    while true do
-        local pedDensity = currentDensity == 0.0 and 0.0 or 1.0
-        local vehDensity = vehicleIsSpeeding and (isDriverSeatEmpty and 0.1 or 0.0) or currentDensity
+  while true do
+    local vehDensity = vehicleIsSpeeding and (isDriverSeatEmpty and 0.1 or 0.0) or currentDensity
 
-        SetParkedVehicleDensityMultiplierThisFrame(pedDensity)
-        SetVehicleDensityMultiplierThisFrame(vehDensity)
-        SetRandomVehicleDensityMultiplierThisFrame(vehDensity)
-        SetPedDensityMultiplierThisFrame(pedDensity)
-        SetScenarioPedDensityMultiplierThisFrame(pedDensity, pedDensity)
-        Wait(0)
-    end
+    if disabledDensity then vehDensity = 1.0 end
+
+    SetParkedVehicleDensityMultiplierThisFrame(pedDensity)
+    SetVehicleDensityMultiplierThisFrame(vehDensity)
+    SetRandomVehicleDensityMultiplierThisFrame(vehDensity)
+    SetPedDensityMultiplierThisFrame(pedDensity)
+    SetScenarioPedDensityMultiplierThisFrame(pedDensity, pedDensity)
+    Wait(0)
+  end
 end)
 
 CreateThread(function()
