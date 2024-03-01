@@ -1,5 +1,23 @@
 local sharedConfig = require 'config.shared'
 
+local function addHunger(amount)
+    local player = exports.qbx_core:GetPlayer(source)
+
+    if not player then return end
+
+    player.Functions.SetMetaData('hunger', amount)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, player.PlayerData.metadata.thirst)
+end
+
+local function addThirst(amount)
+    local player = exports.qbx_core:GetPlayer(source)
+
+    if not player then return end
+
+    player.Functions.SetMetaData('thirst', amount)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, amount)
+end
+
 for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
@@ -10,9 +28,7 @@ for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
-        player.Functions.SetMetaData('thirst', sustenance)
-
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
+        addThirst(sustenance)
     end)
 end
 
@@ -26,9 +42,7 @@ for drink, params in pairs(sharedConfig.consumables.drink) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
-        player.Functions.SetMetaData('thirst', sustenance)
-
-        TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, sustenance)
+        addThirst(sustenance)
     end)
 end
 
@@ -42,9 +56,7 @@ for food, params in pairs(sharedConfig.consumables.food) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
 
         local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
-        player.Functions.SetMetaData('hunger', sustenance)
-
-        TriggerClientEvent('hud:client:UpdateNeeds', source, sustenance, player.PlayerData.metadata.thirst)
+        addHunger(sustenance)
     end)
 end
 
@@ -88,3 +100,8 @@ lib.callback.register('consumables:server:usedItem', function(source, item)
 
     return exports.ox_inventory:RemoveItem(source, item, 1)
 end)
+
+-- Added for ox_inv until I make a proper qbx bridge
+RegisterNetEvent('consumables:server:addThirst', addThirst)
+
+RegisterNetEvent('consumables:server:addHunger', addHunger)
