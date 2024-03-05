@@ -1,21 +1,15 @@
 local sharedConfig = require 'config.shared'
 
 local function addHunger(amount)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.SetMetaData('hunger', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, player.PlayerData.metadata.thirst)
+    local playerState = Player(source).state
+    playerState:set('hunger', amount, true)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, playerState.thirst)
 end
 
 local function addThirst(amount)
-    local player = exports.qbx_core:GetPlayer(source)
-
-    if not player then return end
-
-    player.Functions.SetMetaData('thirst', amount)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, player.PlayerData.metadata.hunger, amount)
+    local playerState = Player(source).state
+    playerState:set('thirst', amount, true)
+    TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.hunger, amount)
 end
 
 for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
