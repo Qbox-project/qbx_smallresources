@@ -1,55 +1,78 @@
-local sharedConfig = require 'config.shared'
+local config = require 'config.server'
 
 local function addHunger(amount)
+    amount = amount > 100 and 100 or amount < 0 and 0 or amount
     local playerState = Player(source).state
     playerState:set('hunger', amount, true)
     TriggerClientEvent('hud:client:UpdateNeeds', source, amount, playerState.thirst)
 end
 
 local function addThirst(amount)
+    amount = amount > 100 and 100 or amount < 0 and 0 or amount
     local playerState = Player(source).state
     playerState:set('thirst', amount, true)
     TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.hunger, amount)
 end
 
-for alcohol, params in pairs(sharedConfig.consumables.alcohol) do
+local function relieveStress(source, min, max)
+    local playerState = Player(source).state
+    local verifiedMin = (type(min) == "number" and min) or config.defaultStressRelief.min
+    local verifiedMax = max or config.defaultStressRelief.max
+    local amount = math.random(verifiedMin, verifiedMax)
+    local newStress = playerState.stress - amount
+    newStress = newStress > 100 and 100 or newStress < 0 and 0 or newStress
+
+    playerState:set("stress", newStress, true)
+    if amount < 0 then
+        exports.qbx_core:Notify(source, stress_gain, 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
+    else
+        exports.qbx_core:Notify(source, stress_relief, 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+    end
+end
+
+for alcohol, params in pairs(config.consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.name)
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.alcoholLevel, item.anim, item.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+        local playerState = Player(source).state
 
-        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
+        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addThirst(sustenance)
     end)
 end
-
-for drink, params in pairs(sharedConfig.consumables.drink) do
+for drink, params in pairs(config.consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local drank = lib.callback.await('consumables:client:Drink', source, item.name)
+        local drank = lib.callback.await('consumables:client:Drink', source, item.anim, item.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+        local playerState = Player(source).state
 
-        local sustenance = player.PlayerData.metadata.thirst + math.random(params.min, params.max)
+        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addThirst(sustenance)
     end)
 end
 
-for food, params in pairs(sharedConfig.consumables.food) do
+for food, params in pairs(config.consumables.food) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local ate = lib.callback.await('consumables:client:Eat', source, item.name)
+        local ate = lib.callback.await('consumables:client:Eat', source, item.anim, item.prop)
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
+        local playerState = Player(source).state
 
-        local sustenance = player.PlayerData.metadata.hunger + math.random(params.min, params.max)
+        local sustenance = playerState.hunger + math.random(params.min, params.max)
+        relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addHunger(sustenance)
     end)
 end
