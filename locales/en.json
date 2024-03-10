@@ -9,6 +9,7 @@
    "success": {
       "cruise_control_enabled": "Cruise control enabled",
       "started_recording": "Started Recording!",
+      "stopped_recording": "Stopped Recording!",
       "saved_recording": "Saved Recording!"
    },
    "progress": {

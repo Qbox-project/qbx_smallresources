@@ -19,6 +19,7 @@ end, false)
 
 RegisterCommand('clip', function()
     StartRecording(0)
+    exports.qbx_core:Notify(locale('success.stopped_recording'), 'success')
 end, false)
 
 RegisterCommand('saveclip', function()
