@@ -1,14 +1,14 @@
 local config = require 'config.server'
 
 local function addHunger(amount)
-    amount = amount > 100 and 100 or amount < 0 and 0 or amount
+    amount = math.clamp(amount, 0, 100)
     local playerState = Player(source).state
     playerState:set('hunger', amount, true)
     TriggerClientEvent('hud:client:UpdateNeeds', source, amount, playerState.thirst)
 end
 
 local function addThirst(amount)
-    amount = amount > 100 and 100 or amount < 0 and 0 or amount
+    amount = math.clamp(amount, 0, 100)
     local playerState = Player(source).state
     playerState:set('thirst', amount, true)
     TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.hunger, amount)
@@ -20,7 +20,7 @@ local function relieveStress(source, min, max)
     local verifiedMax = max or config.defaultStressRelief.max
     local amount = math.random(verifiedMin, verifiedMax)
     local newStress = playerState.stress - amount
-    newStress = newStress > 100 and 100 or newStress < 0 and 0 or newStress
+    newStress = math.clamp(newStress, 0, 100)
 
     playerState:set("stress", newStress, true)
     if amount < 0 then
