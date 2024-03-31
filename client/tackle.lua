@@ -1,3 +1,8 @@
+local config = require 'config.client'
+local resetCounter = 0
+local jumpDisabled = false
+isLoggedIn = LocalPlayer.state.isLoggedIn
+
 lib.addKeybind({
     name = 'tackle',
     description = 'Tackle',
@@ -27,4 +32,34 @@ lib.addKeybind({
 
 RegisterNetEvent('tackle:client:GetTackled', function()
 	SetPedToRagdoll(cache.ped, 7000, 7000, 0, 0, 0, 0)
+end)
+
+CreateThread(function()
+    if config.disable.jumpDisabled then
+        while true do
+            Wait(4)
+            if isLoggedIn then
+                if jumpDisabled and resetCounter > 0 and IsPedJumping(cache.ped) then
+                    SetPedToRagdoll(cache.ped, 1000, 1000, 3, 0, 0, 0)
+                    resetCounter = 0
+                end
+                if not jumpDisabled and IsPedJumping(cache.ped) then
+                    jumpDisabled = true
+                    resetCounter = 10
+                    Wait(1200)
+                end
+                if resetCounter > 0 then
+                    resetCounter = resetCounter - 1
+                else
+                    if jumpDisabled then
+                        resetCounter = 0
+                        jumpDisabled = false
+                    end
+                end
+                Wait(250)
+            else
+                Wait(5000)
+            end
+        end
+    end
 end)
