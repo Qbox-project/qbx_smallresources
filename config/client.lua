@@ -1,24 +1,13 @@
 return {
-
-    -- Damage needed to be able to puch a vehicle
-    damageNeeded = 100.0,
+    damageNeeded = 100.0, -- Damage needed to be able to puch a vehicle
 
     disable = {
-
-        -- Disables the Idle Cinematic Camera
-        idleCamera = true,
-
-        -- Disabled distance sirens, distance car alarms, etc
-        ambience = true,
-
-        -- https://docs.fivem.net/natives/?_0x6806C51AD12B83B8
-        hudComponents = {1, 2, 3, 4, 7, 9, 13, 14, 19, 20, 21, 22},
-
-        -- https://docs.fivem.net/docs/game-references/controls/
-        controls = {37},
-
-        -- False disables ammo display
-        displayAmmo = true,
+        idleCamera = true, -- Disables the Idle Cinematic Camera
+        ambience = true, -- Disabled distance sirens, distance car alarms, etc
+        hudComponents = {1, 2, 3, 4, 7, 9, 13, 14, 19, 20, 21, 22}, -- https://docs.fivem.net/natives/?_0x6806C51AD12B83B8
+        controls = {37}, -- https://docs.fivem.net/docs/game-references/controls/
+        displayAmmo = true, -- False disables ammo display
+        jumpEnable = false, -- jump disabled
     },
 
     density = {
@@ -66,9 +55,7 @@ return {
     },
 
     teleports = {
-
-        --Elevator @ labs
-        [1] = {
+        [1] = { -- Elevator @ labs
             [1] = {
                 coords = vec4(3540.74, 3675.59, 20.99, 167.5),
                 allowVehicle = false,
@@ -80,9 +67,7 @@ return {
                 drawText = '[E] Take Elevator Down'
             },
         },
-
-        --Coke Processing Enter/Exit
-        [2] = {
+        [2] = { -- Coke Processing Enter/Exit
             [1] = {
                 coords = vec4(909.49, -1589.22, 30.51, 92.24),
                 ['AllowVehicle'] = false,
