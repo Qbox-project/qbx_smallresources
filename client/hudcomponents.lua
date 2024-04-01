@@ -3,27 +3,9 @@ local disableHudComponents = config.disable.hudComponents
 local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
 
-local function decorSet(type, value)
-    if type == 'parked' then
-        config.density.parked = value
-    elseif type == 'vehicle' then
-        config.density.vehicle = value
-    elseif type == 'multiplier' then
-        config.density.multiplier = value
-    elseif type == 'peds' then
-        config.density.peds = value
-    elseif type == 'scenario' then
-        config.density.scenario = value
-    end
-end
-
-exports('DecorSet', decorSet)
-
 CreateThread(function()
     while true do
-
-        -- Hud Components
-
+        
         for i = 1, #disableHudComponents do
             HideHudComponentThisFrame(disableHudComponents[i])
         end
@@ -33,14 +15,6 @@ CreateThread(function()
         end
 
         DisplayAmmoThisFrame(displayAmmo)
-
-        -- Density
-
-        SetParkedVehicleDensityMultiplierThisFrame(config.density.parked)
-        SetVehicleDensityMultiplierThisFrame(config.density.vehicle)
-        SetRandomVehicleDensityMultiplierThisFrame(config.density.multiplier)
-        SetPedDensityMultiplierThisFrame(config.density.peds)
-        SetScenarioPedDensityMultiplierThisFrame(config.density.scenario, config.density.scenario) -- Walking NPC Density
         Wait(0)
     end
 end)
