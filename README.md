@@ -17,8 +17,6 @@ Base scripts for the QBox Core Framework :building_construction:
 - Ability to add teleport markers (from a place to another place)
 - Weapon recoil (specific to each weapon)
 - Tackle
-- Calm AI (adjusting npc/gang npc aggresiveness)
-- Adjusting npc/vehicle/parked vehicle spawn rates
 - Infinite ammo for fire extinguisher and petrol can
 - Removal of GTA's default huds (weapon wheel, cash etc.)
 
