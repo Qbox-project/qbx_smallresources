@@ -5,10 +5,7 @@ description 'Collection of small scripts'
 repository 'https://github.com/Qbox-project/qbx_smallresources'
 version '1.1.0'
 
-ox_libs {
-	'locale',
-	'math',
-}
+ox_lib 'locale',
 
 shared_scripts {
 	'@ox_lib/init.lua',
