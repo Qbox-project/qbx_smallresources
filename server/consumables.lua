@@ -35,7 +35,7 @@ for alcohol, params in pairs(config.consumables.alcohol) do
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, item.alcoholLevel, item.anim, item.prop)
+        local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, params.alcoholLevel, params.anim, params.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
@@ -51,7 +51,7 @@ for drink, params in pairs(config.consumables.drink) do
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local drank = lib.callback.await('consumables:client:Drink', source, item.anim, item.prop)
+        local drank = lib.callback.await('consumables:client:Drink', source, params.anim, params.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
@@ -67,7 +67,7 @@ for food, params in pairs(config.consumables.food) do
         local player = exports.qbx_core:GetPlayer(source)
         if not player then return end
 
-        local ate = lib.callback.await('consumables:client:Eat', source, item.anim, item.prop)
+        local ate = lib.callback.await('consumables:client:Eat', source, params.anim, params.prop)
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
