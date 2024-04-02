@@ -1,5 +1,7 @@
-local sharedConfig = require 'config.shared'
-local alcoholCount, healing, smokingWeed, relieveCount = 0, false, false, 0
+local alcoholCount = 0
+local relieveCount = 0
+local healing = false
+local smokingWeed = false
 
 local function healOxy()
     if not healing then

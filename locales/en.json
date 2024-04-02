@@ -25,6 +25,8 @@
    },
    "info": {
       "minutes": "minutes",
-      "seconds": "seconds.."
+      "seconds": "seconds..",
+      "stress_gain": "Stress gained",
+      "stress_relief": "Stress relieved"
    }
 }
