@@ -19,7 +19,7 @@ local function relieveStress(source, min, max)
     local verifiedMin = (type(min) == "number" and min) or config.defaultStressRelief.min
     local verifiedMax = max or config.defaultStressRelief.max
     local amount = math.random(verifiedMin, verifiedMax)
-    local newStress = playerState.stress - amount
+    local newStress = (playerState.stress or 0) - amount
     newStress = lib.math.clamp(newStress, 0, 100)
 
     playerState:set("stress", newStress, true)
@@ -40,11 +40,12 @@ for alcohol, params in pairs(config.consumables.alcohol) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
 
-        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        local sustenance = (playerState.thirst or 0) + math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addThirst(sustenance)
     end)
 end
+
 for drink, params in pairs(config.consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
         local player = exports.qbx_core:GetPlayer(source)
@@ -55,7 +56,7 @@ for drink, params in pairs(config.consumables.drink) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
 
-        local sustenance = playerState.thirst + math.random(params.min, params.max)
+        local sustenance = (playerState.thirst or 0) + math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addThirst(sustenance)
     end)
@@ -71,7 +72,7 @@ for food, params in pairs(config.consumables.food) do
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
         local playerState = Player(source).state
 
-        local sustenance = playerState.hunger + math.random(params.min, params.max)
+        local sustenance = (playerState.hunger or 0) + math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
         addHunger(sustenance)
     end)
