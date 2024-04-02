@@ -24,9 +24,9 @@ local function relieveStress(source, min, max)
 
     playerState:set("stress", newStress, true)
     if amount < 0 then
-        exports.qbx_core:Notify(source, locale('stress_gain'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
+        exports.qbx_core:Notify(source, stress_gain, 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
     else
-        exports.qbx_core:Notify(source, locale('stress_relief'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+        exports.qbx_core:Notify(source, stress_relief, 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
     end
 end
 
