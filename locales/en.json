@@ -4,13 +4,15 @@
       "cruise_control_disabled": "Cruise control disabled",
       "cruise_control_unavailable": "Cruise control unavailable",
       "deleted_recording": "Deleted Recording!",
-      "later_aligator": "Later aligator!"
+      "later_aligator": "Later aligator!",
+      "stress_gain": "Feeling More Stressed!"
    },
    "success": {
       "cruise_control_enabled": "Cruise control enabled",
       "started_recording": "Started Recording!",
       "stopped_recording": "Stopped Recording!",
-      "saved_recording": "Saved Recording!"
+      "saved_recording": "Saved Recording!",
+      "stress_relief": "Feeling More Relaxed!"
    },
    "progress": {
       "eating": "Eating..",
