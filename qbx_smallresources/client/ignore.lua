@@ -17,7 +17,7 @@ end)
 
 AddEventHandler('populationPedCreating', function(x, y, z)
 	Wait(500)	-- Give the entity some time to be created
-	local handle = GetClosestPed(vec3(x, y, z)) -- Get the entity handle
+	local _, handle = GetClosestPed(x, y, z, 1.0) -- Get the entity handle
 	SetPedDropsWeaponsWhenDead(handle, false)
 end)
 
@@ -43,23 +43,14 @@ CreateThread(function() -- all these should only need to be called once
 end)
 
 CreateThread(function()
-	local sleep
 	while true do
-		sleep = 1000
 		if IsPedBeingStunned(cache.ped, 0) then
-			sleep = 0
 			SetPedMinGroundTimeForStungun(cache.ped, math.random(4000, 7000))
+			Wait(0)
+		else
+			Wait(1000)
 		end
-		Wait(sleep)
 	end
-end)
-
-CreateThread(function()
-	for i = 1, 15 do
-		EnableDispatchService(i, false)
-	end
-
-	SetMaxWantedLevel(0)
 end)
 
 if config.disable.idleCamera then
