@@ -17,26 +17,15 @@ CreateThread(function()
                     if dist < 1 then
                         qbx.drawText3d({ text = v.drawText, coords = v.coords})
                         if IsControlJustReleased(0, 51) then
-                            if k == 1 then
-                                if v.allowVehicle then
-                                    SetPedCoordsKeepVehicle(cache.ped, passage[2].coords.x, passage[2].coords.y, passage[2].coords.z)
-                                else
-                                    SetEntityCoords(cache.ped, passage[2].coords.x, passage[2].coords.y, passage[2].coords.z)
-                                end
+                            local i = (k + 1) % 2 + 1
+                            if v.allowVehicle then
+                                SetPedCoordsKeepVehicle(cache.ped, passage[i].coords.x, passage[i].coords.y, passage[i].coords.z)
+                            else
+                                SetEntityCoords(cache.ped, passage[i].coords.x, passage[i].coords.y, passage[i].coords.z)
+                            end
 
-                                if type(passage[2].coords) == 'vector4' then
-                                    SetEntityHeading(cache.ped, passage[2].coords.w)
-                                end
-                            elseif k == 2 then
-                                if v.allowVehicle then
-                                    SetPedCoordsKeepVehicle(cache.ped, passage[1].coords.x, passage[1].coords.y, passage[1].coords.z)
-                                else
-                                    SetEntityCoords(cache.ped, passage[1].coords.x, passage[1].coords.y, passage[1].coords.z)
-                                end
-
-                                if type(passage[1].coords) == 'vector4' then
-                                    SetEntityHeading(cache.ped, passage[1].coords.w)
-                                end
+                            if type(passage[i].coords) == 'vector4' then
+                                SetEntityHeading(cache.ped, passage[i].coords.w)
                             end
                         end
                     end
