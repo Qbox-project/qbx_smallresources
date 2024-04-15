@@ -12,14 +12,14 @@ repository 'https://github.com/Qbox-project/qbx_smallresources'
 
 --[[ Manifest ]]--
 dependencies {
-	'ox_lib',
-	'qbx_core'
+    'ox_lib',
+    'qbx_core'
 }
 
 file 'config.json'
 
 shared_scripts {
-	'@ox_lib/init.lua',
+    '@ox_lib/init.lua',
     '@qbx_core/modules/lib.lua'
 }
 

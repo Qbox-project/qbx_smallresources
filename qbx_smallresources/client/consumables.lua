@@ -24,10 +24,10 @@ local function trevorEffect()
     Wait(3000)
     AnimpostfxPlay('DrugsTrevorClownsFight', 3.0, false)
     Wait(3000)
-	AnimpostfxPlay('DrugsTrevorClownsFightOut', 3.0, false)
-	AnimpostfxStop('DrugsTrevorClownsFight')
-	AnimpostfxStop('DrugsTrevorClownsFightIn')
-	AnimpostfxStop('DrugsTrevorClownsFightOut')
+    AnimpostfxPlay('DrugsTrevorClownsFightOut', 3.0, false)
+    AnimpostfxStop('DrugsTrevorClownsFight')
+    AnimpostfxStop('DrugsTrevorClownsFightIn')
+    AnimpostfxStop('DrugsTrevorClownsFightOut')
 end
 
 local function methBagEffect()
@@ -349,7 +349,7 @@ RegisterNetEvent('consumables:client:oxy', function()
         if not used then return end
 
         ClearPedBloodDamage(cache.ped)
-		healOxy()
+        healOxy()
     else -- if canceled
         exports.qbx_core:Notify(locale('error.canceled'), 'error')
     end
@@ -377,11 +377,11 @@ RegisterNetEvent('consumables:client:meth', function()
         if not used then return end
 
         TriggerEvent('evidence:client:SetStatus', 'widepupils', 300)
-		TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
+        TriggerEvent('evidence:client:SetStatus', 'agitated', 300)
         methBagEffect()
     else -- if canceled
         exports.qbx_core:Notify(locale('error.canceled'), 'error')
-	end
+    end
 end)
 
 RegisterNetEvent('consumables:client:UseJoint', function()
@@ -405,7 +405,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
         smokeWeed()
     else -- if canceled
         exports.qbx_core:Notify(locale('error.canceled'), 'error')
-	end
+    end
 end)
 
 CreateThread(function()

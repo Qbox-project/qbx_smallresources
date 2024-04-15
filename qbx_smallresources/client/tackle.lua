@@ -26,5 +26,5 @@ lib.addKeybind({
 })
 
 RegisterNetEvent('tackle:client:GetTackled', function()
-	SetPedToRagdoll(cache.ped, 7000, 7000, 0, 0, 0, 0)
+    SetPedToRagdoll(cache.ped, 7000, 7000, 0, 0, 0, 0)
 end)
