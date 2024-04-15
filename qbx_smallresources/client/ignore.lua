@@ -42,17 +42,6 @@ CreateThread(function() -- all these should only need to be called once
 	RemoveVehiclesFromGeneratorsInArea(-724.46 - 300.0, -1444.03 - 300.0, 5.0 - 300.0, -724.46 + 300.0, -1444.03 + 300.0, 5.0 + 300.0) -- REMOVE CHOPPERS WOW
 end)
 
-CreateThread(function()
-	while true do
-		if IsPedBeingStunned(cache.ped, 0) then
-			SetPedMinGroundTimeForStungun(cache.ped, math.random(4000, 7000))
-			Wait(0)
-		else
-			Wait(1000)
-		end
-	end
-end)
-
 if config.disable.idleCamera then
 	DisableIdleCamera(true)
 end
