@@ -20,6 +20,6 @@ end
 lib.addKeybind({
     name = 'shuffleSeat',
     description = '',
-    defaultKey = '/',
+    defaultKey = 'O',
     onPressed = shuffleSeat
 })
