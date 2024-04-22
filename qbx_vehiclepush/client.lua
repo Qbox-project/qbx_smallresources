@@ -7,14 +7,14 @@ CreateThread(function()
         local pedCoords = GetEntityCoords(cache.ped)
         local vehicle, vehicleCoords = lib.getClosestVehicle(pedCoords, 3.0)
 
-        if vehicleCoords and not cache.vehicle then
+        if vehicle and vehicleCoords and not cache.vehicle then
             local vehicleClass = GetVehicleClass(vehicle)
             local isValidVehicle = vehicleClass ~= 13 or vehicleClass ~= 14 or vehicleClass ~= 15 or vehicleClass ~= 16
 
             if isValidVehicle and IsVehicleSeatFree(vehicle, -1)
                and ((GetVehicleEngineHealth(vehicle) >= 0
                and GetVehicleEngineHealth(vehicle) <= config.damageNeeded)
-               or Entity(vehicle).state.fuel < 3) then
+               or (Entity(vehicle).state.fuel or 100) < 3) then
                 while true do
                     Wait(0)
 
@@ -73,9 +73,9 @@ CreateThread(function()
                     if cache.vehicle
                        or #(pedCoords - vehicleCoords) > 3
                        or not IsVehicleSeatFree(vehicle, -1)
-                       or ((GetVehicleEngineHealth(vehicle) < 0
-                       or GetVehicleEngineHealth(vehicle) > config.damageNeeded)
-                       and Entity(vehicle).state.fuel > 3)
+                       or GetVehicleEngineHealth(vehicle) < 0
+                       or GetVehicleEngineHealth(vehicle) > config.damageNeeded
+                       or (Entity(vehicle).state.fuel or 100) > 3
                     then break end
                 end
             end
