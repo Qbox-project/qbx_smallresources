@@ -14,7 +14,7 @@ CreateThread(function()
             if isValidVehicle and IsVehicleSeatFree(vehicle, -1)
                and ((GetVehicleEngineHealth(vehicle) >= 0
                and GetVehicleEngineHealth(vehicle) <= config.damageNeeded)
-               or Entity(vehicle).state.fuel == 0) then
+               or Entity(vehicle).state.fuel < 3) then
                 while true do
                     Wait(0)
 
@@ -75,7 +75,7 @@ CreateThread(function()
                        or not IsVehicleSeatFree(vehicle, -1)
                        or ((GetVehicleEngineHealth(vehicle) < 0
                        or GetVehicleEngineHealth(vehicle) > config.damageNeeded)
-                       and Entity(vehicle).state.fuel == 0)
+                       and Entity(vehicle).state.fuel > 3)
                     then break end
                 end
             end
