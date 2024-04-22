@@ -1,4 +1,4 @@
-local config = require 'config.server'
+local config = require 'qbx_consumables.config'
 
 local function addHunger(amount)
     amount = lib.math.clamp(amount, 0, 100)
