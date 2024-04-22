@@ -1,10 +1,10 @@
-local config = lib.loadJson('qbx_flipvehicle.config.json')
+local config = lib.loadJson('qbx_flipvehicle.config')
 
 --- @param vehicle number? id of the vehicle, default closes vehicle
 --- @param flipTest boolean? costom fliping task
 local function flipVehicle(vehicle, flipTest)
     if cache.vehicle then return end
-    if not vehicle then vehicle = lib.getClosestVehicle(cache.ped, cache.maxDistance) end
+    if not vehicle then vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), config.maxDistance, false) end
     if not vehicle then return exports.qbx_core:Notify(locale('error.no_vehicle_nearby'), 'error') end
     local peedCoords = GetEntityCoords(cache.ped)
     local vehicleCoords = GetEntityCoords(vehicle)
