@@ -1,6 +1,6 @@
 CreateThread(function()
-    local config = lib.loadJson('config')
-    local pushLabel = lib.callback.await('qbx_vehiclepush:server:getPushLabel', false, 'action')
+    local config = lib.loadJson('qbx_vehiclepush.config')
+    local pushLabel = lib.callback.await('qbx_vehiclepush:server:getLabel', false, 'actions.push_vehicle')
 
     while true do
         Wait(1000)
@@ -12,8 +12,9 @@ CreateThread(function()
             local isValidVehicle = vehicleClass ~= 13 or vehicleClass ~= 14 or vehicleClass ~= 15 or vehicleClass ~= 16
 
             if isValidVehicle and IsVehicleSeatFree(vehicle, -1)
-               and GetVehicleEngineHealth(vehicle) >= 0
-               and GetVehicleEngineHealth(vehicle) <= config.damageNeeded then
+               and ((GetVehicleEngineHealth(vehicle) >= 0
+               and GetVehicleEngineHealth(vehicle) <= config.damageNeeded)
+               or Entity(vehicle).state.fuel == 0) then
                 while true do
                     Wait(0)
 
@@ -72,8 +73,9 @@ CreateThread(function()
                     if cache.vehicle
                        or #(pedCoords - vehicleCoords) > 3
                        or not IsVehicleSeatFree(vehicle, -1)
-                       or GetVehicleEngineHealth(vehicle) < 0
-                       or GetVehicleEngineHealth(vehicle) > config.damageNeeded
+                       or ((GetVehicleEngineHealth(vehicle) < 0
+                       or GetVehicleEngineHealth(vehicle) > config.damageNeeded)
+                       and Entity(vehicle).state.fuel == 0)
                     then break end
                 end
             end

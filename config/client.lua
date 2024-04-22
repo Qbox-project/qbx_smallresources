@@ -1,8 +1,4 @@
 return {
-
-    -- Damage needed to be able to puch a vehicle
-    damageNeeded = 100.0,
-
     disable = {
 
         -- Disables the Idle Cinematic Camera

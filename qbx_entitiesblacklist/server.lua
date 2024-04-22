@@ -1,4 +1,4 @@
-local config = require 'config.server'
+local config = lib.loadJson('qbx_entitiesblacklist.config')
 local bucketLockDownMode = GetConvar('qbx:bucketlockdownmode', 'relaxed')
 
 -- If you want to blacklist peds and vehicles from certaiin locations utilize Car gens ymaps as done in streams/car_gen_disablers, as entityCreating handler is very expensive compared to ymap.
@@ -9,7 +9,7 @@ if bucketLockDownMode == 'inactive' then return end
 AddEventHandler('entityCreating', function(handle)
     local entityModel = GetEntityModel(handle)
 
-    if config.blacklisted.vehicles[entityModel] or config.blacklisted.peds[entityModel] then
+    if config.blacklisted[entityModel] then
         CancelEvent()
     end
 end)

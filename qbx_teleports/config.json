@@ -16,12 +16,12 @@
         [
             {
                 "_name": "Coke Processing Enter/Exit",
-                "coords": [909.49, -1589.22, 30.51, 92.24],
+                "coords": [909.49, -1589.22, 30.51, 91.74],
                 "allowVehicle": false,
                 "drawText": "[E] Enter Coke Processing"
             },
             {
-                "coords": [1088.81, -3187.57, -38.99, 181.7],
+                "coords": [1088.81, -3187.57, -38.99, 181.2],
                 "allowVehicle": false,
                 "drawText": "[E] Leave"
             }

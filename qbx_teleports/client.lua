@@ -1,5 +1,6 @@
+local config = lib.loadJson('qbx_teleports.config')
+
 CreateThread(function()
-    local config = lib.loadJson('config')
     local sleep
     while true do
         sleep = 1000
@@ -17,15 +18,16 @@ CreateThread(function()
                     if dist < 1 then
                         qbx.drawText3d({ text = v.drawText, coords = v.coords})
                         if IsControlJustReleased(0, 51) then
-                            local i = (k + 1) % 2 + 1
+                            local i = k % 2 + 1
+                            local dstCoords = passage[i].coords
                             if v.allowVehicle then
-                                SetPedCoordsKeepVehicle(cache.ped, passage[i].coords.x, passage[i].coords.y, passage[i].coords.z)
+                                SetPedCoordsKeepVehicle(cache.ped, dstCoords.x, dstCoords.y, dstCoords.z)
                             else
-                                SetEntityCoords(cache.ped, passage[i].coords.x, passage[i].coords.y, passage[i].coords.z)
+                                SetEntityCoords(cache.ped, dstCoords.x, dstCoords.y, dstCoords.z, true, false, false, false)
                             end
 
-                            if type(passage[i].coords) == 'vector4' then
-                                SetEntityHeading(cache.ped, passage[i].coords.w)
+                            if type(dstCoords) == 'vector4' then
+                                SetEntityHeading(cache.ped, dstCoords.w)
                             end
                         end
                     end

@@ -1,4 +1,4 @@
-local config = require 'config.server'
+local config = lib.loadJson('qbx_afk.config')
 
 local loggedInPlayers = {}
 local checkUser = {}

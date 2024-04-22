@@ -1,6 +1,25 @@
-lib.onCache('vehicle', function(vehicle)
-    if vehicle and GetPedInVehicleSeat(vehicle, cache.seat) == cache.ped then
-        SetPedIntoVehicle(cache.ped, vehicle, cache.seat)
-        SetPedConfigFlag(cache.ped, 184, true)
+--- Disables auto seat switching
+--- @param seatIndex number
+local function disableAutoShuffle(seatIndex)
+    SetPedConfigFlag(cache.ped, 184, true)
+
+    if cache.vehicle and not cache.seat then
+        SetPedIntoVehicle(cache.ped, cache.vehicle, seatIndex)
     end
-end)
+end
+
+lib.onCache('seat', disableAutoShuffle)
+
+--- Makes the player ped shuffle to the next vehicle seat. 
+local function shuffleSeat()
+    if cache.vehicle and cache.seat then
+        TaskShuffleToNextVehicleSeat(cache.ped, cache.vehicle)
+    end
+end
+
+lib.addKeybind({
+    name = 'shuffleSeat',
+    description = '',
+    defaultKey = '/',
+    onPressed = shuffleSeat
+})

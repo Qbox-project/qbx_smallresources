@@ -5,14 +5,16 @@
       "cruise_control_unavailable": "Cruise control unavailable",
       "deleted_recording": "Deleted Recording!",
       "later_aligator": "Later aligator!",
-      "stress_gain": "Feeling More Stressed!"
+      "stress_gain": "Feeling More Stressed!",
+      "no_vehicle_nearby": "No Vehicle Nearby For Flipping."
    },
    "success": {
       "cruise_control_enabled": "Cruise control enabled",
       "started_recording": "Started Recording!",
       "stopped_recording": "Stopped Recording!",
       "saved_recording": "Saved Recording!",
-      "stress_relief": "Feeling More Relaxed!"
+      "stress_relief": "Feeling More Relaxed!",
+      "flipped_car": "Vehicle Flipped Successfully!"
    },
    "progress": {
       "eating": "Eating..",
@@ -23,10 +25,14 @@
       "popping_pills": "Popping pills..",
       "healing": "Healing..",
       "smoking_meth": "Smoking meth..",
-      "lighting_joint": "Lighting joint.."
+      "lighting_joint": "Lighting joint..",
+      "flipping_car": "Flipping Vehicle..."
    },
    "info": {
       "minutes": "minutes",
       "seconds": "seconds.."
+   },
+   "actions": {
+      "push_vehicle": "Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle until [~g~SHIFT~w~] release"
    }
 }
