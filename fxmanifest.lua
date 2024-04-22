@@ -19,7 +19,6 @@ dependencies {
 ox_lib 'locale'
 
 files {
-    'config/shared.lua',
     'locales/*.json',
     '**/config.json',
     '**/config.lua'
@@ -27,19 +26,12 @@ files {
 
 shared_scripts {
     '@ox_lib/init.lua',
-    '@qbx_core/modules/lib.lua',
-    '**/shared.lua'
+    '@qbx_core/modules/lib.lua'
 }
 
 client_scripts {
     '@qbx_core/modules/playerdata.lua',
-    'config/client.lua',
-    'client/*.lua',
     '**/client.lua'
 }
 
-server_script {
-    'config/server.lua',
-    'server/*.lua',
-    '**/server.lua'
-}
+server_script '**/server.lua'
