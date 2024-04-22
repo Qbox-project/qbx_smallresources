@@ -11,10 +11,15 @@ end
 lib.onCache('seat', disableAutoShuffle)
 
 --- Makes the player ped shuffle to the next vehicle seat. 
-local function shuffleSeat()
+local function shuffleSeat(self)
+    self:disable(true)
     if cache.vehicle and cache.seat then
         TaskShuffleToNextVehicleSeat(cache.ped, cache.vehicle)
+        repeat
+            Wait(0)
+        until not GetIsTaskActive(cache.ped, 165)
     end
+    self:disable(false)
 end
 
 lib.addKeybind({
