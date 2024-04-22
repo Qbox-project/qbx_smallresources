@@ -1,4 +1,8 @@
 return {
+    defaultStressRelief = {
+        min = 0,
+        max = 4
+    },
     ---@class anim
     ---@field clip string
     ---@field dict string
@@ -25,7 +29,6 @@ return {
     ---@field alcoholLevel number?
 
     consumables = {
-
         ---@type table<string, consumable>
         food = {
             sandwich = {

@@ -1,4 +1,4 @@
-local config = require 'config.client'
+local config = require 'qbx_ignore.config'
 
 CreateThread(function()
     while true do

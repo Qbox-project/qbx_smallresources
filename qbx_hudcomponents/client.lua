@@ -1,4 +1,4 @@
-local config = require 'config.client'
+local config = require 'qbx_hudcomponents.config'
 local disableHudComponents = config.disable.hudComponents
 local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
