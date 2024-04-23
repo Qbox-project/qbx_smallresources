@@ -73,9 +73,9 @@ CreateThread(function()
                     if cache.vehicle
                        or #(pedCoords - vehicleCoords) > 3
                        or not IsVehicleSeatFree(vehicle, -1)
-                       or GetVehicleEngineHealth(vehicle) < 0
-                       or GetVehicleEngineHealth(vehicle) > config.damageNeeded
-                       or (Entity(vehicle).state.fuel or 100) > 3
+                       or not ((GetVehicleEngineHealth(vehicle) >= 0
+                       and GetVehicleEngineHealth(vehicle) <= config.damageNeeded)
+                       or (Entity(vehicle).state.fuel or 100) < 3)
                     then break end
                 end
             end
