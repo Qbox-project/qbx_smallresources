@@ -69,16 +69,15 @@ local function TriggerCruiseControl()
     end
 end
 
-RegisterCommand('togglecruise', function()
-    local vehicleClass = GetVehicleClass(cache.vehicle)
-
-    if cache.seat == -1 then
-        if vehicleClasses[vehicleClass] then
-            TriggerCruiseControl()
-        else
-            exports.qbx_core:Notify(locale('error.cruise_control_unavailable'), 'error')
+local keybindCruiseControl = lib.addKeybind({name = 'toggle_cruise_control', description = 'Activer/Désactiver le régulateur de vitesse', defaultKey = 'Y',
+    onPressed = function(self)
+        local vehicleClass = GetVehicleClass(cache.vehicle)
+        if cache.seat == -1 then
+            if vehicleClasses[vehicleClass] then
+                TriggerCruiseControl()
+            else
+                exports.qbx_core:Notify(locale('error.cruise_control_unavailable'), 'error')
+            end
         end
     end
-end, false)
-
-RegisterKeyMapping('togglecruise', 'Toggle Cruise Control', 'keyboard', 'y')
+})
