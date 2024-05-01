@@ -69,7 +69,7 @@ local function TriggerCruiseControl()
     end
 end
 
-local keybindCruiseControl = lib.addKeybind({name = 'toggle_cruise_control', description = 'Activer/Désactiver le régulateur de vitesse', defaultKey = 'Y',
+local keybindCruiseControl = lib.addKeybind({name = 'toggle_cruise_control', description = locale('actions.toggle_cruise_control'), defaultKey = 'Y',
     onPressed = function(self)
         local vehicleClass = GetVehicleClass(cache.vehicle)
         if cache.seat == -1 then
