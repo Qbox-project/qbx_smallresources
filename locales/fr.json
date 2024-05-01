@@ -1,31 +1,39 @@
 {
-    "error": {
-        "canceled": "Annulé..",
-        "cruise_control_disabled": "Régulateur de vitesse désactivé.",
-        "cruise_control_unavailable": "Régulateur de vitesse indisponible.",
-        "deleted_recording": "Enregistrement supprimé.",
-        "later_aligator": "A plus, sous l'bus!",
-        "stress_gain": "Vous stressez!"
-    },
-    "success": {
-        "cruise_control_enabled": "Régulateur de vitesse activé.",
-        "started_recording": "Enregistrement démarré.",
-        "saved_recording": "Enregistrement sauvegardé.",
-        "stress_relief": "Vous-vous relaxez!"
-    },
-    "progress": {
-        "eating": "Mange...",
-        "drinking": "Bois...",
-        "drinking_liquor": "Bois de l'alcool...",
-        "quick_sniff": "Sniff...",
-        "smoking_crack": "Fume du crack...",
-        "popping_pills": "Prend des pilules...",
-        "healing": "Se soigne...",
-        "smoking_meth": "Fume de la meth...",
-        "lighting_joint": "Roule un joint..."
-    },
-    "info": {
-        "minutes": "minutes",
-        "seconds": "secondes"
-    }
+   "error": {
+      "canceled": "Annulé..",
+      "cruise_control_disabled": "Régulateur de vitesse désactivé",
+      "cruise_control_unavailable": "Régulateur de vitesse indisponible",
+      "deleted_recording": "Enregistrement supprimé !",
+      "later_aligator": "À plus, alligator !",
+      "stress_gain": "Augmentation du stress !",
+      "no_vehicle_nearby": "Aucun véhicule à proximité pour retourner."
+   },
+   "success": {
+      "cruise_control_enabled": "Régulateur de vitesse activé",
+      "started_recording": "Enregistrement commencé !",
+      "stopped_recording": "Enregistrement arrêté !",
+      "saved_recording": "Enregistrement sauvegardé !",
+      "stress_relief": "Sensation de détente accrue !",
+      "flipped_car": "Véhicule retourné avec succès !"
+   },
+   "progress": {
+      "eating": "En train de manger..",
+      "drinking": "En train de boire..",
+      "drinking_liquor": "En train de boire de l'alcool..",
+      "quick_sniff": "Petit sniff..",
+      "smoking_crack": "Fumer du crack..",
+      "popping_pills": "Prendre des pilules..",
+      "healing": "En train de guérir..",
+      "smoking_meth": "Fumer de la méthamphétamine..",
+      "lighting_joint": "Allumer un joint..",
+      "flipping_car": "Retournement du véhicule en cours..."
+   },
+   "info": {
+      "minutes": "minutes",
+      "seconds": "secondes.."
+   },
+   "actions": {
+      "push_vehicle": "Appuyez sur [~g~MAJ~w~] et [~g~E~w~] pour pousser le véhicule jusqu'à relâchement de [~g~MAJ~w~]",
+      "toggle_cruise_control": "Activer/Désactiver le régulateur de vitesse"
+   }
 }
