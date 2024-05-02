@@ -71,8 +71,8 @@ end
 
 local keybindCruiseControl = lib.addKeybind({name = 'toggle_cruise_control', description = locale('actions.toggle_cruise_control'), defaultKey = 'Y',
     onPressed = function(self)
-        local vehicleClass = GetVehicleClass(cache.vehicle)
         if cache.seat == -1 then
+            local vehicleClass = GetVehicleClass(cache.vehicle)
             if vehicleClasses[vehicleClass] then
                 TriggerCruiseControl()
             else
@@ -81,3 +81,7 @@ local keybindCruiseControl = lib.addKeybind({name = 'toggle_cruise_control', des
         end
     end
 })
+
+return {
+    keybindCruiseControl = keybindCruiseControl -- possibility of apler to deactivate/activate
+}
