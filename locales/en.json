@@ -33,6 +33,7 @@
       "seconds": "seconds.."
    },
    "actions": {
-      "push_vehicle": "Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle until [~g~SHIFT~w~] release"
+      "push_vehicle": "Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle until [~g~SHIFT~w~] release",
+      "toggle_cruise_control": "Toggle Cruise Control"
    }
 }
