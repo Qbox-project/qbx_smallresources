@@ -1,0 +1,38 @@
+{
+   "error": {
+       "canceled": "Cancelado...",
+       "cruise_control_disabled": "Control de velocidade desligado",
+       "cruise_control_unavailable": "Control de velocidade indisponível",
+       "deleted_recording": "Gravação apagada!",
+       "later_aligator": "Até logo!",
+       "stress_gain": "A sentir mais stress!",
+       "no_vehicle_nearby": "Não há veículos por perto para virar."
+   },
+   "success": {
+       "cruise_control_enabled": "Control de velocidade ligado",
+       "started_recording": "Gravação iniciada!",
+       "stopped_recording": "Gravação parada!",
+       "saved_recording": "Gravação guardada!",
+       "stress_relief": "A sentir-se mais relaxado!",
+       "flipped_car": "Veículo virado com sucesso!"
+   },
+   "progress": {
+       "eating": "A comer...",
+       "drinking": "A beber...",
+       "drinking_liquor": "A beber álcool...",
+       "quick_sniff": "A dar uma cheirada rápida...",
+       "smoking_crack": "A fumar crack...",
+       "popping_pills": "A tomar comprimidos...",
+       "healing": "A curar...",
+       "smoking_meth": "A fumar metanfetaminas...",
+       "lighting_joint": "A acender um charro...",
+       "flipping_car": "A virar o veículo..."
+   },
+   "info": {
+       "minutes": "minutos",
+       "seconds": "segundos..."
+   },
+   "actions": {
+       "push_vehicle": "Pressiona [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até largar [~g~SHIFT~w~]"
+   }
+}
