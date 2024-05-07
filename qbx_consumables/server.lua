@@ -1,17 +1,49 @@
 local config = require 'qbx_consumables.config'
 
-local function addHunger(amount)
+--- sets player nutrition level in statebag
+--- @param source number
+--- @param amount number
+local function setHunger(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
-    local playerState = Player(source).state
-    playerState:set('hunger', amount, true)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, amount, playerState.thirst)
+    Player(source).state.hunger = amount
+
+    --- hotfix: remove when qbx_core issue #457 fixed
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+
+    player.Functions.SetMetaData('hunger', amount)
+    --- hotfix
 end
 
-local function addThirst(amount)
+--- raises player nutrition level in statebag
+--- @param source number
+--- @param amount number
+local function addHunger(source, amount)
+    local hunger = Player(source).state.hunger or 0
+    setHunger(source, hunger + amount)
+end
+
+--- sets player watering level in statebag
+--- @param source number
+--- @param amount number
+local function setThirst(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
-    local playerState = Player(source).state
-    playerState:set('thirst', amount, true)
-    TriggerClientEvent('hud:client:UpdateNeeds', source, playerState.hunger, amount)
+    Player(source).state.thirst = amount
+
+    --- hotfix: remove when qbx_core issue #457 fixed
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+
+    player.Functions.SetMetaData('thirst', amount)
+    --- hotfix
+end
+
+--- raises player watering level in statebag
+--- @param source number
+--- @param amount number
+local function addThirst(source, amount)
+    local thirst = Player(source).state.thirst or 0
+    setThirst(source, thirst + amount)
 end
 
 local function relieveStress(source, min, max)
@@ -32,49 +64,43 @@ end
 
 for alcohol, params in pairs(config.consumables.alcohol) do
     exports.qbx_core:CreateUseableItem(alcohol, function(source, item)
-        local player = exports.qbx_core:GetPlayer(source)
-        if not player then return end
-
         local drank = lib.callback.await('consumables:client:DrinkAlcohol', source, params.alcoholLevel, params.anim, params.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-        local playerState = Player(source).state
 
-        local sustenance = (playerState.thirst or 0) + math.random(params.min, params.max)
+        local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
-        addThirst(sustenance)
+
+        exports.qbx_core:Notify(source, sustenance, "error")
+        addThirst(source, sustenance)
     end)
 end
 
 for drink, params in pairs(config.consumables.drink) do
     exports.qbx_core:CreateUseableItem(drink, function(source, item)
-        local player = exports.qbx_core:GetPlayer(source)
-        if not player then return end
-
         local drank = lib.callback.await('consumables:client:Drink', source, params.anim, params.prop)
         if not drank then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-        local playerState = Player(source).state
 
-        local sustenance = (playerState.thirst or 0) + math.random(params.min, params.max)
+        local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
-        addThirst(sustenance)
+
+        exports.qbx_core:Notify(source, sustenance, "error")
+        addThirst(source, sustenance)
     end)
 end
 
 for food, params in pairs(config.consumables.food) do
     exports.qbx_core:CreateUseableItem(food, function(source, item)
-        local player = exports.qbx_core:GetPlayer(source)
-        if not player then return end
-
         local ate = lib.callback.await('consumables:client:Eat', source, params.anim, params.prop)
         if not ate then return end
         if not exports.ox_inventory:RemoveItem(source, item.name, 1, nil, item.slot) then return end
-        local playerState = Player(source).state
 
-        local sustenance = (playerState.hunger or 0) + math.random(params.min, params.max)
+        local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
-        addHunger(sustenance)
+
+        exports.qbx_core:Notify(source, sustenance, "error")
+        addHunger(source, sustenance)
     end)
 end
 
@@ -120,6 +146,54 @@ lib.callback.register('consumables:server:usedItem', function(source, item)
 end)
 
 -- Added for ox_inv until I make a proper qbx bridge
-RegisterNetEvent('consumables:server:addThirst', addThirst)
 
-RegisterNetEvent('consumables:server:addHunger', addHunger)
+--- @deprecated confusing name
+RegisterNetEvent('consumables:server:addThirst', function (amount)
+    setThirst(source, amount)
+end)
+--- @deprecated confusing name
+RegisterNetEvent('consumables:server:addHunger', function (amount)
+    setHunger(source, amount)
+end)
+
+RegisterNetEvent('consumables:server:setThirst', function (amount)
+    setThirst(source, amount)
+end)
+
+RegisterNetEvent('consumables:server:setHunger', function (amount)
+    setHunger(source, amount)
+end)
+
+lib.addCommand('thrist', {
+    params = {
+        {
+            name = 'amount',
+            type = 'number',
+        },
+        {
+            name = 'target',
+            type = 'playerId',
+            optional = true
+        }
+    },
+    restricted = 'group.admin'
+}, function (source, args, raw)
+    setThirst(args.target or source, args.amount)
+end)
+
+lib.addCommand('hunger', {
+    params = {
+        {
+            name = 'amount',
+            type = 'number',
+        },
+        {
+            name = 'target',
+            type = 'playerId',
+            optional = true
+        }
+    },
+    restricted = 'group.admin'
+}, function (source, args, raw)
+    setHunger(args.target or source, args.amount)
+end)
