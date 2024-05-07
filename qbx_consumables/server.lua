@@ -71,7 +71,6 @@ for alcohol, params in pairs(config.consumables.alcohol) do
         local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
 
-        exports.qbx_core:Notify(source, sustenance, "error")
         addThirst(source, sustenance)
     end)
 end
@@ -85,7 +84,6 @@ for drink, params in pairs(config.consumables.drink) do
         local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
 
-        exports.qbx_core:Notify(source, sustenance, "error")
         addThirst(source, sustenance)
     end)
 end
@@ -99,7 +97,6 @@ for food, params in pairs(config.consumables.food) do
         local sustenance = math.random(params.min, params.max)
         relieveStress(source, params.stressRelief.min, params.stressRelief.max)
 
-        exports.qbx_core:Notify(source, sustenance, "error")
         addHunger(source, sustenance)
     end)
 end
