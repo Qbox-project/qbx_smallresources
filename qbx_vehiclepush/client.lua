@@ -1,6 +1,5 @@
 CreateThread(function()
     local config = lib.loadJson('qbx_vehiclepush.config')
-    local pushLabel = lib.callback.await('qbx_vehiclepush:server:getLabel', false, 'actions.push_vehicle')
 
     while true do
         Wait(1000)
@@ -18,7 +17,7 @@ CreateThread(function()
                 while true do
                     Wait(0)
 
-                    qbx.drawText3d({ text = pushLabel, coords = vehicleCoords })
+                    qbx.drawText3d({ text = locale('actions.push_vehicle'), coords = vehicleCoords })
 
                     if IsControlPressed(0, 21)
                        and not IsEntityAttachedToEntity(cache.ped, vehicle)
