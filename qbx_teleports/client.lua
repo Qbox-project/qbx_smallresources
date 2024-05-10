@@ -46,16 +46,28 @@ local function onPressed()
     keybind:disable(true)
     if dst then
         if dst.allowVehicle and cache.vehicle then
+            local coordz = dst.coords.z
+            if not dst.ignoreGround then
+                local isSafe, c = GetGroundZFor_3dCoord(
+                    dst.coords.x,
+                    dst.coords.y,
+                    dst.coords.z,
+                    false
+                )
+
+                if not isSafe then return end
+
+                coordz = c
+            end
+
             SetPedCoordsKeepVehicle(
                 cache.ped,
                 dst.coords.x,
                 dst.coords.y,
-                dst.coords.z
+                coordz
             )
 
-            if not dst.ignoreGround then
-                SetVehicleOnGroundProperly(cache.vehicle)
-            end
+            SetVehicleOnGroundProperly(cache.vehicle)
         else
             local coordz = dst.coords.z
             if not dst.ignoreGround then
