@@ -1,40 +1,97 @@
 local config = lib.loadJson('qbx_teleports.config')
 
-CreateThread(function()
-    local sleep
-    while true do
-        sleep = 1000
-        local pedCoords = GetEntityCoords(cache.ped)
+if #config.teleports == 0 then return end
 
-        for _, passage in ipairs(config.teleports) do
-            passage[1].coords = vec4(passage[1].coords)
-            passage[2].coords = vec4(passage[2].coords)
-            for k, v in ipairs(passage) do
-                local dist = #(pedCoords - v.coords.xyz)
-                if dist < 2 then
-                    sleep = 0
-                    DrawMarker(2, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.15, 255, 255, 255, 255, false, false, 0, true, nil, nil, false)
+local zones = {}
 
-                    if dist < 1 then
-                        qbx.drawText3d({ text = v.drawText, coords = v.coords})
-                        if IsControlJustReleased(0, 51) then
-                            local i = k % 2 + 1
-                            local dstCoords = passage[i].coords
-                            if v.allowVehicle then
-                                SetPedCoordsKeepVehicle(cache.ped, dstCoords.x, dstCoords.y, dstCoords.z)
-                            else
-                                SetEntityCoords(cache.ped, dstCoords.x, dstCoords.y, dstCoords.z, true, false, false, false)
-                            end
+AddEventHandler('onResourceStop', function (resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then return end
 
-                            if type(dstCoords) == 'vector4' then
-                                SetEntityHeading(cache.ped, dstCoords.w)
-                            end
-                        end
-                    end
+    for _, zone in ipairs(zones) do
+        zone:remove()
+    end
+
+    zones = nil
+end)
+
+local dst
+
+CreateThread(function ()
+    for _, passage in ipairs(config.teleports) do
+        for i = 1, #passage do
+            local coords = vec3(passage[i].coords)
+            zones[#zones+1] = lib.zones.sphere({
+                coords = coords.xyz,
+                radius = 2,
+                onEnter = function ()
+                    lib.showTextUI(passage[i].drawText)
+                    dst = {
+                        coords = vec(passage[(i % 2) + 1].coords),
+                        ignoreGround = passage[(i % 2) + 1].ignoreGround,
+                        allowVehicle = passage[i].allowVehicle
+                    }
+                end,
+                onExit = function ()
+                    lib.hideTextUI()
+                    dst = nil
                 end
-            end
+            })
         end
-
-        Wait(sleep)
     end
 end)
+
+local keybind
+
+local function onPressed()
+    keybind:disable(true)
+    if dst then
+        if dst.allowVehicle and cache.vehicle then
+            SetPedCoordsKeepVehicle(
+                cache.ped,
+                dst.coords.x,
+                dst.coords.y,
+                dst.coords.z
+            )
+
+            if not dst.ignoreGround then
+                SetVehicleOnGroundProperly(cache.vehicle)
+            end
+        else
+            local coordz = dst.coords.z
+            if not dst.ignoreGround then
+                local isSafe, c = GetGroundZFor_3dCoord(
+                    dst.coords.x,
+                    dst.coords.y,
+                    dst.coords.z,
+                    false
+                )
+
+                if not isSafe then return end
+
+                coordz = c
+            end
+
+            SetEntityCoords(
+                cache.ped,
+                dst.coords.x,
+                dst.coords.y,
+                coordz,
+                true, false, false, false
+            )
+        end
+
+        if type(dst.coords) == 'vector4' then
+            SetEntityHeading(cache.ped, dst.coords.w)
+        end
+    end
+    keybind:disable(false)
+end
+
+keybind = lib.addKeybind({
+    name = 'passage',
+    description = 'entry through passage',
+    defaultKey = 'E',
+    secondaryMapper = 'PAD_DIGITALBUTTONANY',
+    secondaryKey = 'LRIGHT_INDEX',
+    onPressed = onPressed
+})
