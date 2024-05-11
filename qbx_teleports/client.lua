@@ -21,7 +21,7 @@ CreateThread(function ()
         for i = 1, #passage do
             local coords = vec3(passage[i].coords)
             zones[#zones+1] = lib.zones.sphere({
-                coords = coords.xyz,
+                coords = coords,
                 radius = 2,
                 onEnter = function ()
                     lib.showTextUI(passage[i].drawText)
