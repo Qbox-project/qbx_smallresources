@@ -153,10 +153,18 @@ RegisterNetEvent('consumables:server:addHunger', function (amount)
     setHunger(source, amount)
 end)
 
-RegisterNetEvent('consumables:server:setThirst', function (amount)
-    setThirst(source, amount)
+RegisterNetEvent('consumables:server:setThirst', function (amount, src)
+    if GetInvokingResource() then
+        setThirst(src, amount)
+    else
+        setThirst(source, amount)
+    end
 end)
 
-RegisterNetEvent('consumables:server:setHunger', function (amount)
-    setHunger(source, amount)
+RegisterNetEvent('consumables:server:setHunger', function (amount, src)
+    if GetInvokingResource() then
+        setHunger(src, amount)
+    else
+        setHunger(source, amount)
+    end
 end)
