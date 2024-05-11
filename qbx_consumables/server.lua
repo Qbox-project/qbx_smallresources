@@ -160,37 +160,3 @@ end)
 RegisterNetEvent('consumables:server:setHunger', function (amount)
     setHunger(source, amount)
 end)
-
-lib.addCommand('thrist', {
-    params = {
-        {
-            name = 'amount',
-            type = 'number',
-        },
-        {
-            name = 'target',
-            type = 'playerId',
-            optional = true
-        }
-    },
-    restricted = 'group.admin'
-}, function (source, args, raw)
-    setThirst(args.target or source, args.amount)
-end)
-
-lib.addCommand('hunger', {
-    params = {
-        {
-            name = 'amount',
-            type = 'number',
-        },
-        {
-            name = 'target',
-            type = 'playerId',
-            optional = true
-        }
-    },
-    restricted = 'group.admin'
-}, function (source, args, raw)
-    setHunger(args.target or source, args.amount)
-end)
