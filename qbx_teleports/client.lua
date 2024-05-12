@@ -18,7 +18,7 @@ CreateThread(function ()
     for _, passage in ipairs(config.teleports) do
         for i = 1, #passage do
             local entrance = passage[i]
-            local exit = passage[(i % 2) + 1]
+            local exit = passage[(i % 2) + 1] -- (1 % 2) -> 1 (2 % 2) -> 0
             local coords = vec3(entrance.coords)
             zones[#zones+1] = lib.zones.sphere({
                 coords = coords,
