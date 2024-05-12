@@ -10,30 +10,30 @@ AddEventHandler('onResourceStop', function (resourceName)
     for _, zone in ipairs(zones) do
         zone:remove()
     end
-
-    zones = nil
 end)
 
-local dst
+local destination
 
 CreateThread(function ()
     for _, passage in ipairs(config.teleports) do
         for i = 1, #passage do
-            local coords = vec3(passage[i].coords)
+            local entrance = passage[i]
+            local exit = passage[(i % 2) + 1]
+            local coords = vec3(entrance.coords)
             zones[#zones+1] = lib.zones.sphere({
                 coords = coords,
                 radius = 2,
                 onEnter = function ()
-                    lib.showTextUI(passage[i].drawText)
-                    dst = {
-                        coords = vec(passage[(i % 2) + 1].coords),
-                        ignoreGround = passage[(i % 2) + 1].ignoreGround,
-                        allowVehicle = passage[i].allowVehicle
+                    lib.showTextUI(entrance.drawText)
+                    destination = {
+                        coords = vec(exit.coords),
+                        ignoreGround = exit.ignoreGround,
+                        allowVehicle = entrance.allowVehicle
                     }
                 end,
                 onExit = function ()
                     lib.hideTextUI()
-                    dst = nil
+                    destination = nil
                 end
             })
         end
@@ -44,56 +44,41 @@ local keybind
 
 local function onPressed()
     keybind:disable(true)
-    if dst then
-        if dst.allowVehicle and cache.vehicle then
-            local coordz = dst.coords.z
-            if not dst.ignoreGround then
-                local isSafe, c = GetGroundZFor_3dCoord(
-                    dst.coords.x,
-                    dst.coords.y,
-                    dst.coords.z,
-                    false
-                )
+    if destination then
+        local coordZ = destination.coords.z
 
-                if not isSafe then return end
+        if not destination.ignoreGround then
+            local isSafe, z = GetGroundZFor_3dCoord(
+                destination.coords.x,
+                destination.coords.y,
+                destination.coords.z,
+                false
+            )
 
-                coordz = c
-            end
+            if isSafe then coordZ = z end
+        end
 
+        if destination.allowVehicle and cache.vehicle then
             SetPedCoordsKeepVehicle(
                 cache.ped,
-                dst.coords.x,
-                dst.coords.y,
-                coordz
+                destination.coords.x,
+                destination.coords.y,
+                coordZ
             )
 
             SetVehicleOnGroundProperly(cache.vehicle)
         else
-            local coordz = dst.coords.z
-            if not dst.ignoreGround then
-                local isSafe, c = GetGroundZFor_3dCoord(
-                    dst.coords.x,
-                    dst.coords.y,
-                    dst.coords.z,
-                    false
-                )
-
-                if not isSafe then return end
-
-                coordz = c
-            end
-
             SetEntityCoords(
                 cache.ped,
-                dst.coords.x,
-                dst.coords.y,
-                coordz,
+                destination.coords.x,
+                destination.coords.y,
+                coordZ,
                 true, false, false, false
             )
         end
 
-        if type(dst.coords) == 'vector4' then
-            SetEntityHeading(cache.ped, dst.coords.w)
+        if type(destination.coords) == 'vector4' then
+            SetEntityHeading(cache.ped, destination.coords.w)
         end
     end
     keybind:disable(false)
