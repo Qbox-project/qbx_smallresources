@@ -5,7 +5,7 @@ if #config.teleports == 0 then return end
 local zones = {}
 
 AddEventHandler('onResourceStop', function (resourceName)
-    if (GetCurrentResourceName() ~= resourceName) then return end
+    if GetCurrentResourceName() ~= resourceName then return end
 
     for _, zone in ipairs(zones) do
         zone:remove()
