@@ -1,5 +1,5 @@
---- Disables auto seat switching
---- @param seatIndex number
+---Disables auto seat switching
+---@param seatIndex number
 local function disableAutoShuffle(seatIndex)
     SetPedConfigFlag(cache.ped, 184, true)
 
@@ -10,7 +10,7 @@ end
 
 lib.onCache('seat', disableAutoShuffle)
 
---- Makes the player ped shuffle to the next vehicle seat. 
+---Makes the player ped shuffle to the next vehicle seat. 
 local function shuffleSeat(self)
     self:disable(true)
     if cache.vehicle and cache.seat then

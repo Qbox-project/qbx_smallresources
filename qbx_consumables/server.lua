@@ -1,46 +1,47 @@
 local config = require 'qbx_consumables.config'
 
---- sets player nutrition level in statebag
---- @param source number
---- @param amount number
+---hotfix: remove when qbx_core issue #457 fixed
+---@param source number
+---@param amount number
+---@param type string
+local function metadataSyncHotfix(source, amount, type)
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+
+    player.Functions.SetMetaData(type, amount)
+end
+
+---sets player hunger level in statebag
+---@param source number
+---@param amount number
 local function setHunger(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.hunger = amount
 
-    --- hotfix: remove when qbx_core issue #457 fixed
-    local player = exports.qbx_core:GetPlayer(source)
-    if not player then return end
-
-    player.Functions.SetMetaData('hunger', amount)
-    --- hotfix
+    metadataSyncHotfix(source, amount, 'hunger') --- hotfix
 end
 
---- raises player nutrition level in statebag
---- @param source number
---- @param amount number
+---raises player hunger level in statebag
+---@param source number
+---@param amount number
 local function addHunger(source, amount)
     local hunger = Player(source).state.hunger or 0
     setHunger(source, hunger + amount)
 end
 
---- sets player watering level in statebag
---- @param source number
---- @param amount number
+---sets player thirst level in statebag
+---@param source number
+---@param amount number
 local function setThirst(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.thirst = amount
 
-    --- hotfix: remove when qbx_core issue #457 fixed
-    local player = exports.qbx_core:GetPlayer(source)
-    if not player then return end
-
-    player.Functions.SetMetaData('thirst', amount)
-    --- hotfix
+    metadataSyncHotfix(source, amount, 'thirst') --- hotfix
 end
 
---- raises player watering level in statebag
---- @param source number
---- @param amount number
+---raises player thirst level in statebag
+---@param source number
+---@param amount number
 local function addThirst(source, amount)
     local thirst = Player(source).state.thirst or 0
     setThirst(source, thirst + amount)
@@ -144,27 +145,33 @@ end)
 
 -- Added for ox_inv until I make a proper qbx bridge
 
---- @deprecated confusing name
+---sets player thirst level
+---@deprecated use setThirst export instead
+---@param amount number new hunger level
 RegisterNetEvent('consumables:server:addThirst', function (amount)
     setThirst(source, amount)
 end)
---- @deprecated confusing name
+
+---sets player hunger level
+---@deprecated use setHunger export instead
+---@param amount number new hunger level
 RegisterNetEvent('consumables:server:addHunger', function (amount)
     setHunger(source, amount)
 end)
 
-RegisterNetEvent('consumables:server:setThirst', function (amount, src)
-    if GetInvokingResource() then
-        setThirst(src, amount)
-    else
-        setThirst(source, amount)
-    end
+---client-side call, sets player thirst level
+---@param amount number
+RegisterNetEvent('consumables:server:setThirst', function (amount)
+    if not GetInvokingResource() then setThirst(source, amount) end
 end)
 
-RegisterNetEvent('consumables:server:setHunger', function (amount, src)
-    if GetInvokingResource() then
-        setHunger(src, amount)
-    else
-        setHunger(source, amount)
-    end
+---client-side call, sets player hunger level
+---@param amount number
+RegisterNetEvent('consumables:server:setHunger', function (amount)
+    if not GetInvokingResource() then setHunger(source, amount) end
 end)
+
+exports('setThirst', setThirst)
+exports('addThirst', addThirst)
+exports('setHunger', setHunger)
+exports('addHunger', addHunger)
