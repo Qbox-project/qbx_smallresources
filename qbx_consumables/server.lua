@@ -1,52 +1,41 @@
 local config = require 'qbx_consumables.config'
 
----hotfix: remove when qbx_core issue #457 fixed
+---Set player's hunger state to 'amount'
 ---@param source number
----@param amount number
----@param type string
-local function metadataSyncHotfix(source, amount, type)
-    local player = exports.qbx_core:GetPlayer(source)
-    if not player then return end
-
-    player.Functions.SetMetaData(type, amount)
-end
-
----sets player hunger level in statebag
----@param source number
----@param amount number
+---@param amount number inverted, lower == more hungry
 local function setHunger(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.hunger = amount
-
-    metadataSyncHotfix(source, amount, 'hunger') --- hotfix
 end
 
----raises player hunger level in statebag
+---Increment player's hunger state by 'amount'
 ---@param source number
----@param amount number
+---@param amount number inverted, lower == more hungry
 local function addHunger(source, amount)
     local hunger = Player(source).state.hunger or 0
     setHunger(source, hunger + amount)
 end
 
----sets player thirst level in statebag
+---Set player's thirst state to 'amount'
 ---@param source number
----@param amount number
+---@param amount number inverted, lower == more thirsty
 local function setThirst(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.thirst = amount
-
-    metadataSyncHotfix(source, amount, 'thirst') --- hotfix
 end
 
----raises player thirst level in statebag
+---Increment player's thirst state by 'amount'
 ---@param source number
----@param amount number
+---@param amount number inverted, lower == more thirsty
 local function addThirst(source, amount)
     local thirst = Player(source).state.thirst or 0
     setThirst(source, thirst + amount)
 end
 
+---Relieve a random amount of stress from the player's state
+---@param source number
+---@param min number lower limit for random generation
+---@param max number upper limit for rancom generation
 local function relieveStress(source, min, max)
     local playerState = Player(source).state
     local verifiedMin = (type(min) == "number" and min) or config.defaultStressRelief.min
@@ -57,9 +46,9 @@ local function relieveStress(source, min, max)
 
     playerState:set("stress", newStress, true)
     if amount < 0 then
-        exports.qbx_core:Notify(source, locale('error.stress_gain'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
+        exports.qbx_core:Notify(source, locale('error.stress_gain'), 'inform', 2500, nil, nil, { '#141517', '#ffffff' }, 'brain', '#C53030')
     else
-        exports.qbx_core:Notify(source, locale('success.stress_relief'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+        exports.qbx_core:Notify(source, locale('success.stress_relief'), 'inform', 2500, nil, nil, { '#141517', '#ffffff' }, 'brain', '#0F52BA')
     end
 end
 
@@ -143,35 +132,43 @@ lib.callback.register('consumables:server:usedItem', function(source, item)
     return exports.ox_inventory:RemoveItem(source, item, 1)
 end)
 
--- Added for ox_inv until I make a proper qbx bridge
-
----sets player thirst level
----@deprecated use setThirst export instead
----@param amount number new hunger level
-RegisterNetEvent('consumables:server:addThirst', function (amount)
-    setThirst(source, amount)
-end)
-
----sets player hunger level
----@deprecated use setHunger export instead
----@param amount number new hunger level
-RegisterNetEvent('consumables:server:addHunger', function (amount)
+---Set player's hunger state to 'amount'
+---@param amount number
+RegisterNetEvent('consumables:server:setHunger', function(amount)
     setHunger(source, amount)
 end)
 
----client-side call, sets player thirst level
----@param amount number
-RegisterNetEvent('consumables:server:setThirst', function (amount)
-    if not GetInvokingResource() then setThirst(source, amount) end
+---Increment player's hunger state by 'amount'
+---@param amount number new hunger level
+RegisterNetEvent('consumables:server:addHunger', function(amount)
+    -- handles calls from ox_inventory's QB bridge, using improper QB nomenclature
+    --todo remove upon merger of a proper qbx bridge to ox_inventory
+    if GetInvokingResource() == 'ox_inventory' then
+        setHunger(source, amount)
+    else
+        addHunger(source, amount)
+    end
 end)
 
----client-side call, sets player hunger level
+---Set player's thirst state to 'amount'
 ---@param amount number
-RegisterNetEvent('consumables:server:setHunger', function (amount)
-    if not GetInvokingResource() then setHunger(source, amount) end
+RegisterNetEvent('consumables:server:setThirst', function(amount)
+    setThirst(source, amount)
 end)
 
-exports('setThirst', setThirst)
-exports('addThirst', addThirst)
+---Increment player's thirst state by 'amount'
+---@param amount number new hunger level
+RegisterNetEvent('consumables:server:addThirst', function(amount)
+    -- handles calls from ox_inventory's QB bridge, using improper QB nomenclature
+    --todo remove upon merger of a proper qbx bridge to ox_inventory
+    if GetInvokingResource() == 'ox_inventory' then
+        setThirst(source, amount)
+    else
+        addThirst(source, amount)
+    end
+end)
+
 exports('setHunger', setHunger)
 exports('addHunger', addHunger)
+exports('setThirst', setThirst)
+exports('addThirst', addThirst)
