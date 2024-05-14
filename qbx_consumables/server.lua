@@ -1,11 +1,26 @@
 local config = require 'qbx_consumables.config'
 
+---hotfix: remove when qbx_core issue #470 fixed https://github.com/Qbox-project/qbx_core/issues/470
+---Enforces synchronization of player's hunger or thirst metadata with value from statebag
+---@param source number
+---@param amount number inverted, lower == more
+---@param type string
+local function metadataSyncHotfix(source, amount, type)
+    local player = exports.qbx_core:GetPlayer(source)
+    if not player then return end
+
+    player.Functions.SetMetaData(type, amount)
+end
+---hotfix
+
 ---Set player's hunger state to 'amount'
 ---@param source number
 ---@param amount number inverted, lower == more hungry
 local function setHunger(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.hunger = amount
+
+    metadataSyncHotfix(source, amount, 'hunger')
 end
 
 ---Increment player's hunger state by 'amount'
@@ -22,6 +37,8 @@ end
 local function setThirst(source, amount)
     amount = lib.math.clamp(amount, 0, 100)
     Player(source).state.thirst = amount
+
+    metadataSyncHotfix(source, amount, 'thirst')
 end
 
 ---Increment player's thirst state by 'amount'
@@ -135,17 +152,20 @@ end)
 ---Set player's hunger state to 'amount'
 ---@param amount number
 RegisterNetEvent('consumables:server:setHunger', function(amount)
-    setHunger(source, amount)
+    --Make sure this can only be triggered from the client
+    if not GetInvokingResource() then setHunger(source, amount) end
 end)
 
 ---Increment player's hunger state by 'amount'
 ---@param amount number new hunger level
 RegisterNetEvent('consumables:server:addHunger', function(amount)
-    -- handles calls from ox_inventory's QB bridge, using improper QB nomenclature
+    local resource = GetInvokingResource()
+    --handles calls from ox_inventory's QB bridge, using improper QB nomenclature
     --todo remove upon merger of a proper qbx bridge to ox_inventory
-    if GetInvokingResource() == 'ox_inventory' then
+    if resource == 'ox_inventory' then
         setHunger(source, amount)
-    else
+    --Make sure this can only be triggered from the client
+    elseif not resource then
         addHunger(source, amount)
     end
 end)
@@ -153,17 +173,20 @@ end)
 ---Set player's thirst state to 'amount'
 ---@param amount number
 RegisterNetEvent('consumables:server:setThirst', function(amount)
-    setThirst(source, amount)
+    --Make sure this can only be triggered from the client
+    if not GetInvokingResource() then setThirst(source, amount) end
 end)
 
 ---Increment player's thirst state by 'amount'
----@param amount number new hunger level
+---@param amount number new thirst level
 RegisterNetEvent('consumables:server:addThirst', function(amount)
-    -- handles calls from ox_inventory's QB bridge, using improper QB nomenclature
+    local resource = GetInvokingResource()
+    --handles calls from ox_inventory's QB bridge, using improper QB nomenclature
     --todo remove upon merger of a proper qbx bridge to ox_inventory
-    if GetInvokingResource() == 'ox_inventory' then
+    if resource == 'ox_inventory' then
         setThirst(source, amount)
-    else
+    --Make sure this can only be triggered from the client
+    elseif not resource then
         addThirst(source, amount)
     end
 end)
