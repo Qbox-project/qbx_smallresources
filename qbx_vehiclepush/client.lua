@@ -8,7 +8,7 @@ CreateThread(function()
 
         if vehicle and vehicleCoords and not cache.vehicle then
             local vehicleClass = GetVehicleClass(vehicle)
-            local isValidVehicle = vehicleClass ~= 13 or vehicleClass ~= 14 or vehicleClass ~= 15 or vehicleClass ~= 16
+            local isValidVehicle = vehicleClass ~= 13 and vehicleClass ~= 14 and vehicleClass ~= 15 and vehicleClass ~= 16
 
             if isValidVehicle and IsVehicleSeatFree(vehicle, -1)
                and ((GetVehicleEngineHealth(vehicle) >= 0
