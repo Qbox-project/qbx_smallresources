@@ -4,16 +4,18 @@
       "cruise_control_disabled": "Régulateur de vitesse désactivé",
       "cruise_control_unavailable": "Régulateur de vitesse indisponible",
       "deleted_recording": "Enregistrement supprimé !",
-      "later_aligator": "À plus, alligator !",
-      "stress_gain": "Augmentation du stress !",
-      "no_vehicle_nearby": "Aucun véhicule à proximité pour retourner."
+      "later_aligator": "À plus tard, alligator !",
+      "stress_gain": "Vous vous sentez plus stressé !",
+      "no_vehicle_nearby": "Aucun véhicule à proximité pour le retourner.",
+      "is_handcuffed": "Vous êtes menotté.",
+      "is_fastened": "Vous portez une ceinture de sécurité."
    },
    "success": {
       "cruise_control_enabled": "Régulateur de vitesse activé",
       "started_recording": "Enregistrement commencé !",
       "stopped_recording": "Enregistrement arrêté !",
       "saved_recording": "Enregistrement sauvegardé !",
-      "stress_relief": "Sensation de détente accrue !",
+      "stress_relief": "Vous vous sentez plus détendu !",
       "flipped_car": "Véhicule retourné avec succès !"
    },
    "progress": {
@@ -21,16 +23,17 @@
       "drinking": "En train de boire..",
       "drinking_liquor": "En train de boire de l'alcool..",
       "quick_sniff": "Petit sniff..",
-      "smoking_crack": "Fumer du crack..",
-      "popping_pills": "Prendre des pilules..",
+      "smoking_crack": "En train de fumer du crack..",
+      "popping_pills": "En train de prendre des pilules..",
       "healing": "En train de guérir..",
-      "smoking_meth": "Fumer de la méthamphétamine..",
-      "lighting_joint": "Allumer un joint..",
-      "flipping_car": "Retournement du véhicule en cours..."
+      "smoking_meth": "En train de fumer de la méthamphétamine..",
+      "lighting_joint": "En train d'allumer un joint..",
+      "flipping_car": "En train de retourner le véhicule..."
    },
    "info": {
       "minutes": "minutes",
-      "seconds": "secondes.."
+      "seconds": "secondes..",
+      "shuffleSeat": "Changer de siège"
    },
    "actions": {
       "push_vehicle": "Appuyez sur [~g~MAJ~w~] et [~g~E~w~] pour pousser le véhicule jusqu'à relâchement de [~g~MAJ~w~]",
