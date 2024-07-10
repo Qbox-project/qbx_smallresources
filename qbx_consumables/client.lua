@@ -29,6 +29,7 @@ local function trevorEffect()
     AnimpostfxStop('DrugsTrevorClownsFightIn')
     AnimpostfxStop('DrugsTrevorClownsFightOut')
 end
+exports('TrevorEffect', trevorEffect)
 
 local function methBagEffect()
     local startStamina = 8
@@ -46,6 +47,7 @@ local function methBagEffect()
     end
     SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
+exports('MethBagEffect', methBagEffect)
 
 local function ecstasyEffect()
     local startStamina = 30
@@ -63,6 +65,7 @@ local function ecstasyEffect()
         SetPedToRagdoll(cache.ped, math.random(1000, 3000), math.random(1000, 3000), 3, false, false, false)
     end
 end
+exports('EcstasyEffect', ecstasyEffect)
 
 local function alienEffect()
     AnimpostfxPlay('DrugsMichaelAliensFightIn', 3.0, false)
@@ -74,6 +77,7 @@ local function alienEffect()
     AnimpostfxStop('DrugsMichaelAliensFight')
     AnimpostfxStop('DrugsMichaelAliensFightOut')
 end
+exports('AlienEffect', alienEffect)
 
 local function crackBaggyEffect()
     local startStamina = 8
@@ -97,6 +101,7 @@ local function crackBaggyEffect()
     end
     SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
+exports('CrackBaggyEffect', crackBaggyEffect)
 
 local function cokeBaggyEffect()
     local startStamina = 20
@@ -121,6 +126,7 @@ local function cokeBaggyEffect()
     end
     SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 end
+exports('CokeBaggyEffect', cokeBaggyEffect)
 
 local function smokeWeed()
     CreateThread(function()
@@ -408,6 +414,7 @@ RegisterNetEvent('consumables:client:UseJoint', function()
     end
 end)
 
+--@TODO Rework this to only run when needed.
 CreateThread(function()
     while true do
         Wait(10)

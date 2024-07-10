@@ -191,7 +191,16 @@ RegisterNetEvent('consumables:server:addThirst', function(amount)
     end
 end)
 
+---@deprecated use SetHunger instead
 exports('setHunger', setHunger)
+---@deprecated use AddHunger instead
 exports('addHunger', addHunger)
+---@deprecated use SetThirst instead
 exports('setThirst', setThirst)
+---@deprecated use AddThirst instead
 exports('addThirst', addThirst)
+
+exports('SetHunger', setHunger)
+exports('AddHunger', addHunger)
+exports('SetThirst', setThirst)
+exports('AddThirst', addThirst)
