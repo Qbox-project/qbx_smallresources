@@ -4,7 +4,7 @@ game 'gta5'
 name 'qbx_smallresources'
 description 'Collection of small scripts'
 repository 'https://github.com/Qbox-project/qbx_smallresources'
-version '2.0.0'
+version '0.1.0'
 
 ox_lib 'locale'
 
