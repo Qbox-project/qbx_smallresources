@@ -42,6 +42,7 @@ AddEventHandler('QBCore:Server:OnPermissionUpdate', function(source)
     updateCheckUser(source)
 end)
 
+---@TODO determine if lib.cron is better for this
 CreateThread(function()
     for _, v in pairs(GetPlayers()) do
         v = tonumber(v)

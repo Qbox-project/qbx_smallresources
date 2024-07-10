@@ -36,5 +36,7 @@ local function flipVehicle(vehicle, flipTest)
     end
 end
 
+---@deprecated use FlipVehicle instead
 exports('flipVehicle', flipVehicle)
+
 exports('FlipVehicle', flipVehicle)
