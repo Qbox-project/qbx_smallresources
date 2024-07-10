@@ -1,5 +1,6 @@
 local config = require 'qbx_ignore.config'
 
+---@TODO test if this needs to be called in a loop
 CreateThread(function()
     while true do
         for _, sctyp in next, config.blacklisted.scenarioTypes do
@@ -42,27 +43,15 @@ CreateThread(function() -- all these should only need to be called once
     RemoveVehiclesFromGeneratorsInArea(-724.46 - 300.0, -1444.03 - 300.0, 5.0 - 300.0, -724.46 + 300.0, -1444.03 + 300.0, 5.0 + 300.0) -- REMOVE CHOPPERS WOW
 end)
 
-CreateThread(function()
-    while true do
-        if IsPedBeingStunned(cache.ped, 0) then
-            SetPedMinGroundTimeForStungun(cache.ped, math.random(4000, 7000))
-            Wait(0)
-        else
-            Wait(1000)
-        end
-    end
-end)
-
 if config.disable.idleCamera then
     DisableIdleCamera(true)
 end
 
-CreateThread(function()
-    local sleep
-    while true do
-        sleep = 500
-        local weapon = GetSelectedPedWeapon(cache.ped)
-        if weapon ~= `WEAPON_UNARMED` then
+local function pistolWhipLoop()
+    CreateThread(function()
+        local sleep
+        while cache.weapon do
+            sleep = 500
             if IsPedArmed(cache.ped, 6) then
                 sleep = 0
                 DisableControlAction(1, 140, true)
@@ -70,13 +59,19 @@ CreateThread(function()
                 DisableControlAction(1, 142, true)
             end
 
-            if weapon == `WEAPON_FIREEXTINGUISHER` or weapon == `WEAPON_PETROLCAN` then
+            if cache.weapon == `WEAPON_FIREEXTINGUISHER` or cache.weapon == `WEAPON_PETROLCAN` then
                 if IsPedShooting(cache.ped) then
                     SetPedInfiniteAmmo(cache.ped, true, `WEAPON_FIREEXTINGUISHER`)
                     SetPedInfiniteAmmo(cache.ped, true, `WEAPON_PETROLCAN`)
                 end
             end
+            Wait(sleep)
         end
-        Wait(sleep)
-    end
+    end)
+end
+
+lib.onCache('weapon', function(weapon)
+    Wait(5)
+    if not weapon then return end
+    pistolWhipLoop()
 end)
