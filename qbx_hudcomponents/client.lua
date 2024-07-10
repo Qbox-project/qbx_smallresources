@@ -5,7 +5,7 @@ local displayAmmo = config.disable.displayAmmo
 
 CreateThread(function()
     while true do
-        
+
         for i = 1, #disableHudComponents do
             HideHudComponentThisFrame(disableHudComponents[i])
         end
@@ -30,7 +30,9 @@ local function addDisableHudComponents(hudComponents)
     end
 end
 
+---@deprecated use AddDisableHudComponents instead
 exports('addDisableHudComponents', addDisableHudComponents)
+exports('AddDisableHudComponents', addDisableHudComponents)
 
 local function removeDisableHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
@@ -52,13 +54,17 @@ local function removeDisableHudComponents(hudComponents)
     end
 end
 
+---@deprecated use RemoveDisableHudComponents instead
 exports('removeDisableHudComponents', removeDisableHudComponents)
+exports('RemoveDisableHudComponents', removeDisableHudComponents)
 
 local function getDisableHudComponents()
     return disableHudComponents
 end
 
+---@deprecated use GetDisableHudComponents instead
 exports('getDisableHudComponents', getDisableHudComponents)
+exports('GetDisableHudComponents', getDisableHudComponents)
 
 local function addDisableControls(controls)
     local controlsType = type(controls)
@@ -71,7 +77,9 @@ local function addDisableControls(controls)
     end
 end
 
+---@deprecated use AddDisableControls instead
 exports('addDisableControls', addDisableControls)
+exports('AddDisableControls', addDisableControls)
 
 local function removeDisableControls(controls)
     local controlsType = type(controls)
@@ -93,22 +101,30 @@ local function removeDisableControls(controls)
     end
 end
 
+---@deprecated use RemoveDisableControls instead
 exports('removeDisableControls', removeDisableControls)
+exports('RemoveDisableControls', removeDisableControls)
 
 local function getDisableControls()
     return disableControls
 end
 
+---@deprecated use GetDisableControls instead
 exports('getDisableControls', getDisableControls)
+exports('GetDisableControls', getDisableControls)
 
 local function setDisplayAmmo(bool)
     displayAmmo = bool
 end
 
+---@deprecated use SetDisplayAmmo instead
 exports('setDisplayAmmo', setDisplayAmmo)
+exports('SetDisplayAmmo', setDisplayAmmo)
 
 local function getDisplayAmmo()
     return displayAmmo
 end
 
+---@deprecated use GetDisplayAmmo instead
 exports('getDisplayAmmo', getDisplayAmmo)
+exports('GetDisplayAmmo', getDisplayAmmo)
