@@ -11,7 +11,7 @@ lib.addKeybind({
             if not targetPed then return end
             if IsPedInAnyVehicle(targetPed, true) then return end
             self:disable(true)
-            TriggerServerEvent('tackle:server:TacklePlayer', GetPlayerServerId(targetId))
+            lib.callback('tackle:server:TacklePlayer', nil, function() end, GetPlayerServerId(targetId))
             lib.requestAnimDict('swimming@first_person@diving')
             TaskPlayAnim(cache.ped, 'swimming@first_person@diving', 'dive_run_fwd_-45_loop', 3.0, 3.0, -1, 49, 0, false, false, false)
             Wait(250)

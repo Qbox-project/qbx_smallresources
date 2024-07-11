@@ -1,3 +1,3 @@
-RegisterNetEvent('tackle:server:TacklePlayer', function(source)
-    TriggerClientEvent('tackle:client:GetTackled', source)
+lib.callback.register('tackle:server:TacklePlayer', function(source, target)
+    TriggerClientEvent('tackle:client:GetTackled', target)
 end)
