@@ -6,5 +6,5 @@ RegisterNetEvent('tackle:server:TacklePlayer', function(target)
 
     if #(srcCoords - targetCoords) > 2.0 then return end
 
-    TriggerClientEvent('tackle:client:GetTackled', src)
+    TriggerClientEvent('tackle:client:GetTackled', target)
 end)
