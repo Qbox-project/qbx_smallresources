@@ -1,4 +1,5 @@
-AddStateBagChangeHandler('crouch', ('player:%s'):format(cache.serverId), function(_, _, value)
+AddStateBagChangeHandler('crouch', ('player:%s'):format(cache.serverId), function(_, _, value, _, replicated)
+  if replicated then return end
   lib.requestAnimSet('move_Ped_crouched')
   if not value then
     ResetPedMovementClipset(cache.ped, 1.0)
