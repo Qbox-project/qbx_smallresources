@@ -3,6 +3,7 @@ lib.addKeybind({
     description = 'Tackle',
     defaultKey = 'E',
     onReleased = function(self)
+        print('tackle:client:ReleaseTackle')
         if cache.vehicle then return end
         if QBX.PlayerData.metadata.ishandcuffed then return end
         if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
@@ -11,7 +12,7 @@ lib.addKeybind({
             if not targetPed then return end
             if IsPedInAnyVehicle(targetPed, true) then return end
             self:disable(true)
-            TriggerServerEvent('tackle:server:TacklePlayer', GetPlayerServerId(targetId))
+            lib.callback('tackle:server:TacklePlayer', nil, function() end, GetPlayerServerId(targetId))
             lib.requestAnimDict('swimming@first_person@diving')
             TaskPlayAnim(cache.ped, 'swimming@first_person@diving', 'dive_run_fwd_-45_loop', 3.0, 3.0, -1, 49, 0, false, false, false)
             Wait(250)
