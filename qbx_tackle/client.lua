@@ -3,7 +3,6 @@ lib.addKeybind({
     description = 'Tackle',
     defaultKey = 'E',
     onReleased = function(self)
-        print('tackle:client:ReleaseTackle')
         if cache.vehicle then return end
         if QBX.PlayerData.metadata.ishandcuffed then return end
         if IsPedSprinting(cache.ped) or IsPedRunning(cache.ped) then
