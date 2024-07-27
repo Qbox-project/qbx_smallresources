@@ -414,6 +414,61 @@ RegisterNetEvent('consumables:client:UseJoint', function()
     end
 end)
 
+--- Event handler for using armor item
+--- @param data table Item data
+--- @param slot number Inventory slot
+RegisterNetEvent('armor:useItem', function(data, slot)
+    local playerPed = PlayerPedId()
+    local currentArmor = GetPedArmour(playerPed)
+
+    if currentArmor < 100 then
+        local success = lib.progressBar({
+            duration = 2500, -- Duration of the progress bar in milliseconds
+            label = 'Applying Armor...',
+            useWhileDead = false,
+            canCancel = true,
+            disable = {
+                car = true,
+                move = true,
+                combat = true,
+                mouse = false
+            },
+            anim = {
+                dict = 'clothingshirt',
+                clip = 'try_shirt_positive_d'
+            }
+        })
+
+        if success then
+            local newArmor = math.min(currentArmor + 50, 100) -- Increase armor by 50, up to a max of 100
+            SetPedArmour(playerPed, newArmor)
+            TriggerEvent('ox_lib:notify', { description = 'Armor applied!', type = 'success' })
+        else
+            TriggerEvent('ox_lib:notify', { description = 'Armor application cancelled!', type = 'error' })
+        end
+    else
+        TriggerEvent('ox_lib:notify', { description = 'You already have full armor!', type = 'error' })
+    end
+end)
+
+--- Exported function to use armor item
+--- @param data table Item data
+--- @param slot number Inventory slot
+exports('armor', function(data, slot)
+    local playerPed = PlayerPedId()
+    local currentArmor = GetPedArmour(playerPed)
+
+    if currentArmor < 100 then
+        exports.ox_inventory:useItem(data, function(success)
+            if success then
+                TriggerEvent('armor:useItem', data, slot)
+            end
+        end)
+    else
+        TriggerEvent('ox_lib:notify', { description = 'You already have full armor!', type = 'error' })
+    end
+end)
+
 --@TODO Rework this to only run when needed.
 CreateThread(function()
     while true do
