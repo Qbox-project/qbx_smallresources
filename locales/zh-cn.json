@@ -1,0 +1,42 @@
+{
+   "error": {
+      "canceled": "已取消..",
+      "cruise_control_disabled": "巡航控制已禁用",
+      "cruise_control_unavailable": "巡航控制不可用",
+      "deleted_recording": "录音已删除!",
+      "later_aligator": "再见!",
+      "stress_gain": "感到更紧张了!",
+      "no_vehicle_nearby": "附近没有车辆可以翻转。",
+      "is_handcuffed": "你被铐住了。",
+      "is_fastened": "你系好了安全带。"
+   },
+   "success": {
+      "cruise_control_enabled": "巡航控制已启用",
+      "started_recording": "开始录音!",
+      "stopped_recording": "停止录音!",
+      "saved_recording": "录音已保存!",
+      "stress_relief": "感到更放松了!",
+      "flipped_car": "车辆翻转成功!"
+   },
+   "progress": {
+      "eating": "正在吃东西..",
+      "drinking": "正在喝水..",
+      "drinking_liquor": "正在喝酒..",
+      "quick_sniff": "快速嗅闻..",
+      "smoking_crack": "正在抽裂缝..",
+      "popping_pills": "正在服药..",
+      "healing": "正在治疗..",
+      "smoking_meth": "正在吸食冰毒..",
+      "lighting_joint": "正在点燃大麻..",
+      "flipping_car": "正在翻转车辆..."
+   },
+   "info": {
+      "minutes": "分钟",
+      "seconds": "秒..",
+      "shuffleSeat": "换座位"
+   },
+   "actions": {
+      "push_vehicle": "按 [~g~SHIFT~w~] 和 [~g~E~w~] 推动车辆，直到松开 [~g~SHIFT~w~]",
+      "toggle_cruise_control": "切换巡航控制"
+   }
+}
