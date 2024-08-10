@@ -1,0 +1,42 @@
+{
+   "error": {
+      "canceled": "Geannuleerd..",
+      "cruise_control_disabled": "Cruise control uitgezet",
+      "cruise_control_unavailable": "Cruise control is momenteel niet beschikbaar",
+      "deleted_recording": "Opname verwijderd!",
+      "later_aligator": "Adios!",
+      "stress_gain": "Je voelt je gestressed!",
+      "no_vehicle_nearby": "Geen voertuigen in de buurt.",
+      "is_handcuffed": "Je bent gehandboeit.",
+      "is_fastened": "Je draagt je gordel."
+   },
+   "success": {
+      "cruise_control_enabled": "Cruise control aangezet",
+      "started_recording": "Opname gestart!",
+      "stopped_recording": "Opname gestopt!",
+      "saved_recording": "Opname opgeslagen!",
+      "stress_relief": "Je voelt je relaxed!",
+      "flipped_car": "Voertuig geflipped!"
+   },
+   "progress": {
+      "eating": "Aan het eten..",
+      "drinking": "Aan het drinken..",
+      "drinking_liquor": "Drank aan t drinken..",
+      "quick_sniff": "snuivee..",
+      "smoking_crack": "Crack aan het roken..",
+      "popping_pills": "Pillen aan het poppen..",
+      "healing": "Aan het genezen..",
+      "smoking_meth": "Meth aan het roken..",
+      "lighting_joint": "Jointje aan het opsteken..",
+      "flipping_car": "Voertuig aan het flippen..."
+   },
+   "info": {
+      "minutes": "minuten",
+      "seconds": "seconden..",
+      "shuffleSeat": "Ga ergens anders zitten"
+   },
+   "actions": {
+      "push_vehicle": "Druk up [~g~SHIFT~w~] en [~g~E~w~] om je voertuig te duwen totdat je [~g~SHIFT~w~] loslaat",
+      "toggle_cruise_control": "Gebruik cruise control"
+   }
+}
