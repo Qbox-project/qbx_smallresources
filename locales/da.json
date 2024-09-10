@@ -1,42 +1,42 @@
 {
-   "error": {
-      "canceled": "Abgebrochen..",
-      "cruise_control_disabled": "Tempomat deaktiviert",
-      "cruise_control_unavailable": "Tempomat nicht verfügbar",
-      "deleted_recording": "Aufnahme gelöscht!",
-      "later_aligator": "Bis später, Alligator!",
-      "stress_gain": "Fühle mich gestresster!",
-      "no_vehicle_nearby": "Kein Fahrzeug in der Nähe zum Umkippen.",
-      "is_handcuffed": "Du bist gefesselt.",
-      "is_fastened": "Du trägst einen Sicherheitsgurt."
-   },
-   "success": {
-      "cruise_control_enabled": "Tempomat aktiviert",
-      "started_recording": "Aufnahme gestartet!",
-      "stopped_recording": "Aufnahme gestoppt!",
-      "saved_recording": "Aufnahme gespeichert!",
-      "stress_relief": "Fühle mich entspannter!",
-      "flipped_car": "Fahrzeug erfolgreich umgekippt!"
-   },
-   "progress": {
-      "eating": "Essen..",
-      "drinking": "Trinken..",
-      "drinking_liquor": "Alkohol trinken..",
-      "quick_sniff": "Schneller Schnüffler..",
-      "smoking_crack": "Crack rauchen..",
-      "popping_pills": "Pillen schlucken..",
-      "healing": "Heilung..",
-      "smoking_meth": "Meth rauchen..",
-      "lighting_joint": "Joint anzünden..",
-      "flipping_car": "Fahrzeug umkippen..."
-   },
-   "info": {
-      "minutes": "Minuten",
-      "seconds": "Sekunden..",
-      "shuffleSeat": "Sitz wechseln"
-   },
-   "actions": {
-      "push_vehicle": "Drücke [~g~SHIFT~w~] und [~g~E~w~], um das Fahrzeug zu schieben, bis [~g~SHIFT~w~] losgelassen wird",
-      "toggle_cruise_control": "Tempomat umschalten"
-   }
-}
+    "error": {
+       "canceled": "Annulleret..",
+       "cruise_control_disabled": "Fartpilot deaktiveret",
+       "cruise_control_unavailable": "Fartpilot ikke tilgængelig",
+       "deleted_recording": "Optagelse slettet!",
+       "later_aligator": "Vi ses senere, alligator!",
+       "stress_gain": "Føler mig mere stresset!",
+       "no_vehicle_nearby": "Intet køretøj i nærheden at vælte.",
+       "is_handcuffed": "Du er i håndjern.",
+       "is_fastened": "Du har sikkerhedssele på."
+    },
+    "success": {
+       "cruise_control_enabled": "Fartpilot aktiveret",
+       "started_recording": "Optagelse startet!",
+       "stopped_recording": "Optagelse stoppet!",
+       "saved_recording": "Optagelse gemt!",
+       "stress_relief": "Føler mig mere afslappet!",
+       "flipped_car": "Køretøj væltet med succes!"
+    },
+    "progress": {
+       "eating": "Spiser..",
+       "drinking": "Drikker..",
+       "drinking_liquor": "Drikker alkohol..",
+       "quick_sniff": "Hurtig snif..",
+       "smoking_crack": "Ryger crack..",
+       "popping_pills": "Sluger piller..",
+       "healing": "Helbreder..",
+       "smoking_meth": "Ryger meth..",
+       "lighting_joint": "Tænder joint..",
+       "flipping_car": "Vælter køretøj..."
+    },
+    "info": {
+       "minutes": "Minutter",
+       "seconds": "Sekunder..",
+       "shuffleSeat": "Skift sæde"
+    },
+    "actions": {
+       "push_vehicle": "Tryk [~g~SHIFT~w~] og [~g~E~w~] for at skubbe køretøjet, indtil [~g~SHIFT~w~] slippes",
+       "toggle_cruise_control": "Skift fartpilot"
+    }
+ }
