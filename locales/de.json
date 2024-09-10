@@ -1,0 +1,42 @@
+{
+   "error": {
+      "canceled": "Abgebrochen..",
+      "cruise_control_disabled": "Tempomat deaktiviert",
+      "cruise_control_unavailable": "Tempomat deaktiviert",
+      "deleted_recording": "Aufnahme gelöscht!",
+      "later_aligator": "Later aligator!",
+      "stress_gain": "Stress nimmt zu!",
+      "no_vehicle_nearby": "Kein Fahrzeug zum Umdrehen in der Nähe.",
+      "is_handcuffed": "Du bist gefesselt.",
+      "is_fastened": "Du trägst einen Sicherheitsgurt."
+   },
+   "success": {
+      "cruise_control_enabled": "Tempomat eingeschaltet",
+      "started_recording": "Aufnahme gestartet!",
+      "stopped_recording": "Auzfnahme gestoppt!",
+      "saved_recording": "Aufnahme gespeichert!",
+      "stress_relief": "Du entspannst dich!",
+      "flipped_car": "Fahrzeug erfolgreich gedreht!"
+   },
+   "progress": {
+      "eating": "Essen..",
+      "drinking": "Trinken..",
+      "drinking_liquor": "Trinke Alkohol..",
+      "quick_sniff": "Quick sniff..",
+      "smoking_crack": "Smoking crack..",
+      "popping_pills": "Popping pills..",
+      "healing": "Healing..",
+      "smoking_meth": "Smoking meth..",
+      "lighting_joint": "Lighting joint..",
+      "flipping_car": "Flipping Vehicle..."
+   },
+   "info": {
+      "minutes": "minutes",
+      "seconds": "seconds..",
+      "shuffleSeat": "Shuffle seat"
+   },
+   "actions": {
+      "push_vehicle": "Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle until [~g~SHIFT~w~] release",
+      "toggle_cruise_control": "Toggle Cruise Control"
+   }
+}
