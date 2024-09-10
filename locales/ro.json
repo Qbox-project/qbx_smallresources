@@ -1,0 +1,42 @@
+{
+   "error": {
+      "canceled": "Anulat..",
+      "cruise_control_disabled": "Pilot automat dezactivat",
+      "cruise_control_unavailable": "Pilot automat indisponibil",
+      "deleted_recording": "Înregistrare ștearsă!",
+      "later_aligator": "Pe mai târziu, aligatorule!",
+      "stress_gain": "Te simți mai stresat!",
+      "no_vehicle_nearby": "Nu există niciun vehicul în apropiere pentru a-l răsturna.",
+      "is_handcuffed": "Ești încătușat.",
+      "is_fastened": "Porți centura de siguranță."
+   },
+   "success": {
+      "cruise_control_enabled": "Pilot automat activat",
+      "started_recording": "Înregistrare începută!",
+      "stopped_recording": "Înregistrare oprită!",
+      "saved_recording": "Înregistrare salvată!",
+      "stress_relief": "Te simți mai relaxat!",
+      "flipped_car": "Vehicul răsturnat cu succes!"
+   },
+   "progress": {
+      "eating": "Mănânci..",
+      "drinking": "Bei..",
+      "drinking_liquor": "Bei alcool..",
+      "quick_sniff": "O adulmecare rapidă..",
+      "smoking_crack": "Fumezi crack..",
+      "popping_pills": "Iei pastile..",
+      "healing": "Te vindeci..",
+      "smoking_meth": "Fumezi metamfetamină..",
+      "lighting_joint": "Aprinzi un joint..",
+      "flipping_car": "Răstorni vehiculul..."
+   },
+   "info": {
+      "minutes": "minute",
+      "seconds": "secunde..",
+      "shuffleSeat": "Schimbă locul"
+   },
+   "actions": {
+      "push_vehicle": "Apasă [~g~SHIFT~w~] și [~g~E~w~] pentru a împinge vehiculul până la eliberarea [~g~SHIFT~w~]",
+      "toggle_cruise_control": "Comută pilotul automat"
+   }
+}

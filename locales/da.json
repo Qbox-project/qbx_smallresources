@@ -1,43 +1,42 @@
 {
-    "menu": {
-        "grade": "Grad: ",
-        "expel_gang": "Udvis Bandemedlem",
-        "fire_employee": "Fyr Ansat",
-        "manage_gang": "Administrer Bandemedlemmer",
-        "manage_employees": "Administrer Ansatte",
-        "citizen_id": "Borger ID: ",
-        "id": "ID: ",
-        "hire_gang": "Rekrutter Nærliggende Civile",
-        "hire_members": "Rekrutter Bandemedlemmer",
-        "hire_civilians": "Ansæt Nærliggende Civile",
-        "hire_employees": "Ansæt Ansatte",
-        "check_gang": "Tjek din Bande Liste",
-        "check_employee": "Tjek medarbejderliste",
-        "gang_menu": "Bande Menu",
-        "boss_menu": "Boss Menu",
-        "gang_management": "[E] - Åbn Bande menu",
-        "boss_management": "[E] - Åbn Boss menu"
-    },
-    "error": {
-        "cant_promote": "Du kan ikke ændre graden for en person, hvis egen grad er større eller lig med din...",
-        "cant_promote_self": "Du kan ikke ændre din egen grad...",
-        "not_around": "Denne person er ikke i byen...",
-        "grade_not_exist": "Denne grad ser ikke ud til at eksistere...",
-        "couldnt_hire": "Du kunne ikke ansætte denne person...",
-        "kick_yourself": "Du kan ikke sparke dig selv...",
-        "fire_yourself": "Du kan ikke fyre dig selv...",
-        "fire_boss": "Du kan ikke fyre nogen med en højere grad...",
-        "you_gang_fired": "Du er blevet udvist fra banden!",
-        "you_job_fired": "Du er blevet fyret! Held og lykke!",
-        "unable_fire": "Du kan ikke fyre denne person...",
-        "person_doesnt_exist": "Denne person ser ikke ud til at eksistere...",
-        "gang_fired": "Bandemedlem udvist!",
-        "job_fired": "Ansat fyret!"
-    },
-    "success": {
-        "promoted": "Fremmet med succes!",
-        "promoted_to": "Du er blevet forfremmet til ",
-        "hired_to": "Du er blevet ansat i ",
-        "hired_into": "Du ansatte %s i %s"
-    }
+   "error": {
+      "canceled": "Abgebrochen..",
+      "cruise_control_disabled": "Tempomat deaktiviert",
+      "cruise_control_unavailable": "Tempomat nicht verfügbar",
+      "deleted_recording": "Aufnahme gelöscht!",
+      "later_aligator": "Bis später, Alligator!",
+      "stress_gain": "Fühle mich gestresster!",
+      "no_vehicle_nearby": "Kein Fahrzeug in der Nähe zum Umkippen.",
+      "is_handcuffed": "Du bist gefesselt.",
+      "is_fastened": "Du trägst einen Sicherheitsgurt."
+   },
+   "success": {
+      "cruise_control_enabled": "Tempomat aktiviert",
+      "started_recording": "Aufnahme gestartet!",
+      "stopped_recording": "Aufnahme gestoppt!",
+      "saved_recording": "Aufnahme gespeichert!",
+      "stress_relief": "Fühle mich entspannter!",
+      "flipped_car": "Fahrzeug erfolgreich umgekippt!"
+   },
+   "progress": {
+      "eating": "Essen..",
+      "drinking": "Trinken..",
+      "drinking_liquor": "Alkohol trinken..",
+      "quick_sniff": "Schneller Schnüffler..",
+      "smoking_crack": "Crack rauchen..",
+      "popping_pills": "Pillen schlucken..",
+      "healing": "Heilung..",
+      "smoking_meth": "Meth rauchen..",
+      "lighting_joint": "Joint anzünden..",
+      "flipping_car": "Fahrzeug umkippen..."
+   },
+   "info": {
+      "minutes": "Minuten",
+      "seconds": "Sekunden..",
+      "shuffleSeat": "Sitz wechseln"
+   },
+   "actions": {
+      "push_vehicle": "Drücke [~g~SHIFT~w~] und [~g~E~w~], um das Fahrzeug zu schieben, bis [~g~SHIFT~w~] losgelassen wird",
+      "toggle_cruise_control": "Tempomat umschalten"
+   }
 }
