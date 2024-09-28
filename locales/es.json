@@ -1,0 +1,42 @@
+{
+   "error": {
+      "canceled": "Cancelado..",
+      "cruise_control_disabled": "Control de crucero deshabilitado",
+      "cruise_control_unavailable": "Control de crucero no disponible",
+      "deleted_recording": "¡Grabación eliminada!",
+      "later_aligator": "¡Hasta luego, cocodrilo!",
+      "stress_gain": "¡Te sientes más estresado!",
+      "no_vehicle_nearby": "No hay vehículos cercanos para voltear.",
+      "is_handcuffed": "Estás esposado.",
+      "is_fastened": "Llevas puesto el cinturón de seguridad."
+   },
+   "success": {
+      "cruise_control_enabled": "Control de crucero habilitado",
+      "started_recording": "¡Grabación iniciada!",
+      "stopped_recording": "¡Grabación detenida!",
+      "saved_recording": "¡Grabación guardada!",
+      "stress_relief": "¡Te sientes más relajado!",
+      "flipped_car": "¡Vehículo volteado con éxito!"
+   },
+   "progress": {
+      "eating": "Comiendo...",
+      "drinking": "Bebiendo...",
+      "drinking_liquor": "Bebiendo licor...",
+      "quick_sniff": "Olfateo rápido...",
+      "smoking_crack": "Fumando crack...",
+      "popping_pills": "Tomando pastillas...",
+      "healing": "Sanando...",
+      "smoking_meth": "Fumando metanfetamina...",
+      "lighting_joint": "Encendiendo un porro...",
+      "flipping_car": "Volteando vehículo..."
+   },
+   "info": {
+      "minutes": "minutos",
+      "seconds": "segundos",
+      "shuffleSeat": "Cambiar de asiento"
+   },
+   "actions": {
+      "push_vehicle": "Presiona [~g~SHIFT~w~] y [~g~E~w~] para empujar el vehículo hasta soltar [~g~SHIFT~w~]",
+      "toggle_cruise_control": "Activar/desactivar control de crucero"
+   }
+}
