@@ -4,18 +4,18 @@
       "cruise_control_disabled": "Controlo de cruzeiro desativado",
       "cruise_control_unavailable": "Controlo de cruzeiro indisponível",
       "deleted_recording": "Gravação Apagada!",
-      "later_aligator": "Até mais, jacaré!",
+      "later_aligator": "Até logo!",
       "stress_gain": "A Sentir Mais Stress!",
       "no_vehicle_nearby": "Nenhum veículo nas proximidades para virar.",
-      "is_handcuffed": "Está algemado.",
-      "is_fastened": "Tem o cinto de segurança posto."
+      "is_handcuffed": "Estás algemado.",
+      "is_fastened": "Tens o cinto de segurança posto."
    },
    "success": {
       "cruise_control_enabled": "Controlo de cruzeiro ativado",
       "started_recording": "Gravação Iniciada!",
       "stopped_recording": "Gravação Parada!",
       "saved_recording": "Gravação Guardada!",
-      "stress_relief": "A Sentir-se Mais Relaxado!",
+      "stress_relief": "A Sentires-te Mais Relaxado!",
       "flipped_car": "Veículo Virado com Sucesso!"
    },
    "progress": {
@@ -36,7 +36,7 @@
       "shuffleSeat": "Trocar de assento"
    },
    "actions": {
-      "push_vehicle": "Pressione [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
-      "toggle_cruise_control": "Alternar Controlo de Cruzeiro"
+      "push_vehicle": "Pressiona [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
+      "toggle_cruise_control": "Alterar Controlo de Cruzeiro"
    }
 }
