@@ -4,17 +4,16 @@ local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
 
 CreateThread(function()
+    
+    for i = 1, #disableHudComponents do
+        SetHudComponentSize(disableHudComponents[i],0.0,0.0)
+    end
+    
     while true do
-
-        for i = 1, #disableHudComponents do
-            HideHudComponentThisFrame(disableHudComponents[i])
-        end
-
         for i = 1, #disableControls do
             DisableControlAction(2, disableControls[i], true)
         end
-
-        DisplayAmmoThisFrame(displayAmmo)
+        
         Wait(0)
     end
 end)
@@ -23,9 +22,11 @@ local function addDisableHudComponents(hudComponents)
     local hudComponentsType = type(hudComponents)
     if hudComponentsType == 'number' then
         disableHudComponents[#disableHudComponents+1] = hudComponents
+        SetHudComponentSize(hudComponents,0.0,0.0)
     elseif hudComponentsType == 'table' and table.type(hudComponents) == 'array' then
         for i = 1, #hudComponents do
             disableHudComponents[#disableHudComponents+1] = hudComponents[i]
+            SetHudComponentSize(hudComponents,0.0,0.0)
         end
     end
 end
@@ -40,6 +41,7 @@ local function removeDisableHudComponents(hudComponents)
         for i = 1, #disableHudComponents do
             if disableHudComponents[i] == hudComponents then
                 table.remove(disableHudComponents, i)
+                ResetHudComponentValues(i)
                 break
             end
         end
@@ -47,7 +49,7 @@ local function removeDisableHudComponents(hudComponents)
         for i = 1, #disableHudComponents do
             for i2 = 1, #hudComponents do
                 if disableHudComponents[i] == hudComponents[i2] then
-                    table.remove(disableHudComponents, i)
+                    ResetHudComponentValues(i)
                 end
             end
         end
