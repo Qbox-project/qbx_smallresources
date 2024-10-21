@@ -5,8 +5,5 @@ return {
 
         -- https://docs.fivem.net/docs/game-references/controls/
         controls = {37},
-
-        -- False disables ammo display
-        displayAmmo = true,
     }
 }
