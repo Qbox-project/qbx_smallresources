@@ -1,4 +1,4 @@
-# QBX RemoveTities
+# QBX RemoveEntities
 
 Removes entites from the island
 
