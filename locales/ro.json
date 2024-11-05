@@ -36,7 +36,7 @@
       "shuffleSeat": "Schimbă locul"
    },
    "actions": {
-      "push_vehicle": "Apasă [~g~SHIFT~w~] și [~g~E~w~] pentru a împinge vehiculul până la eliberarea [~g~SHIFT~w~]",
+      "push_vehicle": "Apasa [~g~SHIFT~w~] si [~g~E~w~] pentru a impinge vehiculul pana la eliberarea [~g~SHIFT~w~]",
       "toggle_cruise_control": "Comută pilotul automat"
    }
 }
