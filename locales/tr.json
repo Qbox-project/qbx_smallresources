@@ -33,7 +33,9 @@
    "info": {
       "minutes": "dakika",
       "seconds": "saniye..",
-      "shuffleSeat": "Koltuğu değiştir"
+      "shuffleSeat": "Koltuğu değiştir",
+      "teleportUp": "Yukarı",
+      "teleportDown": "Aşağı"
    },
    "actions": {
       "push_vehicle": "Aracı itmek için [~g~SHIFT~w~] ve [~g~E~w~] tuşlarına basın, [~g~SHIFT~w~] bırakılana kadar devam edin",
