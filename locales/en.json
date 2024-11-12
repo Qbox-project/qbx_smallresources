@@ -33,7 +33,9 @@
    "info": {
       "minutes": "minutes",
       "seconds": "seconds..",
-      "shuffleSeat": "Shuffle seat"
+      "shuffleSeat": "Shuffle seat",
+      "teleportUp": "Up",
+      "teleportDown": "Down"
    },
    "actions": {
       "push_vehicle": "Press [~g~SHIFT~w~] and [~g~E~w~] to push the vehicle until [~g~SHIFT~w~] release",

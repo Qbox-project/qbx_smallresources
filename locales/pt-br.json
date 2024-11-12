@@ -33,11 +33,12 @@
     "info": {
        "minutes": "minutos",
        "seconds": "segundos..",
-       "shuffleSeat": "Trocar de assento"
+       "shuffleSeat": "Trocar de assento",
+       "teleportUp": "Up",
+       "teleportDown": "Down"
     },
     "actions": {
        "push_vehicle": "Pressione [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
        "toggle_cruise_control": "Alternar Controle de Cruzeiro"
     }
  }
- 

@@ -33,7 +33,9 @@
     "info": {
        "minutes": "Minutter",
        "seconds": "Sekunder..",
-       "shuffleSeat": "Skift sæde"
+       "shuffleSeat": "Skift sæde",
+       "teleportUp": "Up",
+       "teleportDown": "Down"
     },
     "actions": {
        "push_vehicle": "Tryk [~g~SHIFT~w~] og [~g~E~w~] for at skubbe køretøjet, indtil [~g~SHIFT~w~] slippes",
