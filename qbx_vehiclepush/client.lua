@@ -19,6 +19,8 @@ end
 
 local function vehicleControl(vehicle, isInFront)
     local ped = cache.ped
+    lib.requestAnimDict(dict)
+    TaskPlayAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
     while true do
         Wait(0)
         if IsDisabledControlPressed(0, 34) then
@@ -42,39 +44,6 @@ local function vehicleControl(vehicle, isInFront)
             break
         end
     end
-end
-
-local function pushVehicleThread(vehicle, vehicleCoords)
-    local ped = cache.ped
-    local playerId = cache.playerId
-    local boneIndex = GetPedBoneIndex(ped, 6286)
-    local dimensions = GetModelDimensions(GetEntityModel(vehicle))
-    lib.requestAnimDict(dict)
-
-    while pressed.e and pressed.shift do
-        Wait(0)
-
-        local pedCoords = GetEntityCoords(ped)
-
-        local vehicleForwardVector = GetEntityForwardVector(vehicle)
-        local isInFront = #(vehicleCoords - pedCoords + vehicleForwardVector) < #(vehicleCoords - pedCoords - vehicleForwardVector)
-
-        if isInFront then
-            AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y * -1 + 0.1, dimensions.z + 1.0, 0.0, 0.0, 180.0, false, false, false, true, 0, true)
-        else
-            AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y - 0.3, dimensions.z + 1.0, 0.0, 0.0, 0.0, false, false, false, true, 0, true)
-        end
-
-        TaskPlayAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
-
-        -- control loop
-        if NetworkGetEntityOwner(vehicle) == playerId then
-            vehicleControl(vehicle, isInFront)
-        else
-            Entity(vehicle).state:set('pushVehicle', isInFront and 'front' or 'back', true)
-        end
-    end
-
     RemoveAnimDict(dict)
 end
 
@@ -107,7 +76,27 @@ local function pushVehicle()
     if IsEntityAttachedToEntity(cache.ped, vehicle) or not isVehicleValid(vehicle) then return end
 
     vehicleValidityThread(vehicle)
-    pushVehicleThread(vehicle, vehicleCoords)
+
+    if not pressed.e or not pressed.shift then return end
+
+    local pedCoords = GetEntityCoords(ped)
+    local boneIndex = GetPedBoneIndex(ped, 6286)
+    local dimensions = GetModelDimensions(GetEntityModel(vehicle))
+
+    local vehicleForwardVector = GetEntityForwardVector(vehicle)
+    local isInFront = #(vehicleCoords - pedCoords + vehicleForwardVector) < #(vehicleCoords - pedCoords - vehicleForwardVector)
+
+    if isInFront then
+        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y * -1 + 0.1, dimensions.z + 1.0, 0.0, 0.0, 180.0, false, false, false, true, 0, true)
+    else
+        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y - 0.3, dimensions.z + 1.0, 0.0, 0.0, 0.0, false, false, false, true, 0, true)
+    end
+
+    TriggerServerEvent('qbx_vehiclepush:server:push', {
+        direction = isInFront and 'front' or 'back',
+        netId = VehToNet(vehicle)
+    })
+    return vehicle
 end
 
 AddStateBagChangeHandler("pushVehicle", nil, function(bagName, key, value)
@@ -142,13 +131,19 @@ lib.addKeybind({
     name = 'push_vehicle',
     description = 'second keybind to push vehicle',
     defaultKey = 'LSHIFT',
-    onPressed = function()
+    onPressed = function(self)
         pressed.shift = true
         if not pressed.e then return end
 
-        pushVehicle()
+        self.vehicle = pushVehicle()
     end,
-    onReleased = function()
+    onReleased = function(self)
         pressed.shift = false
+        if self.vehicle then
+            TriggerServerEvent('qbx_vehiclepush:server:push', {
+                direction = nil,
+                netId = self.vehicle
+            })
+        end
     end
 })
