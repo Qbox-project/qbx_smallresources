@@ -1,4 +1,4 @@
----@alias direction false | 'right' | 'left' | 'front' | 'back'
+---@alias direction nil | 'right' | 'left' | 'front' | 'back'
 
 local config = lib.loadJson('qbx_vehiclepush.config')
 local dict = 'missfinale_c2ig_11'
@@ -8,7 +8,7 @@ local pressed = {
 }
 
 ---@type direction
-local pushingControl = false
+local pushingControl = nil
 
 local function checkClass(vehicle)
     local classes = config.blacklistedClasses
@@ -154,7 +154,7 @@ local function pushVehicle()
         FreezeEntityPosition(ped, false)
         taskControlVehicle(vehicle)
 
-        pushingControl = false
+        pushingControl = nil
     end)
 
     return vehicle
@@ -167,7 +167,7 @@ AddStateBagChangeHandler("pushVehicle", nil, function(bagName, _, value)
     if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
 
     if not value then
-        pushingControl = false
+        pushingControl = nil
         return
     end
 
