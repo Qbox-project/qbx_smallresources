@@ -1,4 +1,4 @@
----@alias direction nil | 'right' | 'left' | 'front' | 'back'
+---@alias Direction? 'right' | 'left' | 'front' | 'back'
 
 local config = lib.loadJson('qbx_vehiclepush.config')
 local dict = 'missfinale_c2ig_11'
@@ -10,6 +10,8 @@ local pressed = {
 ---@type direction
 local pushingControl = nil
 
+---@param vehicle number
+---@return boolean
 local function checkClass(vehicle)
     local classes = config.blacklistedClasses
     local currentClass = GetVehicleClass(vehicle)
@@ -19,10 +21,10 @@ local function checkClass(vehicle)
             return false
         end
     end
+
     return true
 end
 
----comment
 ---@param vehicle number
 ---@param value direction
 local function vehicleControl(vehicle, value)
@@ -82,7 +84,6 @@ local function vehicleValidityThread(vehicle)
     end)
 end
 
----comment
 ---@param vehicle number
 ---@param direction direction
 local function taskControlVehicle(vehicle, direction)
@@ -160,7 +161,7 @@ local function pushVehicle()
     return vehicle
 end
 
-AddStateBagChangeHandler("pushVehicle", nil, function(bagName, _, value)
+AddStateBagChangeHandler('pushVehicle', nil, function(bagName, _, value)
     local entity = GetEntityFromStateBagName(bagName)
     if entity == 0 then return end
 
