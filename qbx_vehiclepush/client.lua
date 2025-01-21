@@ -82,6 +82,9 @@ local function vehicleValidityThread(vehicle)
     end)
 end
 
+---comment
+---@param vehicle number
+---@param direction direction
 local function taskControlVehicle(vehicle, direction)
     if NetworkGetEntityOwner(vehicle) == cache.playerId then
         vehicleControl(vehicle, direction)
@@ -149,7 +152,7 @@ local function pushVehicle()
         DetachEntity(ped, false, false)
         StopAnimTask(ped, dict, 'pushcar_offcliff_m', 2.0)
         FreezeEntityPosition(ped, false)
-        taskControlVehicle(vehicle, nil)
+        taskControlVehicle(vehicle)
 
         pushingControl = false
     end)
@@ -199,7 +202,7 @@ lib.addKeybind({
     onReleased = function(self)
         pressed.shift = false
         if self.vehicle then
-            taskControlVehicle(self.vehicle, nil)
+            taskControlVehicle(self.vehicle)
         end
     end
 })
