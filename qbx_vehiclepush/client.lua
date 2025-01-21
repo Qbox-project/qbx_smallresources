@@ -50,7 +50,7 @@ local function vehicleControl(vehicle, value)
                 end
             end
 
-            if DoesEntityExist(vehicle) and NetworkGetEntityOwner(vehicle) ~= playerId then -- handle changing owner in the middle of pushing
+            if DoesEntityExist(vehicle) and NetworkGetEntityOwner(vehicle) ~= playerId and pushingControl then -- handle changing owner in the middle of pushing
                 TriggerServerEvent('qbx_vehiclepush:server:push', {
                     direction = oldDirection,
                     netId = VehToNet(vehicle)
