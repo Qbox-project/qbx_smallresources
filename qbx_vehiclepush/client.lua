@@ -82,6 +82,17 @@ local function vehicleValidityThread(vehicle)
     end)
 end
 
+local function taskControlVehicle(vehicle, direction)
+    if NetworkGetEntityOwner(vehicle) == cache.playerId then
+        vehicleControl(vehicle, direction)
+    else
+        TriggerServerEvent('qbx_vehiclepush:server:push', {
+            direction = direction,
+            netId = VehToNet(vehicle)
+        })
+    end
+end
+
 local function pushVehicle()
     if cache.vehicle then return end
 
@@ -114,14 +125,7 @@ local function pushVehicle()
     RemoveAnimDict(dict)
 
     local direction = isInFront and 'front' or 'back'
-    if NetworkGetEntityOwner(vehicle) == cache.playerId then
-        vehicleControl(vehicle, direction)
-    else
-        TriggerServerEvent('qbx_vehiclepush:server:push', {
-            direction = direction,
-            netId = VehToNet(vehicle)
-        })
-    end
+    taskControlVehicle(vehicle, direction)
 
     CreateThread(function()
         local wheelsDirection = ''
@@ -136,10 +140,7 @@ local function pushVehicle()
 
             if newDirection and wheelsDirection ~= newDirection then
                 wheelsDirection = newDirection
-                TriggerServerEvent('qbx_vehiclepush:server:push', {
-                    direction = wheelsDirection,
-                    netId = VehToNet(vehicle)
-                })
+                taskControlVehicle(vehicle, wheelsDirection)
             end
 
             Wait(0)
@@ -148,10 +149,8 @@ local function pushVehicle()
         DetachEntity(ped, false, false)
         StopAnimTask(ped, dict, 'pushcar_offcliff_m', 2.0)
         FreezeEntityPosition(ped, false)
-        TriggerServerEvent('qbx_vehiclepush:server:push', {
-            direction = nil,
-            netId = VehToNet(vehicle)
-        })
+        taskControlVehicle(vehicle, nil)
+
         pushingControl = false
     end)
 
@@ -200,10 +199,7 @@ lib.addKeybind({
     onReleased = function(self)
         pressed.shift = false
         if self.vehicle then
-            TriggerServerEvent('qbx_vehiclepush:server:push', {
-                direction = nil,
-                netId = self.vehicle
-            })
+            taskControlVehicle(self.vehicle, nil)
         end
     end
 })
