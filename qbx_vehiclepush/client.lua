@@ -1,9 +1,14 @@
+---@alias direction false | 'right' | 'left' | 'front' | 'back'
+
 local config = lib.loadJson('qbx_vehiclepush.config')
 local dict = 'missfinale_c2ig_11'
 local pressed = {
     e = false,
     shift = false
 }
+
+---@type direction
+local pushingControl = false
 
 local function checkClass(vehicle)
     local classes = config.blacklistedClasses
@@ -17,42 +22,54 @@ local function checkClass(vehicle)
     return true
 end
 
-local function vehicleControl(vehicle, isInFront)
-    local ped = cache.ped
-    lib.requestAnimDict(dict)
-    TaskPlayAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
-    while true do
-        Wait(0)
-        if IsDisabledControlPressed(0, 34) then
-            TaskVehicleTempAction(ped, vehicle, 11, 1)
-        end
+---comment
+---@param vehicle number
+---@param value direction
+local function vehicleControl(vehicle, value)
+    if not pushingControl then -- initial loop for new owner
+        local oldDirection = value -- save old front | back direction for new owner
 
-        if IsDisabledControlPressed(0, 9) then
-            TaskVehicleTempAction(ped, vehicle, 10, 1)
-        end
+        CreateThread(function()
+            local ped = cache.ped
+            local playerId = cache.playerId
 
-        SetVehicleForwardSpeed(vehicle, isInFront and -1.0 or 1.0)
+            pushingControl = value
 
-        if HasEntityCollidedWithAnything(vehicle) then
-            SetVehicleOnGroundProperly(vehicle)
-        end
+            while DoesEntityExist(vehicle) and pushingControl and NetworkGetEntityOwner(vehicle) == playerId do
+                Wait(0)
+                if pushingControl == 'left' then
+                    TaskVehicleTempAction(ped, vehicle, 11, 1)
+                elseif pushingControl == 'right' then
+                    TaskVehicleTempAction(ped, vehicle, 10, 1)
+                end
 
-        if cache.vehicle or not pressed.shift then
-            DetachEntity(ped, false, false)
-            StopAnimTask(ped, dict, 'pushcar_offcliff_m', 2.0)
-            FreezeEntityPosition(ped, false)
-            break
-        end
+                SetVehicleForwardSpeed(vehicle, value == 'front' and -1.0 or 1.0)
+
+                if HasEntityCollidedWithAnything(vehicle) then
+                    SetVehicleOnGroundProperly(vehicle)
+                end
+            end
+
+            if DoesEntityExist(vehicle) and NetworkGetEntityOwner(vehicle) ~= playerId then -- handle changing owner in the middle of pushing
+                TriggerServerEvent('qbx_vehiclepush:server:push', {
+                    direction = oldDirection,
+                    netId = VehToNet(vehicle)
+                })
+            end
+        end)
     end
-    RemoveAnimDict(dict)
+
+    pushingControl = value
 end
 
+---@param vehicle number
 local function isVehicleValid(vehicle)
     local engineHealth = GetVehicleEngineHealth(vehicle)
 
     return ((engineHealth >= 0 and engineHealth <= config.damageNeeded) or (Entity(vehicle).state.fuel or 100) < 3) and IsVehicleSeatFree(vehicle, -1) and checkClass(vehicle)
 end
 
+---@param vehicle number
 local function vehicleValidityThread(vehicle)
     CreateThread(function()
         while pressed.e and pressed.shift do
@@ -69,7 +86,6 @@ local function pushVehicle()
     if cache.vehicle then return end
 
     local ped = cache.ped
-
     local vehicle, vehicleCoords = lib.getClosestVehicle(GetEntityCoords(ped), 3.0)
     if not vehicle then return end
 
@@ -82,34 +98,78 @@ local function pushVehicle()
     local pedCoords = GetEntityCoords(ped)
     local boneIndex = GetPedBoneIndex(ped, 6286)
     local dimensions = GetModelDimensions(GetEntityModel(vehicle))
-
     local vehicleForwardVector = GetEntityForwardVector(vehicle)
     local isInFront = #(vehicleCoords - pedCoords + vehicleForwardVector) < #(vehicleCoords - pedCoords - vehicleForwardVector)
 
     if isInFront then
-        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y * -1 + 0.1, dimensions.z + 1.0, 0.0, 0.0, 180.0, false, false, false, true, 0, true)
+        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y * -1 + 0.1, dimensions.z + 1.0, 0.0, 0.0, 180.0,
+            false, false, false, true, 0, true)
     else
-        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y - 0.3, dimensions.z + 1.0, 0.0, 0.0, 0.0, false, false, false, true, 0, true)
+        AttachEntityToEntity(ped, vehicle, boneIndex, 0.0, dimensions.y - 0.3, dimensions.z + 1.0, 0.0, 0.0, 0.0, false,
+            false, false, true, 0, true)
     end
 
-    TriggerServerEvent('qbx_vehiclepush:server:push', {
-        direction = isInFront and 'front' or 'back',
-        netId = VehToNet(vehicle)
-    })
+    lib.requestAnimDict(dict)
+    TaskPlayAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
+    RemoveAnimDict(dict)
+
+    local direction = isInFront and 'front' or 'back'
+    if NetworkGetEntityOwner(vehicle) == cache.playerId then
+        vehicleControl(vehicle, direction)
+    else
+        TriggerServerEvent('qbx_vehiclepush:server:push', {
+            direction = direction,
+            netId = VehToNet(vehicle)
+        })
+    end
+
+    CreateThread(function()
+        local wheelsDirection = ''
+        while pressed.shift and not cache.vehicle do
+            local newDirection = nil
+
+            if IsDisabledControlPressed(0, 34) then
+                newDirection = 'left'
+            elseif IsDisabledControlPressed(0, 9) then
+                newDirection = 'right'
+            end
+
+            if newDirection and wheelsDirection ~= newDirection then
+                wheelsDirection = newDirection
+                TriggerServerEvent('qbx_vehiclepush:server:push', {
+                    direction = wheelsDirection,
+                    netId = VehToNet(vehicle)
+                })
+            end
+
+            Wait(0)
+        end
+
+        DetachEntity(ped, false, false)
+        StopAnimTask(ped, dict, 'pushcar_offcliff_m', 2.0)
+        FreezeEntityPosition(ped, false)
+        TriggerServerEvent('qbx_vehiclepush:server:push', {
+            direction = nil,
+            netId = VehToNet(vehicle)
+        })
+        pushingControl = false
+    end)
+
     return vehicle
 end
 
-AddStateBagChangeHandler("pushVehicle", nil, function(bagName, key, value)
-    if not value then return end
-
+AddStateBagChangeHandler("pushVehicle", nil, function(bagName, _, value)
     local entity = GetEntityFromStateBagName(bagName)
     if entity == 0 then return end
 
     if NetworkGetEntityOwner(entity) ~= cache.playerId then return end
 
-    vehicleControl(entity, value == 'front')
-    Wait(0)
-    Entity(entity).state:set('pushVehicle', false, true)
+    if not value then
+        pushingControl = false
+        return
+    end
+
+    vehicleControl(entity, value)
 end)
 
 lib.addKeybind({
