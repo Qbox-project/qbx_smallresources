@@ -1,4 +1,4 @@
----@alias Direction? 'right' | 'left' | 'front' | 'back'
+---@alias Direction 'right' | 'left' | 'front' | 'back' | nil
 
 local config = lib.loadJson('qbx_vehiclepush.config')
 local dict = 'missfinale_c2ig_11'
@@ -7,7 +7,7 @@ local pressed = {
     shift = false
 }
 
----@type direction
+---@type Direction
 local pushingControl = nil
 
 ---@param vehicle number
@@ -26,7 +26,7 @@ local function checkClass(vehicle)
 end
 
 ---@param vehicle number
----@param value direction
+---@param value Direction
 local function vehicleControl(vehicle, value)
     if not pushingControl then -- initial loop for new owner
         local oldDirection = value -- save old front | back direction for new owner
@@ -85,7 +85,7 @@ local function vehicleValidityThread(vehicle)
 end
 
 ---@param vehicle number
----@param direction direction
+---@param direction Direction
 local function taskControlVehicle(vehicle, direction)
     if NetworkGetEntityOwner(vehicle) == cache.playerId then
         vehicleControl(vehicle, direction)
