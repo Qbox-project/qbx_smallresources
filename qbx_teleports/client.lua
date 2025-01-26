@@ -8,10 +8,11 @@
 local config = lib.loadJson('qbx_teleports.config')
 if #config.teleports == 0 then return end
 
-local buttonTemplate = '[%s] %s - %s'
-local keybindUp
-local keybindDown
+local buttonTemplate = '[%s] %s'
+local keybind
 
+-- Sort out all elevators with only 1 or 0 levels to make sure no elevators are made with nowhere to go
+-- Also convert coords arrays to vectors
 local toRemove = {}
 for i = 1, #config.teleports do
     local passage = config.teleports[i]
@@ -19,7 +20,7 @@ for i = 1, #config.teleports do
         for level = 1, #passage do
             local data = passage[level]
             if #data.coords == 4 then
-                data.coords = vec4(data.coords[1], data.coords[2], data.coords[3])
+                data.coords = vec4(data.coords[1], data.coords[2], data.coords[3], data.coords[4])
             else
                 data.coords = vec3(data.coords[1], data.coords[2], data.coords[3])
             end
@@ -45,6 +46,7 @@ AddEventHandler('onResourceStop', function(resourceName)
     end
 end)
 
+-- {teleportIndex, levelNum}
 local currentLevel = {0, 0}
 
 CreateThread(function()
@@ -56,13 +58,7 @@ CreateThread(function()
                 coords = entrance.coords.xyz,
                 radius = 2,
                 onEnter = function()
-                    local hasUp = passage[level + 1] ~= nil
-                    local hasDown = passage[level - 1] ~= nil
-                    lib.showTextUI(('%s%s%s'):format(
-                        hasUp and buttonTemplate:format(keybindUp.currentKey, entrance.drawText, locale('info.teleportUp')) or '',
-                        hasUp and '  \n' or '',
-                        hasDown and buttonTemplate:format(keybindDown.currentKey, entrance.drawText, locale('info.teleportDown')) or ''
-                    ))
+                    lib.showTextUI(buttonTemplate:format(keybind.currentKey, entrance.drawText))
 
                     currentLevel = {i, level}
                 end,
@@ -75,70 +71,87 @@ CreateThread(function()
     end
 end)
 
-local function onPressed(self)
+local function onPressed()
     if currentLevel[1] == 0 or currentLevel[2] == 0 then return end
 
-    local destination = self.name == 'passageUp' and config.teleports[currentLevel[1]][currentLevel[2] + 1] or config.teleports[currentLevel[1]][currentLevel[2] - 1]
+    keybind:disable(true)
 
-    keybindUp:disable(true)
-    keybindDown:disable(true)
+    local teleports = config.teleports[currentLevel[1]]
+    local curTeleport = teleports[currentLevel[2]]
+    local teleportOptions = {}
 
-    local coordZ = destination.coords.z
-
-    if not destination.ignoreGround then
-        local isSafe, z = GetGroundZFor_3dCoord(
-            destination.coords.x,
-            destination.coords.y,
-            destination.coords.z,
-            false
-        )
-
-        if isSafe then coordZ = z end
+    for i = 1, #teleports do
+        local isCurrentLevel = i == currentLevel[2]
+        teleportOptions[#teleportOptions + 1] = {
+            label = ('%s%s'):format(locale('info.teleport_level_select', i), isCurrentLevel and (' %s'):format(locale('teleport_current_level_indication')) or ''),
+            args = {not isCurrentLevel and i or nil},
+            close = not isCurrentLevel
+        }
     end
 
-    if destination.allowVehicle and cache.vehicle then
-        SetPedCoordsKeepVehicle(
-            cache.ped,
-            destination.coords.x,
-            destination.coords.y,
-            coordZ
-        )
+    lib.registerMenu({
+        id = 'elevator_interact_menu',
+        title = curTeleport.drawText,
+        onClose = function()
+            keybind:disable(false)
+        end,
+        options = teleportOptions
+    }, function(_, _, args)
+        if not args or table.type(args) == 'empty' then return end
 
-        SetVehicleOnGroundProperly(cache.vehicle)
-    else
-        SetEntityCoords(
-            cache.ped,
-            destination.coords.x,
-            destination.coords.y,
-            coordZ,
-            true, false, false, false
-        )
-    end
+        local newLevel = args[1]
+        local destination = teleports[newLevel]
+        local coordZ = destination.coords.z
 
-    if type(destination.coords) == 'vector4' then
-        SetEntityHeading(cache.ped, destination.coords.w)
-    end
+        if not destination.ignoreGround then
+            local isSafe, z = GetGroundZFor_3dCoord(
+                destination.coords.x,
+                destination.coords.y,
+                destination.coords.z,
+                false
+            )
 
-    Wait(250) -- Make sure we can't spam teleport and we have been teleported completely
+            if isSafe then coordZ = z end
+        end
 
-    keybindUp:disable(false)
-    keybindDown:disable(false)
+        if destination.allowVehicle and cache.vehicle then
+            SetPedCoordsKeepVehicle(
+                cache.ped,
+                destination.coords.x,
+                destination.coords.y,
+                coordZ
+            )
+
+            SetVehicleOnGroundProperly(cache.vehicle)
+        else
+            SetEntityCoords(
+                cache.ped,
+                destination.coords.x,
+                destination.coords.y,
+                coordZ,
+                true, false, false, false
+            )
+        end
+
+        if type(destination.coords) == 'vector4' then
+            SetEntityHeading(cache.ped, destination.coords.w)
+        end
+
+        currentLevel[2] = newLevel
+
+        Wait(250) -- Make sure we can't spam teleport and we have been teleported completely
+
+        keybind:disable(false)
+    end)
+
+    lib.showMenu('elevator_interact_menu')
 end
 
-keybindUp = lib.addKeybind({
-    name = 'passageUp',
-    description = 'entry through passage upwards',
-    defaultKey = 'Q',
-    secondaryMapper = 'PAD_DIGITALBUTTONANY',
-    secondaryKey = 'LLEFT_INDEX',
-    onPressed = onPressed
-})
-
-keybindDown = lib.addKeybind({
-    name = 'passageDown',
-    description = 'entry through passage downwards',
+keybind = lib.addKeybind({
+    name = 'elevator_interact',
+    description = 'Interact with an elevator',
     defaultKey = 'E',
     secondaryMapper = 'PAD_DIGITALBUTTONANY',
-    secondaryKey = 'LRIGHT_INDEX',
+    secondaryKey = 'RRIGHT_INDEX',
     onPressed = onPressed
 })

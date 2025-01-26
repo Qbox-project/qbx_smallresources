@@ -34,8 +34,8 @@
       "minutes": "minutos",
       "seconds": "segundos..",
       "shuffleSeat": "Trocar de assento",
-      "teleportUp": "Up",
-      "teleportDown": "Down"
+      "teleport_level_select": "Go To Level #%s",
+      "teleport_current_level_indication": "(You're Here)"
    },
    "actions": {
       "push_vehicle": "Pressiona [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
