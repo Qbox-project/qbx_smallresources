@@ -124,9 +124,7 @@ local function pushVehicle()
             false, false, true, 0, true)
     end
 
-    lib.requestAnimDict(dict)
-    TaskPlayAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
-    RemoveAnimDict(dict)
+    lib.playAnim(ped, dict, 'pushcar_offcliff_m', 2.0, -8.0, -1, 35, 0, false, false, false)
 
     local direction = isInFront and 'front' or 'back'
     taskControlVehicle(vehicle, direction)
