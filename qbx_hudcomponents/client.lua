@@ -18,8 +18,10 @@ end)
 
 lib.onCache('weapon', function(weapon)
     if not weapon then return end
+
     CreateThread(function()
         while cache.weapon ~= weapon do Wait(1) end -- Wait for cache.weapon to update
+
         while cache.weapon == weapon do
             if not IsFirstPersonAimCamActive() then
                 HideHudComponentThisFrame(14)
