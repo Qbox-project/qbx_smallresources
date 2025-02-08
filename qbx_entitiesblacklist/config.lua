@@ -1,4 +1,3 @@
--- config.lua
 return {
     blacklisted = {
         -- Aircraft

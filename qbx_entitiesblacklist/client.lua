@@ -1,4 +1,3 @@
-
 local config = require 'qbx_entitiesblacklist.config'
 
 Citizen.CreateThread(function()
