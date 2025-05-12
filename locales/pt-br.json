@@ -8,7 +8,8 @@
        "stress_gain": "Sentindo-se mais estressado!",
        "no_vehicle_nearby": "Nenhum veículo próximo para virar.",
        "is_handcuffed": "Você está algemado.",
-       "is_fastened": "Você está usando o cinto de segurança."
+       "is_fastened": "Você está usando o cinto de segurança.",
+       "vehicle_radio_off": "Rádio do veículo desligado"
     },
     "success": {
        "cruise_control_enabled": "Controle de cruzeiro ativado",
@@ -16,7 +17,8 @@
        "stopped_recording": "Gravação interrompida!",
        "saved_recording": "Gravação salva!",
        "stress_relief": "Sentindo-se mais relaxado!",
-       "flipped_car": "Veículo virado com sucesso!"
+       "flipped_car": "Veículo virado com sucesso!",
+        "vehicle_radio_on": "Rádio do veículo ligado"
     },
     "progress": {
        "eating": "Comendo..",
@@ -40,4 +42,3 @@
        "toggle_cruise_control": "Alternar Controle de Cruzeiro"
     }
  }
- 

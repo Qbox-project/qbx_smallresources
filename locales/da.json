@@ -8,7 +8,8 @@
        "stress_gain": "Føler mig mere stresset!",
        "no_vehicle_nearby": "Intet køretøj i nærheden at vælte.",
        "is_handcuffed": "Du er i håndjern.",
-       "is_fastened": "Du har sikkerhedssele på."
+       "is_fastened": "Du har sikkerhedssele på.",
+        "vehicle_radio_off": "Køretøjets radio slukket"
     },
     "success": {
        "cruise_control_enabled": "Fartpilot aktiveret",
@@ -16,7 +17,8 @@
        "stopped_recording": "Optagelse stoppet!",
        "saved_recording": "Optagelse gemt!",
        "stress_relief": "Føler mig mere afslappet!",
-       "flipped_car": "Køretøj væltet med succes!"
+       "flipped_car": "Køretøj væltet med succes!",
+       "vehicle_radio_on": "Køretøjets radio tændt"
     },
     "progress": {
        "eating": "Spiser..",
