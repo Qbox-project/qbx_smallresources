@@ -8,7 +8,8 @@
     "stress_gain": "Wzrost poziomu stresu!",
     "no_vehicle_nearby": "W pobliżu nie ma pojazdu do przewrócenia.",
     "is_handcuffed": "Masz założone kajdanki.",
-    "is_fastened": "Masz zapięte pasy."
+    "is_fastened": "Masz zapięte pasy.",
+    "vehicle_radio_off": "Radio w pojeździe wyłączone"
   },
   "success": {
     "cruise_control_enabled": "Tempomat włączony",
@@ -16,7 +17,8 @@
     "stopped_recording": "Zatrzymano nagrywanie!",
     "saved_recording": "Zapisano nagranie!",
     "stress_relief": "Uczucie relaksu!",
-    "flipped_car": "Pojazd został pomyślnie przewrócony!"
+    "flipped_car": "Pojazd został pomyślnie przewrócony!",
+    "vehicle_radio_on": "Radio w pojeździe włączone"
   },
   "progress": {
     "eating": "Jedzenie..",

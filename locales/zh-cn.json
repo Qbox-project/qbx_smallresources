@@ -8,7 +8,8 @@
       "stress_gain": "感到更紧张了!",
       "no_vehicle_nearby": "附近没有车辆可以翻转。",
       "is_handcuffed": "你被铐住了。",
-      "is_fastened": "你系好了安全带。"
+      "is_fastened": "你系好了安全带。",
+      "vehicle_radio_off": "车辆收音机已关闭"
    },
    "success": {
       "cruise_control_enabled": "巡航控制已启用",
@@ -16,7 +17,8 @@
       "stopped_recording": "停止录音!",
       "saved_recording": "录音已保存!",
       "stress_relief": "感到更放松了!",
-      "flipped_car": "车辆翻转成功!"
+      "flipped_car": "车辆翻转成功!",
+      "vehicle_radio_on": "车辆收音机已开启"
    },
    "progress": {
       "eating": "正在吃东西..",

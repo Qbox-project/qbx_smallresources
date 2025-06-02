@@ -8,7 +8,8 @@
       "stress_gain": "Daha stresli hissediyorsun!",
       "no_vehicle_nearby": "Yakında çevrilebilecek bir araç yok.",
       "is_handcuffed": "Kelepçelisin.",
-      "is_fastened": "Emniyet kemeri taktın."
+      "is_fastened": "Emniyet kemeri taktın.",
+      "vehicle_radio_off": "Araç radyosu kapatıldı"
    },
    "success": {
       "cruise_control_enabled": "Hız sabitleyici etkinleştirildi",
@@ -16,7 +17,8 @@
       "stopped_recording": "Kayıt durduruldu!",
       "saved_recording": "Kayıt kaydedildi!",
       "stress_relief": "Daha rahat hissediyorsun!",
-      "flipped_car": "Araç başarıyla çevrildi!"
+      "flipped_car": "Araç başarıyla çevrildi!",
+      "vehicle_radio_on": "Araç radyosu açıldı"
    },
    "progress": {
        "eating": "Yemek yiyorsun..",

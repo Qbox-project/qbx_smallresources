@@ -8,7 +8,8 @@
       "stress_gain": "Vous vous sentez plus stressé !",
       "no_vehicle_nearby": "Aucun véhicule à proximité pour le retourner.",
       "is_handcuffed": "Vous êtes menotté.",
-      "is_fastened": "Vous portez une ceinture de sécurité."
+      "is_fastened": "Vous portez une ceinture de sécurité.",
+      "vehicle_radio_off": "Radio du véhicule éteinte"
    },
    "success": {
       "cruise_control_enabled": "Régulateur de vitesse activé",
@@ -16,7 +17,8 @@
       "stopped_recording": "Enregistrement arrêté !",
       "saved_recording": "Enregistrement sauvegardé !",
       "stress_relief": "Vous vous sentez plus détendu !",
-      "flipped_car": "Véhicule retourné avec succès !"
+      "flipped_car": "Véhicule retourné avec succès !",
+      "vehicle_radio_on": "Radio du véhicule allumée"
    },
    "progress": {
       "eating": "En train de manger..",
