@@ -51,12 +51,12 @@ local function TriggerCruiseControl()
                         SetVehicleForwardSpeed(cache.vehicle, cruisedSpeed)
                     end
 
-                    if IsControlJustPressed(1, 246) then
+                    if IsControlJustPressed(1, 246) and cruisedSpeed == 0 then
                         TriggerEvent('seatbelt:client:ToggleCruise')
                         cruisedSpeed = GetEntitySpeed(cache.vehicle)
                     end
 
-                    if IsControlJustPressed(2, 72) then
+                    if IsControlJustPressed(1, 246) and cruisedSpeed > 0 then
                         cruisedSpeed = 0
                         TriggerEvent('seatbelt:client:ToggleCruise')
                         exports.qbx_core:Notify(locale('error.cruise_control_disabled'), 'error')
