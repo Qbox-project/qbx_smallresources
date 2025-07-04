@@ -12,6 +12,9 @@ CreateThread(function()
         for _, scgrp in next, config.blacklisted.scenarioGroups do
             SetScenarioGroupEnabled(scgrp, false)
         end
+
+        DistantCopCarSirens(false) --Appears that this needs to be called regularly to keep ambient sirens disabled.
+        
         Wait(10000)
     end
 end)
