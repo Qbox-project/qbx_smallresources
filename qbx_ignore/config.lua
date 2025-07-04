@@ -3,8 +3,11 @@ return {
         -- Disables the Idle Cinematic Camera
         idleCamera = true,
 
-        -- Disabled distance sirens, distance car alarms, etc
+        -- Disables distance sirens, distance car alarms, etc
         ambience = true,
+
+        -- Disables headshots instantly killing players
+        headshots = false,
 
     },
 
