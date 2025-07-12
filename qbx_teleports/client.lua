@@ -83,7 +83,7 @@ local function onPressed()
     for i = 1, #teleports do
         local isCurrentLevel = i == currentLevel[2]
         teleportOptions[#teleportOptions + 1] = {
-            label = ('%s%s'):format(locale('info.teleport_level_select', i), isCurrentLevel and (' %s'):format(locale('teleport_current_level_indication')) or ''),
+            label = ('%s%s'):format(locale('info.teleport_level_select', i), isCurrentLevel and (' %s'):format(locale('info.teleport_current_level_indication')) or ''),
             args = {not isCurrentLevel and i or nil},
             close = not isCurrentLevel
         }
