@@ -35,7 +35,9 @@
    "info": {
       "minutes": "dakika",
       "seconds": "saniye..",
-      "shuffleSeat": "Koltuğu değiştir"
+      "shuffleSeat": "Koltuğu değiştir",
+      "teleport_level_select": "Seviye #%s'e Git",
+      "teleport_current_level_indication": "(Buradasın)"
    },
    "actions": {
       "push_vehicle": "Aracı itmek için [~g~SHIFT~w~] ve [~g~E~w~] tuşlarına basın, [~g~SHIFT~w~] bırakılana kadar devam edin",

@@ -18,27 +18,29 @@
        "saved_recording": "Gravação salva!",
        "stress_relief": "Sentindo-se mais relaxado!",
        "flipped_car": "Veículo virado com sucesso!",
-        "vehicle_radio_on": "Rádio do veículo ligado"
+       "vehicle_radio_on": "Rádio do veículo ligado"
     },
     "progress": {
-       "eating": "Comendo..",
-       "drinking": "Bebendo..",
-       "drinking_liquor": "Bebendo bebida alcoólica..",
-       "quick_sniff": "Cheirando rapidamente..",
-       "smoking_crack": "Fumando crack..",
-       "popping_pills": "Tomando pílulas..",
-       "healing": "Curando..",
-       "smoking_meth": "Fumando metanfetamina..",
-       "lighting_joint": "Acendendo o baseado..",
-       "flipping_car": "Virando veículo..."
+        "eating": "Comendo..",
+        "drinking": "Bebendo..",
+        "drinking_liquor": "Bebendo bebida alcoólica..",
+        "quick_sniff": "Cheirando rapidamente..",
+        "smoking_crack": "Fumando crack..",
+        "popping_pills": "Tomando pílulas..",
+        "healing": "Curando..",
+        "smoking_meth": "Fumando metanfetamina..",
+        "lighting_joint": "Acendendo o baseado..",
+        "flipping_car": "Virando veículo..."
     },
     "info": {
-       "minutes": "minutos",
-       "seconds": "segundos..",
-       "shuffleSeat": "Trocar de assento"
+        "minutes": "minutos",
+        "seconds": "segundos..",
+        "shuffleSeat": "Trocar de assento",
+        "teleport_level_select": "Go To Level #%s",
+        "teleport_current_level_indication": "(You're Here)"
     },
     "actions": {
-       "push_vehicle": "Pressione [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
-       "toggle_cruise_control": "Alternar Controle de Cruzeiro"
+        "push_vehicle": "Pressione [~g~SHIFT~w~] e [~g~E~w~] para empurrar o veículo até soltar [~g~SHIFT~w~]",
+        "toggle_cruise_control": "Alternar Controle de Cruzeiro"
     }
- }
+}

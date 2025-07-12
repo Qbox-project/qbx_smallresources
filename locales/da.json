@@ -21,24 +21,26 @@
        "vehicle_radio_on": "Køretøjets radio tændt"
     },
     "progress": {
-       "eating": "Spiser..",
-       "drinking": "Drikker..",
-       "drinking_liquor": "Drikker alkohol..",
-       "quick_sniff": "Hurtig snif..",
-       "smoking_crack": "Ryger crack..",
-       "popping_pills": "Sluger piller..",
-       "healing": "Helbreder..",
-       "smoking_meth": "Ryger meth..",
-       "lighting_joint": "Tænder joint..",
-       "flipping_car": "Vælter køretøj..."
+        "eating": "Spiser..",
+        "drinking": "Drikker..",
+        "drinking_liquor": "Drikker alkohol..",
+        "quick_sniff": "Hurtig snif..",
+        "smoking_crack": "Ryger crack..",
+        "popping_pills": "Sluger piller..",
+        "healing": "Helbreder..",
+        "smoking_meth": "Ryger meth..",
+        "lighting_joint": "Tænder joint..",
+        "flipping_car": "Vælter køretøj..."
     },
     "info": {
-       "minutes": "Minutter",
-       "seconds": "Sekunder..",
-       "shuffleSeat": "Skift sæde"
+        "minutes": "Minutter",
+        "seconds": "Sekunder..",
+        "shuffleSeat": "Skift sæde",
+        "teleport_level_select": "Go To Level #%s",
+        "teleport_current_level_indication": "(You're Here)"
     },
     "actions": {
-       "push_vehicle": "Tryk [~g~SHIFT~w~] og [~g~E~w~] for at skubbe køretøjet, indtil [~g~SHIFT~w~] slippes",
-       "toggle_cruise_control": "Skift fartpilot"
+        "push_vehicle": "Tryk [~g~SHIFT~w~] og [~g~E~w~] for at skubbe køretøjet, indtil [~g~SHIFT~w~] slippes",
+        "toggle_cruise_control": "Skift fartpilot"
     }
- }
+}
