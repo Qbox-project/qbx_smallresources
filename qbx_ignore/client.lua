@@ -48,6 +48,12 @@ if config.disable.idleCamera then
     DisableVehiclePassengerIdleCamera(true)
 end
 
+if config.disable.headshots then
+    lib.onCache('ped', function(ped)
+        SetPedSuffersCriticalHits(ped, false)
+    end)
+end
+
 local function pistolWhipLoop()
     CreateThread(function()
         local sleep

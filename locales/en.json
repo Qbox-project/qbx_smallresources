@@ -8,7 +8,8 @@
       "stress_gain": "Feeling More Stressed!",
       "no_vehicle_nearby": "No Vehicle Nearby For Flipping.",
       "is_handcuffed": "You are handcuffed.",
-      "is_fastened": "You wear a seat belt."
+      "is_fastened": "You wear a seat belt.",
+      "vehicle_radio_off": "Vehicle Radio Turned Off"
    },
    "success": {
       "cruise_control_enabled": "Cruise control enabled",
@@ -16,7 +17,8 @@
       "stopped_recording": "Stopped Recording!",
       "saved_recording": "Saved Recording!",
       "stress_relief": "Feeling More Relaxed!",
-      "flipped_car": "Vehicle Flipped Successfully!"
+      "flipped_car": "Vehicle Flipped Successfully!",
+      "vehicle_radio_on": "Vehicle Radio Turned On"
    },
    "progress": {
       "eating": "Eating..",

@@ -8,7 +8,8 @@
       "stress_gain": "Je voelt je gestressed!",
       "no_vehicle_nearby": "Geen voertuigen in de buurt.",
       "is_handcuffed": "Je bent gehandboeit.",
-      "is_fastened": "Je draagt je gordel."
+      "is_fastened": "Je draagt je gordel.",
+      "vehicle_radio_off": "Voertuigradio uitgeschakeld"
    },
    "success": {
       "cruise_control_enabled": "Cruise control aangezet",
@@ -16,7 +17,8 @@
       "stopped_recording": "Opname gestopt!",
       "saved_recording": "Opname opgeslagen!",
       "stress_relief": "Je voelt je relaxed!",
-      "flipped_car": "Voertuig geflipped!"
+      "flipped_car": "Voertuig geflipped!",
+      "vehicle_radio_on": "Voertuigradio ingeschakeld"
    },
    "progress": {
       "eating": "Aan het eten..",
