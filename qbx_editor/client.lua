@@ -1,17 +1,3 @@
--- We do this check as we don't want players using these commands due to crashing with escrowed maps.
-local shouldAllow, mapNames = true, {
-    'cfx-gabz-mapdata'
-}
-
-for i = 1, #mapNames do
-    local state = GetResourceState(mapNames[i])
-    if state == 'starting' or state == 'started' then
-        shouldAllow = false
-    end
-end
-
-if not shouldAllow then return end
-
 RegisterCommand('record', function()
     StartRecording(1)
     exports.qbx_core:Notify(locale('success.started_recording'), 'success')
