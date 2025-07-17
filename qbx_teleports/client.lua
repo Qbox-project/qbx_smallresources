@@ -64,6 +64,9 @@ CreateThread(function()
                 end,
                 onExit = function()
                     currentLevel = {0, 0}
+                    if lib.getOpenMenu() == 'elevator_interact_menu' then
+                        lib.hideMenu(true)
+                    end
                     lib.hideTextUI()
                 end
             })
