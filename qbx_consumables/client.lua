@@ -130,6 +130,7 @@ exports('CokeBaggyEffect', cokeBaggyEffect)
 
 local function smokeWeed()
     CreateThread(function()
+        smokingWeed = true
         while smokingWeed do
             Wait(10000)
             TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
