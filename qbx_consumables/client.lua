@@ -129,21 +129,23 @@ end
 exports('CokeBaggyEffect', cokeBaggyEffect)
 
 local function smokeWeed()
-    CreateThread(function()
+    if not smokingWeed then
         smokingWeed = true
-        while smokingWeed do
-            Wait(10000)
-            TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
-            relieveCount += 1
-            if relieveCount == 6 then
-                exports.scully_emotemenu:cancelEmote()
-                if smokingWeed then
-                    smokingWeed = false
-                    relieveCount = 0
+        CreateThread(function()
+            while smokingWeed do
+                Wait(10000)
+                TriggerServerEvent('hud:server:RelieveStress', math.random(15, 18))
+                relieveCount += 1
+                if relieveCount == 6 then
+                    exports.scully_emotemenu:cancelEmote()
+                    if smokingWeed then
+                        smokingWeed = false
+                        relieveCount = 0
+                    end
                 end
             end
-        end
-    end)
+        end)
+    end
 end
 
 lib.callback.register('consumables:client:Eat', function(anim, prop)
