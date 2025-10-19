@@ -129,7 +129,7 @@ end
 exports('CokeBaggyEffect', cokeBaggyEffect)
 
 local function smokeWeed()
-    if not smokingWeed then
+    if smokingWeed then return end
         smokingWeed = true
         CreateThread(function()
             while smokingWeed do
