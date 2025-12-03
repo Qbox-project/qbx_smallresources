@@ -22,7 +22,6 @@ AddEventHandler('serverEntityCreated', function(handle)
     local entityModel = GetEntityModel(handle)
 
     if config.blacklisted[entityModel] then
-        CancelEvent()
         DeleteEntity(handle)
     end
 end)
