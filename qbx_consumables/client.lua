@@ -129,6 +129,8 @@ end
 exports('CokeBaggyEffect', cokeBaggyEffect)
 
 local function smokeWeed()
+    if smokingWeed then return end
+    smokingWeed = true
     CreateThread(function()
         while smokingWeed do
             Wait(10000)
