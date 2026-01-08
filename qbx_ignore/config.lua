@@ -9,6 +9,8 @@ return {
         -- Disables headshots instantly killing players
         headshots = false,
 
+        -- Disables melee attacks with weapons (e.g. using a gun to hit someone close to)
+        meleeWithWeapon = true,
     },
 
     blacklisted = {
