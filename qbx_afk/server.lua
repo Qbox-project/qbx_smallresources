@@ -1,4 +1,5 @@
 local config = lib.loadJson('qbx_afk.config')
+if config.disabled then return end
 
 local loggedInPlayers = {}
 local checkUser = {}
