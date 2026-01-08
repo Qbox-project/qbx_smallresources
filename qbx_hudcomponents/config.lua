@@ -8,5 +8,11 @@ return {
 
         -- the small white dot in the middle of the screen when aiming with a weapon.
         recticle = true,
+
+        -- whether or not to display ammo in the top right corner of the screen.
+        displayAmmo = true,
+
+        -- whether or not to display the gta radio station script inside the vehicle
+        radioStation = true
     }
 }
