@@ -2,16 +2,31 @@ local config = require 'qbx_hudcomponents.config'
 local disableHudComponents = config.disable.hudComponents
 local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
+local radioStation<const> = config.disable.radioStation
+
+-- caching the function instead of checking it later in a loop
+local setRadioStation = function() end
 
 CreateThread(function()
-    for i = 1, #disableHudComponents do
-        SetHudComponentSize(disableHudComponents[i],0.0,0.0)
+  if radioStation then
+    -- overriding the default function if the state of radioStation is truthy
+    setRadioStation = function()
+      SetVehRadioStation(GetVehiclePedIsIn(PlayerPedId(), false), '')
+      DisableControlAction(2, 85, true)
     end
-
+  end
     while true do
+        setRadioStation()
+        -- dropping the native in a loop since it should be called every frame
+        for i = 1, #disableHudComponents do
+            HideHudComponentThisFrame(disableHudComponents[i])
+        end
+
         for i = 1, #disableControls do
             DisableControlAction(2, disableControls[i], true)
         end
+
+        DisplayAmmoThisFrame(displayAmmo)
         Wait(0)
     end
 end)

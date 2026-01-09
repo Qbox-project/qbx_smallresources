@@ -16,6 +16,27 @@ CreateThread(function()
     end
 end)
 
+CreateThread(function()
+    if config.disable.meleeWithWeapon then
+        -- Disable weapon melee attacks
+        while true do
+            local ped = cache.ped
+            local weapon = GetSelectedPedWeapon(ped)
+            local weaponGroup = GetWeapontypeGroup(weapon)
+
+            if weaponGroup ~= `GROUP_MELEE` and weaponGroup ~= `GROUP_UNARMED` then
+                DisableControlAction(0, 140, true) -- Melee Attack Light
+                DisableControlAction(0, 141, true) -- Melee Attack Heavy  
+                DisableControlAction(0, 142, true) -- Melee Attack Alternate
+                DisableControlAction(0, 263, true) -- Melee Attack 1
+                DisableControlAction(0, 264, true) -- Melee Attack 2
+            end
+
+            Wait(0)
+        end
+    end
+end)
+
 AddEventHandler('populationPedCreating', function(x, y, z)
     Wait(500)    -- Give the entity some time to be created
     local _, handle = GetClosestPed(x, y, z, 1.0) -- Get the entity handle

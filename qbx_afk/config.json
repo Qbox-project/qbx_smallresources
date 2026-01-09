@@ -3,5 +3,6 @@
     "ignoreGroupsForAFK": {
         "mod": true,
         "admin": true
-    }
+    },
+    "disabled": false
 }
