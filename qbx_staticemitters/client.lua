@@ -1,22 +1,22 @@
 local config = require 'qbx_staticemitters.config'
 local currentGameBuild = GetGameBuildNumber()
+local setStaticEmitterEnabled = SetStaticEmitterEnabled
 local disabledEmitters = {}
 
 if not config.status then return end
 
-lib.print.warn(
-'You have static emitters enabled, this means that any emitter that is in config.lua will be set acording to its status, you can change this in qbx_smallresources/qbx_staticemitters/config.lua')
+lib.print.warn('Static emitters enabled ! config: qbx_smallresources/qbx_staticemitters/config.lua')
 
 local function registerMenus()
     local submenus = {}
     local submenuStr = 'static_emitters_submenu_%s'
 
     for emitterGroup in pairs(disabledEmitters) do
-        table.insert(submenus, {
+        submenus[#submenus + 1] = {
             title = emitterGroup:gsub('%f[%a].', string.upper),
-            menu = string.format(submenuStr, emitterGroup),
+            menu = submenuStr:format(emitterGroup),
             arrow = true,
-        })
+        }
     end
 
     lib.registerContext({
@@ -28,28 +28,27 @@ local function registerMenus()
 
     for emitterGroup, emitters in pairs(disabledEmitters) do
         local emitterOptions = {}
+        local groupTitle = emitterGroup:gsub('%f[%a].', string.upper)
 
-        for _, data in pairs(emitters) do
+        for i = 1, #emitters do
+            local data = emitters[i]
             local pos = data.position
-            local posStr = string.format('%.2f, %.2f, %.2f', pos.x, pos.y, pos.z)
+            local posStr = ('%.2f, %.2f, %.2f'):format(pos.x, pos.y, pos.z)
 
-            table.insert(emitterOptions, {
-                title = string.format('%s', data.name),
-                description = string.format('Coordinates: %s', posStr),
+            emitterOptions[#emitterOptions + 1] = {
+                title = data.name,
+                description = ('Coordinates: %s'):format(posStr),
                 icon = 'location-dot',
                 onSelect = function()
+                    if config.menu.copyToClipboard then lib.setClipboard(posStr) end
                     SetEntityCoords(cache.ped, pos.x, pos.y, pos.z, true, false, false, false)
-
-                    if config.menu.copyToClipboard then
-                        lib.setClipboard(posStr)
-                    end
                 end,
-            })
+            }
         end
 
         lib.registerContext({
-            id = string.format(submenuStr, emitterGroup),
-            title = emitterGroup:gsub('%f[%a].', string.upper),
+            id = submenuStr:format(emitterGroup),
+            title = groupTitle,
             position = 'top-right',
             menu = 'static_emitters_menu',
             options = emitterOptions,
@@ -58,38 +57,41 @@ local function registerMenus()
 end
 
 CreateThread(function()
-    while true do
-        if NetworkIsSessionStarted() then
-            for gameBuild, emitterGroups in pairs(config.gameBuild) do
-                if currentGameBuild >= gameBuild then
-                    for emitterGroup, emitterGroupOptions in pairs(emitterGroups) do
-                        if not emitterGroupOptions.status then
-                            for emitterName, emitterOptions in pairs(emitterGroupOptions.emitters) do
-                                if not emitterOptions.status then
-                                    if not disabledEmitters[emitterGroup] then
-                                        disabledEmitters[emitterGroup] = {}
-                                    end
+    while not NetworkIsSessionStarted() do Wait(500) end
 
-                                    table.insert(disabledEmitters[emitterGroup], {
-                                        name = emitterName,
-                                        position = emitterOptions.position
-                                    })
-                                end
+    for gameBuild, emitterGroups in pairs(config.gameBuild) do
+        if currentGameBuild >= gameBuild then
+            for emitterGroup, emitterGroupOptions in pairs(emitterGroups) do
+                if not emitterGroupOptions.status then
+                    local groupList = disabledEmitters[emitterGroup] or {}
 
-                                SetStaticEmitterEnabled(emitterName, emitterOptions.status)
-                            end
+                    for emitterName, emitterOptions in pairs(emitterGroupOptions.emitters) do
+                        local status = emitterOptions.status
+
+                        if not status then
+                            groupList[#groupList + 1] = {
+                                name = emitterName,
+                                position = emitterOptions.position
+                            }
                         end
+
+                        setStaticEmitterEnabled(emitterName, status)
                     end
+
+                    disabledEmitters[emitterGroup] = groupList
                 end
             end
-            if lib.callback.await('qbx_staticemitters:server:IsPlayerAceAllowed', false) and config.menu.status then
-                registerMenus()
-                RegisterCommand('staticemitters', function()
-                    lib.showContext('static_emitters_menu')
-                end, false)
-            end
-            break
         end
-        Wait(0)
+    end
+
+    if config.menu.status then
+        local isAllowed = lib.callback.await('qbx_staticemitters:server:IsPlayerAceAllowed', false)
+
+        if isAllowed then
+            registerMenus()
+            RegisterCommand('staticemitters', function()
+                lib.showContext('static_emitters_menu')
+            end, false)
+        end
     end
 end)
