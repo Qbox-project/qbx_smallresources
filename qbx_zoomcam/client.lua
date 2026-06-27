@@ -8,12 +8,10 @@ local function ZoomLoop()
     if zoomCam then return end -- Loop is already active
 
     CreateThread(function()
-        local playerPed = PlayerPedId()
-        local pos = GetEntityCoords(playerPed)
-        
         -- Create cam on first hold
         zoomCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
-        SetCamCoord(zoomCam, pos.x, pos.y, pos.z + 0.7)
+        local camCoords = GetGameplayCamCoord()
+        SetCamCoord(zoomCam, camCoords.x, camCoords.y, camCoords.z)
         RenderScriptCams(true, false, 0, true, false)
 
         -- Keep looping while holding OR while the FOV is still transitioning back to default
@@ -28,11 +26,10 @@ local function ZoomLoop()
             currentFOV = currentFOV + (targetFOV - currentFOV) / speed
 
             -- Update cam every frame
-            playerPed = PlayerPedId()
-            pos = GetEntityCoords(playerPed)
+            local coords = GetGameplayCamCoord()
             local rot = GetGameplayCamRot(2)
 
-            SetCamCoord(zoomCam, pos.x, pos.y, pos.z + 0.7)
+            SetCamCoord(zoomCam, coords.x, coords.y, coords.z + 0.3)
             SetCamRot(zoomCam, rot.x, rot.y, rot.z, 2)
             SetCamFov(zoomCam, currentFOV)
         end
