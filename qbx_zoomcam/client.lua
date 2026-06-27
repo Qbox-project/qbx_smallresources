@@ -35,8 +35,18 @@ local function ZoomLoop()
             currentZOffset = currentZOffset + (targetZOffset - currentZOffset) / speed
 
             -- Update cam every frame
+            local playerPed = PlayerPedId()
             local coords = GetGameplayCamCoord()
             local rot = GetGameplayCamRot(2)
+
+            -- Fix vehicle camera jitter by predicting the next frame's position
+            local vehicle = GetVehiclePedIsIn(playerPed, false)
+            if vehicle ~= 0 then
+                local vel = GetEntityVelocity(vehicle)
+                local frameTime = GetFrameTime()
+                -- Predict camera position to eliminate 1-frame delay
+                coords = vector3(coords.x + (vel.x * frameTime), coords.y + (vel.y * frameTime), coords.z + (vel.z * frameTime))
+            end
 
             SetCamCoord(zoomCam, coords.x, coords.y, coords.z + currentZOffset)
             SetCamRot(zoomCam, rot.x, rot.y, rot.z, 2)
