@@ -10,7 +10,8 @@ local function ZoomLoop()
 
     CreateThread(function()
         -- Create cam on first hold
-        currentFOV = GetGameplayCamFov()
+        local originalFOV = GetGameplayCamFov()
+        currentFOV = originalFOV
         zoomCam = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
         local camCoords = GetGameplayCamCoord()
         local camRot = GetGameplayCamRot(2)
@@ -22,11 +23,11 @@ local function ZoomLoop()
         RenderScriptCams(true, false, 0, true, false)
 
         -- Keep looping while holding OR while the FOV is still transitioning back to default
-        while isHolding or (zoomCam and math.abs(currentFOV - Config.DefaultFOV) >= 0.5) do
+        while isHolding or (zoomCam and math.abs(currentFOV - originalFOV) >= 0.5) do
             Wait(0)
             
             -- Set target based on hold state
-            local targetFOV = isHolding and Config.ZoomFOV or Config.DefaultFOV
+            local targetFOV = isHolding and Config.ZoomFOV or originalFOV
             local targetZOffset = isHolding and 0.3 or 0.0
             local speed = isHolding and Config.ZoomInSpeed or Config.ZoomOutSpeed
             
@@ -54,7 +55,7 @@ local function ZoomLoop()
         end
 
         -- Destroy cam when fully back to default and not holding
-        currentFOV = Config.DefaultFOV
+        currentFOV = originalFOV
         currentZOffset = 0.0
         RenderScriptCams(false, false, 0, true, false)
         DestroyCam(zoomCam, false)
