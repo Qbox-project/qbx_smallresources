@@ -5,9 +5,9 @@
         "cruise_control_unavailable": "Cruise control is momenteel niet beschikbaar",
         "deleted_recording": "Opname verwijderd!",
         "later_aligator": "Adios!",
-        "stress_gain": "Je voelt je gestressed!",
+        "stress_gain": "Je voelt je gestrest!",
         "no_vehicle_nearby": "Geen voertuigen in de buurt.",
-        "is_handcuffed": "Je bent gehandboeit.",
+        "is_handcuffed": "Je bent geboeid.",
         "is_fastened": "Je draagt je gordel.",
         "vehicle_radio_off": "Voertuigradio uitgeschakeld"
     },
@@ -17,30 +17,30 @@
         "stopped_recording": "Opname gestopt!",
         "saved_recording": "Opname opgeslagen!",
         "stress_relief": "Je voelt je relaxed!",
-        "flipped_car": "Voertuig geflipped!",
+        "flipped_car": "Voertuig omgedraaid!",
         "vehicle_radio_on": "Voertuigradio ingeschakeld"
     },
     "progress": {
-        "eating": "Aan het eten..",
-        "drinking": "Aan het drinken..",
-        "drinking_liquor": "Drank aan t drinken..",
-        "quick_sniff": "snuivee..",
-        "smoking_crack": "Crack aan het roken..",
-        "popping_pills": "Pillen aan het poppen..",
-        "healing": "Aan het genezen..",
-        "smoking_meth": "Meth aan het roken..",
-        "lighting_joint": "Jointje aan het opsteken..",
+        "eating": "Aan het eten...",
+        "drinking": "Aan het drinken...",
+        "drinking_liquor": "Alcohol aan het drinken...",
+        "quick_sniff": "Aan het snuiven...",
+        "smoking_crack": "Crack aan het roken...",
+        "popping_pills": "Pillen aan het nemen...",
+        "healing": "Aan het genezen...",
+        "smoking_meth": "Meth aan het roken...",
+        "lighting_joint": "Joint aan het opsteken...",
         "flipping_car": "Voertuig aan het flippen..."
     },
     "info": {
         "minutes": "minuten",
         "seconds": "seconden..",
         "shuffleSeat": "Ga ergens anders zitten",
-        "teleport_level_select": "Ga Naar Verdieping #%s",
-        "teleport_current_level_indication": "(Jij Bent Hier)"
+        "teleport_level_select": "Ga naar verdieping #%s",
+        "teleport_current_level_indication": "(Je bent hier)"
     },
     "actions": {
-        "push_vehicle": "Druk up [~g~SHIFT~w~] en [~g~E~w~] om je voertuig te duwen totdat je [~g~SHIFT~w~] loslaat",
+        "push_vehicle": "Druk op [~g~SHIFT~w~] en [~g~E~w~] om je voertuig te duwen totdat je [~g~SHIFT~w~] loslaat",
         "toggle_cruise_control": "Gebruik cruise control"
     }
 }
