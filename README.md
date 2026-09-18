@@ -19,6 +19,7 @@ Base scripts for the QBox Core Framework :building_construction:
 - Tackle
 - Infinite ammo for fire extinguisher and petrol can
 - Removal of GTA's default huds (weapon wheel, cash etc.)
+- Addition of zoom camera (FOV)
 
 ## Installation
 ### Manual
