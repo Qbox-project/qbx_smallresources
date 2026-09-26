@@ -6,8 +6,14 @@ RegisterNetEvent('qbx_vehiclepush:server:push', function(data)
     if not DoesEntityExist(vehicle) or GetEntityType(vehicle) ~= 2 then return end
 
     local ped = GetPlayerPed(source)
-    if ped == 0 or GetVehiclePedIsIn(ped, false) ~= 0 then return end
+    if ped == 0 then return end
     if #(GetEntityCoords(ped) - GetEntityCoords(vehicle)) > 5.0 then return end
+    -- Stopping must remain possible when a driver enters the vehicle.
+    if data.direction == nil then
+        Entity(vehicle).state:set('pushVehicle', nil, true)
+        return
+    end
+    if GetVehiclePedIsIn(ped, false) ~= 0 then return end
     if GetPedInVehicleSeat(vehicle, -1) ~= 0 then return end
 
     Entity(vehicle).state:set('pushVehicle', data.direction, true)
