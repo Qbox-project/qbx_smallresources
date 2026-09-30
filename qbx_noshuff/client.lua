@@ -22,6 +22,8 @@ local function shuffleSeat(self)
         return exports.qbx_core:Notify(locale('error.is_fastened'), 'error')
     end
 
+    if cache.vehicle and cache.seat == 0 and not IsVehicleSeatFree(cache.vehicle, -1) then return end
+
     self:disable(true)
     if cache.vehicle and cache.seat then
         TaskShuffleToNextVehicleSeat(cache.ped, cache.vehicle)
