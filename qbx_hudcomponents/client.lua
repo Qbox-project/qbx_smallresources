@@ -4,11 +4,10 @@ local disableControls = config.disable.controls
 local displayAmmo = config.disable.displayAmmo
 
 CreateThread(function()
-    for i = 1, #disableHudComponents do
-        SetHudComponentSize(disableHudComponents[i],0.0,0.0)
-    end
-
     while true do
+        for i = 1, #disableHudComponents do
+            HideHudComponentThisFrame(disableHudComponents[i])
+        end
         for i = 1, #disableControls do
             DisableControlAction(2, disableControls[i], true)
         end
